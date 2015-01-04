@@ -17,6 +17,14 @@ namespace MoviePickerApi.Controllers
             Client.GetConfig();
         }
 
+        [Route("~/api/genres")]
+        [HttpGet]
+        [ResponseType(typeof (IEnumerable<Movie>))]
+        public IHttpActionResult GetGenres()
+        {
+            return Ok(Client.GetGenres());
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         [ResponseType(typeof(Movie))]
@@ -27,21 +35,21 @@ namespace MoviePickerApi.Controllers
             return Ok(movie);
         }
 
-        [Route("/like")]
+        [Route("like")]
         [HttpPost]
         public IHttpActionResult LikeMovie([FromBody] MovieActionParameters parameters)
         {   
             throw new NotImplementedException();
         }
 
-        [Route("/dislike")]
+        [Route("dislike")]
         [HttpPost]
         public IHttpActionResult DislikeMovie([FromBody] MovieActionParameters parameters)
         {    
             throw new NotImplementedException();
         }
 
-        [Route("/get/{userId:int}")]
+        [Route("~/api/users/{userId:int}/movies")]
         [HttpGet]
         public IHttpActionResult GetMovie(int userId)
         {

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MoviePicker.LoginPage">
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout Orientation="Vertical">
+				<!--- Menu -->
+				<Label Text="Welcome!" HorizontalOptions="Center" Font="Bold, 30" />
+			  	<Entry x:Name="_emailEntry" Keyboard="Email" Placeholder="Enter your email address" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+			  	<Entry x:Name="_passwordEntry" Keyboard="Text" Placeholder="Enter your password" IsPassword="true" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+			  	<Button Text="Log me in" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Clicked="OnLoginButtonClicked" />
+
+				<ActivityIndicator x:Name="_activityIndicator" Color="Aqua" IsRunning="false" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+			</StackLayout>
+		</ScrollView>	
+	</ContentPage.Content>
+</ContentPage>

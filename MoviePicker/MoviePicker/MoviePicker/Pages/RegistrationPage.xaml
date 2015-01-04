@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MoviePicker.RegistrationPage">
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout Orientation="Vertical">
+				<Label Text="Registration" HorizontalOptions="CenterAndExpand" Font="Bold, Small" />
+				<Entry x:Name="_email" Keyboard="Email" Placeholder="Enter your email address" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+				<Entry x:Name="_password" Keyboard="Text" Placeholder="Enter your password" IsPassword="true" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+				<Entry x:Name="_firstname" Keyboard="Text" Placeholder="Enter your first name" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+				<Entry x:Name="_lastname" Keyboard="Text" Placeholder="Enter your last name" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+				<Button Text="Register me" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Clicked="OnRegistrationButtonClicked" />
+				<ActivityIndicator x:Name="_activityIndicator" Color="Aqua" IsRunning="false" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

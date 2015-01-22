@@ -17,14 +17,6 @@ namespace MoviePickerApi.Controllers
             Client.GetConfig();
         }
 
-        [Route("~/api/genres")]
-        [HttpGet]
-        [ResponseType(typeof (IEnumerable<Movie>))]
-        public IHttpActionResult GetGenres()
-        {
-            return Ok(Client.GetGenres());
-        }
-
         [Route("{id:int}")]
         [HttpGet]
         [ResponseType(typeof(Movie))]

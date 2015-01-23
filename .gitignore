@@ -183,9 +183,9 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 # Android
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
+MoviePicker/Android/MoviepickerAndroid/.gradle
+MoviePicker/Android/MoviepickerAndroid/local.properties
+MoviePicker/Android/MoviepickerAndroid/.idea/workspace.xml
+MoviePicker/Android/MoviepickerAndroid/.idea/libraries
+MoviePicker/Android/MoviepickerAndroid/.DS_Store
+MoviePicker/Android/MoviepickerAndroid/build

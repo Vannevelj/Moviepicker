@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Database.DatabaseModels;
 using Models.Movies;
 
 namespace Database.Repositories
 {
     public class MovieRepository
     {
-        private readonly MoviePickerContext _db = new MoviePickerContext();
-
         public void LikeMovie(int userId, int movieId)
         {
             // retrieve movie from database
@@ -37,48 +33,13 @@ namespace Database.Repositories
             // search for movie constrained by (year - 5), (year + 5) and first genre
             // For each movie that isn't inside the database: add it
 
-            const int maxResults = 3;
-            var genrePreferences = _db.GenrePreferences.Where(x => x.UserId == userId)
-                                      .OrderByDescending(x => x.Rating)
-                                      .Take(maxResults)
-                                      .Select(x => _db.Genres.FirstOrDefault(y => y.Id == x.GenreId));
 
-            var pivotYear = _db.YearPreferences.Where(x => x.UserId == userId)
-                               .OrderByDescending(x => x.Rating)
-                               .First()
-                               .Year;
-            // TODO: what was I doing here?
-            var minYear = pivotYear - 5;
-            var maxYear = pivotYear + 5;
-
-            //var firstMovieId = _client.DiscoverMovies(page: 1, withGenres: genrePreferences.First().Name).Results.First().Id;
-            //yield return _client.GetMovie(firstMovieId);
             throw new NotImplementedException();
         }
 
         private void AdjustRating(int userId, int movieId, int change)
         {
-            var genrePreferences = _db.GenrePreferences
-                                      .Where(x => x.UserId == userId)
-                                      .ToArray();
-            var yearPreferences = _db.YearPreferences
-                                     .Where(x => x.UserId == userId)
-                                     .ToArray();
-
-            var movie = _db.Movies.Find(movieId);
-            foreach (var genre in movie.Genres)
-            {
-                var currentGenre = genrePreferences.First(x => x.GenreId == genre.Id);
-                currentGenre.Rating += change;
-            }
-
-            if (movie.ReleaseDate.HasValue)
-            {
-                var year = movie.ReleaseDate.Value.Year;
-                var selectedYear = yearPreferences.First(x => x.Year == year);
-                selectedYear.Rating += change;
-            }
-            _db.SaveChanges();
+            throw new NotImplementedException();
         }
     }
 }

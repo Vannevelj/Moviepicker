@@ -7,7 +7,7 @@ namespace Models.Movies
     public class Movie
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int TmdbId { get; set; }
 
         [JsonProperty("imdb_id")]
         public string ImdbId { get; set; }

@@ -2,9 +2,9 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using Models.Movies;
-using MoviePickerApi.ApiModels.ApiParameters;
+using WebApi.ApiModels.ApiParameters;
 
-namespace MoviePickerApi.Controllers
+namespace WebApi.Controllers
 {
     [RoutePrefix("api/movies")]
     public class MovieController

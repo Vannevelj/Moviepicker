@@ -3,7 +3,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Models.Users;
 
-namespace MoviePickerApi.Controllers
+namespace WebApi.Controllers
 {
     [RoutePrefix("api/users")]
     public class UserController

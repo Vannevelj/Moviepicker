@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Database.Repositories.Declarations;
 using Models.Movies;
 
 namespace Database.Repositories
 {
-    public class MovieRepository
+    public class MovieRepository : IMovieRepository
     {
         public void LikeMovie(int userId, int movieId)
         {

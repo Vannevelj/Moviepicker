@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Database.Repositories.Declarations;
 using Models.Movies;
 using WebApi.ApiModels.ApiParameters;
 
@@ -9,6 +10,15 @@ namespace WebApi.Controllers
     [RoutePrefix("api/movies")]
     public class MovieController
     {
+        private readonly IMovieRepository _movieRepository;
+        private readonly IUserRepository _userRepository;
+
+        public MovieController(IMovieRepository movieRepository, IUserRepository userRepository)
+        {
+            _movieRepository = movieRepository;
+            _userRepository = userRepository;
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         [ResponseType(typeof (Movie))]

@@ -7,13 +7,15 @@ namespace Database.DatabaseModels
 {
     public class MoviepickerContext : DbContext
     {
-        public MoviepickerContext() : base("mpdevcontext") { }
+        public MoviepickerContext() : base("mpdevcontext")
+        {
+        }
 
         public DbSet<User> Users { get; set; }
 
         public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<Genre> Genres { get; set; } 
+        public DbSet<Genre> Genres { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -43,7 +45,6 @@ namespace Database.DatabaseModels
 
             modelBuilder.Entity<Language>().ToTable("Languages");
             modelBuilder.Entity<Language>().HasKey(x => x.Iso);
-
         }
     }
 }

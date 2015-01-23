@@ -15,7 +15,7 @@ namespace Database.Migrations
         protected override void Seed(MoviepickerContext context)
         {
             context.Users.RemoveRange(context.Users);
-            
+
             context.Users.Add(new User
             {
                 Email = "test@test.com",

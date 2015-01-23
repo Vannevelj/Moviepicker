@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Database.Repositories.Declarations;
 using Models.Users;
 
 namespace WebApi.Controllers
@@ -8,6 +9,13 @@ namespace WebApi.Controllers
     [RoutePrefix("api/users")]
     public class UserController
     {
+        private readonly IUserRepository _userRepository;
+
+        public UserController(IMovieRepository movieRepository, IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         [ResponseType(typeof (User))]

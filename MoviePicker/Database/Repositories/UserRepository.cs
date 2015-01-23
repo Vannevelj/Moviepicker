@@ -1,4 +1,4 @@
-﻿namespace MoviePickerApi.Repositories
+﻿namespace Database.Repositories
 {
     public class UserRepository
     {

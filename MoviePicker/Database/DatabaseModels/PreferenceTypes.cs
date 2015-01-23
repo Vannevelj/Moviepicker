@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoviePickerApi.ApiModels.Database
+namespace Database.DatabaseModels
 {
     [Flags]
     public enum PreferenceTypes

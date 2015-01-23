@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Http;
 using AutoMapper;
-using TMDbLib.Objects.Movies;
+using Models.Movies;
 
 namespace MoviePickerApi
 {
@@ -11,7 +11,7 @@ namespace MoviePickerApi
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
             GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            Mapper.CreateMap<Movie, Models.Movies.Movie>();
+            Mapper.CreateMap<Movie, Movie>();
         }
     }
 }

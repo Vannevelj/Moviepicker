@@ -1,22 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
+using Database.DatabaseModels;
 using Models.Movies;
-using MoviePickerApi.ApiModels;
-using TMDbLib.Client;
 
-namespace MoviePickerApi.Repositories
+namespace Database.Repositories
 {
     public class MovieRepository
     {
         private readonly MoviePickerContext _db = new MoviePickerContext();
-        private const string ApiKey = "13f441b40fdb830f1f661b50a634304d";
-        private readonly TMDbClient _client = new TMDbClient(ApiKey);
-
-        public MovieRepository()
-        {
-            _client.GetConfig();
-        }
 
         public void LikeMovie(int userId, int movieId)
         {
@@ -59,8 +51,9 @@ namespace MoviePickerApi.Repositories
             var minYear = pivotYear - 5;
             var maxYear = pivotYear + 5;
 
-            var firstMovieId = _client.DiscoverMovies(page: 1, withGenres: genrePreferences.First().Name).Results.First().Id;
-            yield return Mapper.Map<Movie>(_client.GetMovie(firstMovieId));
+            //var firstMovieId = _client.DiscoverMovies(page: 1, withGenres: genrePreferences.First().Name).Results.First().Id;
+            //yield return _client.GetMovie(firstMovieId);
+            throw new NotImplementedException();
         }
 
         private void AdjustRating(int userId, int movieId, int change)

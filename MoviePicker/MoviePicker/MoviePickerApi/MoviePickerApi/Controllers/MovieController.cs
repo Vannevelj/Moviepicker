@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Models.Movies;
 using MoviePickerApi.ApiModels.ApiParameters;
-using TMDbLib.Objects.Movies;
 
 namespace MoviePickerApi.Controllers
 {
     [RoutePrefix("api/movies")]
-    public class MovieController : BaseController
+    public class MovieController
     {
-        public MovieController()
-        {
-            Client.GetConfig();
-        }
-
         [Route("{id:int}")]
         [HttpGet]
         [ResponseType(typeof (Movie))]
         public IHttpActionResult GetMovieDetails(int id)
         {
-            var movie = Client.GetMovie(id);
-            movie.PosterPath = Client.GetImageUrl("original", movie.PosterPath).ToString();
-            return Ok(movie);
+            throw new NotImplementedException();
         }
 
         [Route("like")]

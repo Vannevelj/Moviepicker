@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoviePickerApi.ApiModels.Database
+namespace Database.DatabaseModels
 {
     public class MovieRating
     {

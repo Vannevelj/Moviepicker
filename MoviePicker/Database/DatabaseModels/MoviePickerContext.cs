@@ -1,9 +1,8 @@
 ﻿using System.Data.Entity;
 using Models.Movies;
 using Models.Users;
-using MoviePickerApi.ApiModels.Database;
 
-namespace MoviePickerApi.ApiModels
+namespace Database.DatabaseModels
 {
     public class MoviePickerContext : DbContext
     {

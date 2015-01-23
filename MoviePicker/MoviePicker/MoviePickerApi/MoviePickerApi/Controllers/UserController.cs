@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using MoviePickerApi.Models;
-using MoviePickerApi.Models.Models;
+using Models.Users;
+using MoviePickerApi.ApiModels;
 
 namespace MoviePickerApi.Controllers
 {

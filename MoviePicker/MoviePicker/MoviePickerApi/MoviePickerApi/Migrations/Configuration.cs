@@ -1,6 +1,6 @@
 using System.Data.Entity.Migrations;
-using MoviePickerApi.Models;
-using MoviePickerApi.Models.Models;
+using Models.Users;
+using MoviePickerApi.ApiModels;
 
 namespace MoviePickerApi.Migrations
 {

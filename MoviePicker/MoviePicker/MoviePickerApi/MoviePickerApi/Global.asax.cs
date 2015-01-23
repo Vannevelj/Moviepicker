@@ -11,7 +11,7 @@ namespace MoviePickerApi
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
             GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            Mapper.CreateMap<Movie, Models.Models.Movie>();
+            Mapper.CreateMap<Movie, Models.Movies.Movie>();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using System.Web.Http.Description;
-using MoviePickerApi.Models.ApiParameters;
+using MoviePickerApi.ApiModels.ApiParameters;
 using TMDbLib.Objects.Movies;
 
 namespace MoviePickerApi.Controllers

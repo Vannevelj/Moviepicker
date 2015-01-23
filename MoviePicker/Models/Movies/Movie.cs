@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MoviePickerApi.Models.Models
+namespace Models.Movies
 {
     public class Movie
     {

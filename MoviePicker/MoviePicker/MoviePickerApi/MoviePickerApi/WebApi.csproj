@@ -116,15 +116,11 @@
       <DependentUpon>201410072040541_Revamp.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ApiParameters\MovieActionParameters.cs" />
-    <Compile Include="Models\Database\MovieRating.cs" />
-    <Compile Include="Models\Database\Preferences.cs" />
-    <Compile Include="Models\Database\PreferenceTypes.cs" />
-    <Compile Include="Models\Models\Genre.cs" />
-    <Compile Include="Models\Models\Movie.cs" />
-    <Compile Include="Models\Models\MovieSearchResult.cs" />
-    <Compile Include="Models\Models\User.cs" />
-    <Compile Include="Models\MoviePickerContext.cs" />
+    <Compile Include="ApiModels\ApiParameters\MovieActionParameters.cs" />
+    <Compile Include="ApiModels\Database\MovieRating.cs" />
+    <Compile Include="ApiModels\Database\Preferences.cs" />
+    <Compile Include="ApiModels\Database\PreferenceTypes.cs" />
+    <Compile Include="ApiModels\MoviePickerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\MovieRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -151,6 +147,12 @@
     <EmbeddedResource Include="Migrations\201410072040541_Revamp.resx">
       <DependentUpon>201410072040541_Revamp.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Models\Models.csproj">
+      <Project>{a0d9399e-5f6b-431b-8d2e-1052d52fe27d}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

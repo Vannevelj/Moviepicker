@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using MoviePickerApi.Models;
-using MoviePickerApi.Models.Models;
+using Models.Movies;
+using MoviePickerApi.ApiModels;
 using TMDbLib.Client;
 
 namespace MoviePickerApi.Repositories

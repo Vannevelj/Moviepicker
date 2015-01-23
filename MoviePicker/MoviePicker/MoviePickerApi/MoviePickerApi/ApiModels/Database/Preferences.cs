@@ -1,4 +1,4 @@
-﻿namespace MoviePickerApi.Models.Database
+﻿namespace MoviePickerApi.ApiModels.Database
 {
     public class GenrePreference
     {

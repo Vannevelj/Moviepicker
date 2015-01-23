@@ -1,4 +1,4 @@
-﻿namespace MoviePickerApi.Models.ApiParameters
+﻿namespace MoviePickerApi.ApiModels.ApiParameters
 {
     public class MovieActionParameters
     {

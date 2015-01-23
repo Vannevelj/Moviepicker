@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MoviePickerApi.Models.Models
+namespace Models.Users
 {
     public class User
     {

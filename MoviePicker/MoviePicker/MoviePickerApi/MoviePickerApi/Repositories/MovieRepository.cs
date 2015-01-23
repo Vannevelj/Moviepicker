@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using MoviePickerApi.Models;
 using AutoMapper;
-using Shared.Models;
+using MoviePickerApi.Models;
+using MoviePickerApi.Models.Models;
 using TMDbLib.Client;
 
 namespace MoviePickerApi.Repositories
@@ -49,14 +47,14 @@ namespace MoviePickerApi.Repositories
 
             const int maxResults = 3;
             var genrePreferences = _db.GenrePreferences.Where(x => x.UserId == userId)
-                                                       .OrderByDescending(x => x.Rating)
-                                                       .Take(maxResults)
-                                                       .Select(x => _db.Genres.FirstOrDefault(y => y.Id == x.GenreId));
+                                      .OrderByDescending(x => x.Rating)
+                                      .Take(maxResults)
+                                      .Select(x => _db.Genres.FirstOrDefault(y => y.Id == x.GenreId));
 
             var pivotYear = _db.YearPreferences.Where(x => x.UserId == userId)
-                                               .OrderByDescending(x => x.Rating)
-                                               .First()
-                                               .Year;
+                               .OrderByDescending(x => x.Rating)
+                               .First()
+                               .Year;
             // TODO: what was I doing here?
             var minYear = pivotYear - 5;
             var maxYear = pivotYear + 5;

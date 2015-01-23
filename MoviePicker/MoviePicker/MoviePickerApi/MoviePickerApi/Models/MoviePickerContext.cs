@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using Shared.Models;
+﻿using System.Data.Entity;
+using MoviePickerApi.Models.Database;
+using MoviePickerApi.Models.Models;
 
 namespace MoviePickerApi.Models
 {
-    using Shared.Models.Database;
-
     public class MoviePickerContext : DbContext
-    {   
+    {
         public MoviePickerContext() : base("name=MoviePickerContext")
         {
         }
@@ -26,8 +21,8 @@ namespace MoviePickerApi.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<MovieRating>().HasKey(x => new {x.UserId, x.MovieId});
-            modelBuilder.Entity<GenrePreference>().HasKey(x => new { x.UserId, x.GenreId });
-            modelBuilder.Entity<YearPreference>().HasKey(x => new { x.UserId, x.Year });
+            modelBuilder.Entity<GenrePreference>().HasKey(x => new {x.UserId, x.GenreId});
+            modelBuilder.Entity<YearPreference>().HasKey(x => new {x.UserId, x.Year});
         }
     }
 }

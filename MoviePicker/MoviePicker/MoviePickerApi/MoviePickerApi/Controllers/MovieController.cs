@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Web.Http;
 using System.Web.Http.Description;
-using TMDbLib.Objects.General;
+using MoviePickerApi.Models.ApiParameters;
 using TMDbLib.Objects.Movies;
 
 namespace MoviePickerApi.Controllers
 {
-    using System;
-    using Shared.Models.ApiParameters;
-
     [RoutePrefix("api/movies")]
     public class MovieController : BaseController
     {
@@ -19,7 +16,7 @@ namespace MoviePickerApi.Controllers
 
         [Route("{id:int}")]
         [HttpGet]
-        [ResponseType(typeof(Movie))]
+        [ResponseType(typeof (Movie))]
         public IHttpActionResult GetMovieDetails(int id)
         {
             var movie = Client.GetMovie(id);
@@ -30,14 +27,14 @@ namespace MoviePickerApi.Controllers
         [Route("like")]
         [HttpPost]
         public IHttpActionResult LikeMovie([FromBody] MovieActionParameters parameters)
-        {   
+        {
             throw new NotImplementedException();
         }
 
         [Route("dislike")]
         [HttpPost]
         public IHttpActionResult DislikeMovie([FromBody] MovieActionParameters parameters)
-        {    
+        {
             throw new NotImplementedException();
         }
 

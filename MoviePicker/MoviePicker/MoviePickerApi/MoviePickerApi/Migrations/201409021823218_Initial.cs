@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace MoviePickerApi.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class Initial : DbMigration
     {
         public override void Up()
@@ -19,7 +18,7 @@ namespace MoviePickerApi.Migrations
                 })
                 .PrimaryKey(t => t.Id);
         }
-        
+
         public override void Down()
         {
             DropTable("dbo.Users");

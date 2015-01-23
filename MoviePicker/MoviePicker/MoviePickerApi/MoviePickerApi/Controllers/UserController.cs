@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MoviePickerApi.Models;
-using Shared.Models;
+using MoviePickerApi.Models.Models;
 
 namespace MoviePickerApi.Controllers
 {
@@ -15,7 +15,7 @@ namespace MoviePickerApi.Controllers
 
         [Route("{id:int}")]
         [HttpGet]
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof (User))]
         public async Task<IHttpActionResult> GetUser(int? id)
         {
             var user = await _db.Users.FindAsync(id);
@@ -29,7 +29,7 @@ namespace MoviePickerApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof (User))]
         public async Task<IHttpActionResult> CreateUser([FromBody] User user)
         {
             if (UserExists(user.Email))
@@ -46,7 +46,7 @@ namespace MoviePickerApi.Controllers
 
         [Route("login")]
         [HttpPost]
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof (User))]
         public async Task<IHttpActionResult> Login([FromBody] User user)
         {
             var dbUser = await _db.Users.FirstOrDefaultAsync(x => x.Email == user.Email);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shared.Models
+namespace MoviePickerApi.Models.Models
 {
     public class MovieSearchResult
     {

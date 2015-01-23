@@ -116,6 +116,14 @@
       <DependentUpon>201410072040541_Revamp.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ApiParameters\MovieActionParameters.cs" />
+    <Compile Include="Models\Database\MovieRating.cs" />
+    <Compile Include="Models\Database\Preferences.cs" />
+    <Compile Include="Models\Database\PreferenceTypes.cs" />
+    <Compile Include="Models\Models\Genre.cs" />
+    <Compile Include="Models\Models\Movie.cs" />
+    <Compile Include="Models\Models\MovieSearchResult.cs" />
+    <Compile Include="Models\Models\User.cs" />
     <Compile Include="Models\MoviePickerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\MovieRepository.cs" />
@@ -135,13 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\TypeConfigurations\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Shared.csproj">
-      <Project>{cd4ae80b-050a-4177-9a87-48bbf370cc46}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409021823218_Initial.resx">

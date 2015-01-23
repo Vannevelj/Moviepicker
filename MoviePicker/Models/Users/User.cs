@@ -16,7 +16,6 @@ namespace Models.Users
         [JsonProperty("email")]
         public string Email { get; set; }
 
-        //TODO: hashing and stuff
         [JsonProperty("password")]
         public string Password { get; set; }
     }

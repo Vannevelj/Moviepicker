@@ -34,32 +34,33 @@ namespace Models.Movies
         public string PosterPath { get; set; }
 
         [JsonProperty("adult")]
-        public bool Adult { get; set; }
-
-        [JsonProperty("genres")]
-        public List<Genre> Genres { get; set; }
+        public bool? Adult { get; set; }
 
         [JsonProperty("release_date")]
         public DateTime? ReleaseDate { get; set; }
 
         [JsonProperty("revenue")]
-        public long Revenue { get; set; }
+        public long? Revenue { get; set; }
 
         [JsonProperty("budget")]
-        public long Budget { get; set; }
+        public long? Budget { get; set; }
 
         [JsonProperty("runtime")]
         public int? Runtime { get; set; }
 
         [JsonProperty("popularity")]
-        public double Popularity { get; set; }
+        public double? Popularity { get; set; }
 
         [JsonProperty("vote_average")]
-        public double VoteAverage { get; set; }
+        public double? VoteAverage { get; set; }
 
         [JsonProperty("vote_count")]
-        public int VoteCount { get; set; }
+        public int? VoteCount { get; set; }
 
-        public List<Language> SpokenLanguages { get; set; }
+        [JsonProperty("spoken_languages")]
+        public virtual ICollection<Language> SpokenLanguages { get; set; }
+
+        [JsonProperty("genres")]
+        public virtual ICollection<Genre> Genres { get; set; }
     }
 }

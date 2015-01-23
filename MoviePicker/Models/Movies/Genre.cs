@@ -4,10 +4,10 @@ namespace Models.Movies
 {
     public class Genre
     {
-        [JsonProperty("Id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("Name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
     }
 }

@@ -39,10 +39,5 @@ namespace WebApi.Controllers
         {
             throw new NotImplementedException();
         }
-
-        private bool UserExists(string email)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

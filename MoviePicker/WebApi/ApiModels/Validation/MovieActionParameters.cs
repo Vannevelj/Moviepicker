@@ -1,4 +1,4 @@
-﻿namespace WebApi.ApiModels.ApiParameters
+﻿namespace WebApi.ApiModels.Validation
 {
     public class MovieActionParameters
     {

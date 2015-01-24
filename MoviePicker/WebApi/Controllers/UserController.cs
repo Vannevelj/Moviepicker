@@ -7,7 +7,7 @@ using Models.Users;
 namespace WebApi.Controllers
 {
     [RoutePrefix("api/users")]
-    public class UserController
+    public class UserController : ApiController
     {
         private readonly IUserRepository _userRepository;
 

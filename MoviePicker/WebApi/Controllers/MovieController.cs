@@ -8,7 +8,7 @@ using WebApi.ApiModels.ApiParameters;
 namespace WebApi.Controllers
 {
     [RoutePrefix("api/movies")]
-    public class MovieController
+    public class MovieController : ApiController
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IUserRepository _userRepository;

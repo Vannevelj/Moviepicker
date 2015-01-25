@@ -14,25 +14,26 @@ namespace TMDbWrapper.Requests
 
         protected async Task<Response<TResponse>> InternalExecuteRequestAsync(string url, AuthenticationHeaderValue authenticationHeader = null, HttpContent httpContent = null)
         {
-            var client = CreateClient(authenticationHeader);
-            var response = await ExecuteRequestSpecificBehaviourAsync(client, url, httpContent);
-            client.Dispose();
-            if (response.IsSuccessStatusCode)
+            using (var client = CreateClient(authenticationHeader))
             {
-                var json = await response.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<TResponse>(json);
+                var response = await ExecuteRequestSpecificBehaviourAsync(client, url, httpContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<TResponse>(json);
+                    return new Response<TResponse>
+                    {
+                        Data = data,
+                        StatusCode = response.StatusCode
+                    };
+                }
+
                 return new Response<TResponse>
                 {
-                    Data = data,
+                    Data = null,
                     StatusCode = response.StatusCode
                 };
             }
-
-            return new Response<TResponse>
-            {
-                Data = null,
-                StatusCode = response.StatusCode
-            };
         }
 
         private HttpClient CreateClient(AuthenticationHeaderValue authenticationHeader = null)

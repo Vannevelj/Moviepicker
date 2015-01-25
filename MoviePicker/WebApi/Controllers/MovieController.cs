@@ -29,7 +29,7 @@ namespace WebApi.Controllers
 
         [Route("like")]
         [HttpPost]
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof (void))]
         public IHttpActionResult LikeMovie([FromBody] MovieActionParameters parameters)
         {
             throw new NotImplementedException();
@@ -37,7 +37,7 @@ namespace WebApi.Controllers
 
         [Route("dislike")]
         [HttpPost]
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof (void))]
         public IHttpActionResult DislikeMovie([FromBody] MovieActionParameters parameters)
         {
             throw new NotImplementedException();
@@ -45,7 +45,7 @@ namespace WebApi.Controllers
 
         [Route("~/api/users/{userId:int}/movies")]
         [HttpGet]
-        [ResponseType(typeof(Movie))]
+        [ResponseType(typeof (Movie))]
         public IHttpActionResult GetMovie(int userId)
         {
             throw new NotImplementedException();

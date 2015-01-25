@@ -24,6 +24,10 @@ namespace DataService
 
             var movieGenres = await api.GetMovieGenres();
             Console.WriteLine("Movie Genres:\n" + string.Join("\n", movieGenres.Select(x => x.Name)));
+            Console.WriteLine();
+
+            var movieDetails = await api.GetMovie(458);
+            Console.WriteLine(movieDetails.Title);
         }
     }
 }

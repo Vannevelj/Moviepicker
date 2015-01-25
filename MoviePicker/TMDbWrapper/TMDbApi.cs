@@ -31,5 +31,10 @@ namespace TMDbWrapper
         {
             return (await new GetRequest<GetGenresJsonModel>().ExecuteRequestAsync(GetUrl("genre/movie/list"))).Data.Genres;
         }
+
+        public async Task<Movie> GetMovie(int movieId)
+        {
+            return (await new GetRequest<Movie>().ExecuteRequestAsync(GetUrl("movie/" + movieId))).Data;
+        }
     }
 }

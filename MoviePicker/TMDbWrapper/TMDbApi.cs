@@ -36,5 +36,10 @@ namespace TMDbWrapper
         {
             return (await new GetRequest<Movie>().ExecuteRequestAsync(GetUrl("movie/" + movieId))).Data;
         }
+
+        public async Task<IEnumerable<Keyword>> GetKeywords(int movieId)
+        {
+            return (await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(GetUrl("movie/" + movieId + "/keywords"))).Data.Keywords;
+        }
     }
 }

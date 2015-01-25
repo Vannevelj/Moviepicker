@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Movies\Genre.cs" />
+    <Compile Include="Movies\Keyword.cs" />
     <Compile Include="Movies\Language.cs" />
     <Compile Include="Movies\Movie.cs" />
     <Compile Include="Users\User.cs" />

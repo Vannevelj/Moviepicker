@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JsonModels\GetGenresJsonModel.cs" />
+    <Compile Include="JsonModels\GetKeywordsJsonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\AbstractRequest.cs" />
     <Compile Include="Requests\GetRequest.cs" />

@@ -28,6 +28,10 @@ namespace DataService
 
             var movieDetails = await api.GetMovie(458);
             Console.WriteLine(movieDetails.Title);
+            Console.WriteLine();
+
+            var keywords = await api.GetKeywords(movieDetails.TmdbId);
+            Console.WriteLine("Keywords:\n" + string.Join("\n", keywords.Select(x => x.Name)));
         }
     }
 }

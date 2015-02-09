@@ -18,15 +18,15 @@ namespace DataService
         {
             var api = new TMDbApi(ConfigurationManager.AppSettings["apikey"]);
 
-            var tvGenres = await api.GetTvGenres();
+            var tvGenres = await api.GetshowGenresAsync();
             Console.WriteLine("TV Genres:\n" + string.Join("\n", tvGenres.Select(x => x.Name)));
             Console.WriteLine();
 
-            var movieGenres = await api.GetMovieGenres();
+            var movieGenres = await api.GetMovieGenresAsync();
             Console.WriteLine("Movie Genres:\n" + string.Join("\n", movieGenres.Select(x => x.Name)));
             Console.WriteLine();
 
-            var movieDetails = await api.GetMovie(458);
+            var movieDetails = await api.GetMovieAsync(458);
             Console.WriteLine(movieDetails.Title);
             Console.WriteLine();
 

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Models.Movies;
+using Models.TMDbModels;
 using TMDbWrapper.JsonModels;
 using TMDbWrapper.Requests;
 
@@ -40,6 +42,29 @@ namespace TMDbWrapper
         public async Task<IEnumerable<Keyword>> GetKeywords(int movieId)
         {
             return (await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(GetUrl("movie/" + movieId + "/keywords"))).Data.Keywords;
+        }
+
+        public async Task<ChangeResponse> GetMovieChanges(DateTime from, DateTime to, int page)
+        {
+            return (await GetChanges(GetUrl("movie/changes"), from, to, page)).Data;
+        }
+
+        public async Task<ChangeResponse> GetTvChanges(DateTime from, DateTime to, int page)
+        {
+            return (await GetChanges(GetUrl("tv/changes"), from, to, page)).Data;
+        }
+
+        private async Task<Response<ChangeResponse>> GetChanges(string url, DateTime from, DateTime to, int page)
+        {
+            const string dateFormat = "YYYY-MM-DD";
+            var parameters = new Dictionary<string, string>
+            {
+                {"start_date", from.ToString(dateFormat)},
+                {"end_date", to.ToString(dateFormat)},
+                {"page", page.ToString()}
+            };
+
+            return await new GetRequest<ChangeResponse>().ExecuteRequestAsync(url, urlParameters: parameters); 
         }
     }
 }

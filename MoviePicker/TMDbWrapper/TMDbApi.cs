@@ -39,6 +39,11 @@ namespace TMDbWrapper
             return (await new GetRequest<Movie>().ExecuteRequestAsync(GetUrl("movie/" + movieId))).Data;
         }
 
+        public async Task<Show> GetShow(int showId)
+        {
+            return (await new GetRequest<Show>().ExecuteRequestAsync(GetUrl("tv/" + showId))).Data;
+        }
+
         public async Task<ChangeResponse> GetChangedMovies(DateTime from, DateTime to, int page)
         {
             return (await GetChanges(GetUrl("movie/changes"), from, to, page)).Data;

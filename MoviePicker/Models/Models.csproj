@@ -48,6 +48,7 @@
     <Compile Include="Movies\Keyword.cs" />
     <Compile Include="Movies\Language.cs" />
     <Compile Include="Movies\Movie.cs" />
+    <Compile Include="Movies\Show.cs" />
     <Compile Include="TMDbModels\Change.cs" />
     <Compile Include="TMDbModels\ChangeResponse.cs" />
     <Compile Include="Users\User.cs" />

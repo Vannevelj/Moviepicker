@@ -39,11 +39,6 @@ namespace TMDbWrapper
             return (await new GetRequest<Movie>().ExecuteRequestAsync(GetUrl("movie/" + movieId))).Data;
         }
 
-        public async Task<IEnumerable<Keyword>> GetKeywords(int movieId)
-        {
-            return (await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(GetUrl("movie/" + movieId + "/keywords"))).Data.Keywords;
-        }
-
         public async Task<ChangeResponse> GetChangedMovies(DateTime from, DateTime to, int page)
         {
             return (await GetChanges(GetUrl("movie/changes"), from, to, page)).Data;
@@ -66,5 +61,21 @@ namespace TMDbWrapper
 
             return await new GetRequest<ChangeResponse>().ExecuteRequestAsync(url, urlParameters: parameters); 
         }
+
+        public async Task<IEnumerable<Keyword>> GetMovieKeywords(int movieId)
+        {
+            return (await GetKeywords(GetUrl("movie/" + movieId + "/keywords"))).Data.Keywords;
+        }
+
+        public async Task<IEnumerable<Keyword>> GetTvKeywords(int tvId)
+        {
+            return (await GetKeywords(GetUrl("tv/" + tvId + "/keywords"))).Data.Keywords;
+        }
+
+        private async Task<Response<GetKeywordsJsonModel>> GetKeywords(string url)
+        {
+            return await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(url);
+        }
+
     }
 }

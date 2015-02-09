@@ -62,5 +62,8 @@ namespace Models.Movies
 
         [JsonProperty("genres")]
         public virtual ICollection<Genre> Genres { get; set; }
+
+        [JsonProperty("keywords")]
+        public virtual ICollection<Keyword> Keywords { get; set; } 
     }
 }

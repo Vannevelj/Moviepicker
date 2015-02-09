@@ -44,12 +44,12 @@ namespace TMDbWrapper
             return (await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(GetUrl("movie/" + movieId + "/keywords"))).Data.Keywords;
         }
 
-        public async Task<ChangeResponse> GetMovieChanges(DateTime from, DateTime to, int page)
+        public async Task<ChangeResponse> GetChangedMovies(DateTime from, DateTime to, int page)
         {
             return (await GetChanges(GetUrl("movie/changes"), from, to, page)).Data;
         }
 
-        public async Task<ChangeResponse> GetTvChanges(DateTime from, DateTime to, int page)
+        public async Task<ChangeResponse> GetChangedShow(DateTime from, DateTime to, int page)
         {
             return (await GetChanges(GetUrl("tv/changes"), from, to, page)).Data;
         }

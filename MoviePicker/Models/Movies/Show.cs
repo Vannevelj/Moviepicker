@@ -18,9 +18,6 @@ namespace Models.Movies
         [JsonProperty("last_air_date")]
         public DateTime LastAiring { get; set; }
 
-        [JsonProperty("genres")]
-        public ICollection<Genre> Genres { get; set; }
-
         [JsonProperty("homepage")]
         public string Homepage { get; set; }
 
@@ -29,12 +26,6 @@ namespace Models.Movies
 
         [JsonProperty("in_production")]
         public bool? InProduction { get; set; }
-
-        /// <summary>
-        /// This might need to be changed. TV languages are returned as simple "en" strings while movie languages return the ISO code and the name
-        /// </summary>
-        [JsonProperty("homepage")]
-        public ICollection<string> Languages { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -68,5 +59,20 @@ namespace Models.Movies
 
         [JsonProperty("vote_count")]
         public int? AmountOfVotes { get; set; }
+
+        /// <summary>
+        /// This might need to be changed. TV languages are returned as simple "en" strings while movie languages return the ISO code and the name
+        /// </summary>
+        [JsonProperty("homepage")]
+        public ICollection<string> Languages { get; set; }
+
+        [JsonProperty("genres")]
+        public ICollection<Genre> Genres { get; set; }
+
+        [JsonProperty("backdrops")]
+        public virtual ICollection<ImageInfo> Backdrops { get; set; }
+
+        [JsonProperty("posters")]
+        public virtual ICollection<ImageInfo> Posters { get; set; } 
     }
 }

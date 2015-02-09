@@ -72,14 +72,29 @@ namespace TMDbWrapper
             return (await GetKeywords(GetUrl("movie/" + movieId + "/keywords"))).Data.Keywords;
         }
 
-        public async Task<IEnumerable<Keyword>> GetTvKeywords(int tvId)
+        public async Task<IEnumerable<Keyword>> GetShowKeywords(int showId)
         {
-            return (await GetKeywords(GetUrl("tv/" + tvId + "/keywords"))).Data.Keywords;
+            return (await GetKeywords(GetUrl("tv/" + showId + "/keywords"))).Data.Keywords;
         }
 
         private async Task<Response<GetKeywordsJsonModel>> GetKeywords(string url)
         {
             return await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(url);
+        }
+
+        public async Task<GetImagesJsonModel> GetMovieImages(int movieId)
+        {
+            return (await GetImagesAsync(GetUrl("movie/" + movieId + "/images"))).Data;
+        }
+
+        public async Task<GetImagesJsonModel> GetShowImagesAsync(int showId)
+        {
+            return (await GetImagesAsync(GetUrl("tv/" + showId + "/images"))).Data;
+        }
+
+        private async Task<Response<GetImagesJsonModel>> GetImagesAsync(string url)
+        {
+            return await new GetRequest<GetImagesJsonModel>().ExecuteRequestAsync(url);
         }
 
     }

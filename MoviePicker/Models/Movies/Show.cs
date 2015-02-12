@@ -60,6 +60,12 @@ namespace Models.Movies
         [JsonProperty("vote_count")]
         public int? AmountOfVotes { get; set; }
 
+        [JsonProperty("added_on")]
+        public DateTime? AddedOn { get; set; }
+
+        [JsonProperty("last_updated_on")]
+        public DateTime? LastUpdatedOn { get; set; }
+
         /// <summary>
         /// This might need to be changed. TV languages are returned as simple "en" strings while movie languages return the ISO code and the name
         /// </summary>

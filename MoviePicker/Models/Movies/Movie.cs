@@ -57,6 +57,12 @@ namespace Models.Movies
         [JsonProperty("vote_count")]
         public int? VoteCount { get; set; }
 
+        [JsonProperty("added_on")]
+        public DateTime? AddedOn { get; set; }
+
+        [JsonProperty("last_updated_on")]
+        public DateTime? LastUpdatedOn { get; set; }
+
         [JsonProperty("spoken_languages")]
         public virtual ICollection<Language> SpokenLanguages { get; set; }
 

@@ -10,7 +10,9 @@ namespace DataService
     {
         public static void Main(string[] args)
         {
+#pragma warning disable 4014
             new Program().StartProgram();
+#pragma warning restore 4014
             Console.Read();
         }
 

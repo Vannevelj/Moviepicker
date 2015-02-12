@@ -24,34 +24,44 @@ namespace TMDbWrapper
             return BaseUrl + apiRequest + "?api_key=" + _apikey;
         }
 
-        public async Task<IEnumerable<Genre>> GetshowGenresAsync()
+        public async Task<Response<IEnumerable<Genre>>> GetShowGenresAsync()
         {
-            return (await new GetRequest<GetGenresJsonModel>().ExecuteRequestAsync(GetUrl("genre/tv/list"))).Data.Genres;
+            var response = await new GetRequest<GetGenresJsonModel>().ExecuteRequestAsync(GetUrl("genre/tv/list"));
+            return new Response<IEnumerable<Genre>>
+                   {
+                       Data = response.Data.Genres,
+                       StatusCode = response.StatusCode
+                   };
         }
 
-        public async Task<IEnumerable<Genre>> GetMovieGenresAsync()
+        public async Task<Response<IEnumerable<Genre>>> GetMovieGenresAsync()
         {
-            return (await new GetRequest<GetGenresJsonModel>().ExecuteRequestAsync(GetUrl("genre/movie/list"))).Data.Genres;
+            var response = await new GetRequest<GetGenresJsonModel>().ExecuteRequestAsync(GetUrl("genre/movie/list"));
+            return new Response<IEnumerable<Genre>>
+                   {
+                       Data = response.Data.Genres,
+                       StatusCode = response.StatusCode
+                   };
         }
 
-        public async Task<Movie> GetMovieAsync(int movieId)
+        public async Task<Response<Movie>> GetMovieAsync(int movieId)
         {
-            return (await new GetRequest<Movie>().ExecuteRequestAsync(GetUrl("movie/" + movieId))).Data;
+            return await new GetRequest<Movie>().ExecuteRequestAsync(GetUrl("movie/" + movieId));
         }
 
-        public async Task<Show> GetShowAsync(int showId)
+        public async Task<Response<Show>> GetShowAsync(int showId)
         {
-            return (await new GetRequest<Show>().ExecuteRequestAsync(GetUrl("tv/" + showId))).Data;
+            return await new GetRequest<Show>().ExecuteRequestAsync(GetUrl("tv/" + showId));
         }
 
-        public async Task<ChangeResponse> GetChangedMoviesAsync(DateTime from, DateTime to, int page)
+        public async Task<Response<ChangeResponse>> GetChangedMoviesAsync(DateTime from, DateTime to, int page)
         {
-            return (await GetChangesAsync(GetUrl("movie/changes"), from, to, page)).Data;
+            return await GetChangesAsync(GetUrl("movie/changes"), from, to, page);
         }
 
-        public async Task<ChangeResponse> GetChangedShowAsync(DateTime from, DateTime to, int page)
+        public async Task<Response<ChangeResponse>> GetChangedShowAsync(DateTime from, DateTime to, int page)
         {
-            return (await GetChangesAsync(GetUrl("tv/changes"), from, to, page)).Data;
+            return await GetChangesAsync(GetUrl("tv/changes"), from, to, page);
         }
 
         private async Task<Response<ChangeResponse>> GetChangesAsync(string url, DateTime from, DateTime to, int page)
@@ -67,35 +77,39 @@ namespace TMDbWrapper
             return await new GetRequest<ChangeResponse>().ExecuteRequestAsync(url, urlParameters: parameters); 
         }
 
-        public async Task<IEnumerable<Keyword>> GetMovieKeywordsAsync(int movieId)
+        public async Task<Response<IEnumerable<Keyword>>> GetMovieKeywordsAsync(int movieId)
         {
-            return (await GetKeywordsAsync(GetUrl("movie/" + movieId + "/keywords"))).Data.Keywords;
+            return await GetKeywordsAsync(GetUrl("movie/" + movieId + "/keywords"));
         }
 
-        public async Task<IEnumerable<Keyword>> GetShowKeywordsAsync(int showId)
+        public async Task<Response<IEnumerable<Keyword>>> GetShowKeywordsAsync(int showId)
         {
-            return (await GetKeywordsAsync(GetUrl("tv/" + showId + "/keywords"))).Data.Keywords;
+            return await GetKeywordsAsync(GetUrl("tv/" + showId + "/keywords"));
         }
 
-        private async Task<Response<GetKeywordsJsonModel>> GetKeywordsAsync(string url)
+        private async Task<Response<IEnumerable<Keyword>>> GetKeywordsAsync(string url)
         {
-            return await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(url);
+            var response = await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(url);
+            return new Response<IEnumerable<Keyword>>()
+                   {
+                       Data = response.Data.Keywords,
+                       StatusCode = response.StatusCode
+                   };
         }
 
-        public async Task<GetImagesJsonModel> GetMovieImagesAsync(int movieId)
+        public async Task<Response<GetImagesJsonModel>> GetMovieImagesAsync(int movieId)
         {
-            return (await GetImagesAsync(GetUrl("movie/" + movieId + "/images"))).Data;
+            return await GetImagesAsync(GetUrl("movie/" + movieId + "/images"));
         }
 
-        public async Task<GetImagesJsonModel> GetShowImagesAsyncAsync(int showId)
+        public async Task<Response<GetImagesJsonModel>> GetShowImagesAsyncAsync(int showId)
         {
-            return (await GetImagesAsync(GetUrl("tv/" + showId + "/images"))).Data;
+            return await GetImagesAsync(GetUrl("tv/" + showId + "/images"));
         }
 
         private async Task<Response<GetImagesJsonModel>> GetImagesAsync(string url)
         {
             return await new GetRequest<GetImagesJsonModel>().ExecuteRequestAsync(url);
         }
-
     }
 }

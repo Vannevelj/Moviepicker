@@ -59,14 +59,14 @@ namespace TMDbWrapper
             return await GetChangesAsync(GetUrl("movie/changes"), from, to, page);
         }
 
-        public async Task<Response<ChangeResponse>> GetChangedShowAsync(DateTime from, DateTime to, int page)
+        public async Task<Response<ChangeResponse>> GetChangedShowsAsync(DateTime from, DateTime to, int page)
         {
             return await GetChangesAsync(GetUrl("tv/changes"), from, to, page);
         }
 
         private async Task<Response<ChangeResponse>> GetChangesAsync(string url, DateTime from, DateTime to, int page)
         {
-            const string dateFormat = "YYYY-MM-DD";
+            const string dateFormat = "yyyy-MM-dd";
             var parameters = new Dictionary<string, string>
             {
                 {"start_date", from.ToString(dateFormat)},
@@ -102,7 +102,7 @@ namespace TMDbWrapper
             return await GetImagesAsync(GetUrl("movie/" + movieId + "/images"));
         }
 
-        public async Task<Response<GetImagesJsonModel>> GetShowImagesAsyncAsync(int showId)
+        public async Task<Response<GetImagesJsonModel>> GetShowImagesAsync(int showId)
         {
             return await GetImagesAsync(GetUrl("tv/" + showId + "/images"));
         }

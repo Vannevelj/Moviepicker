@@ -34,6 +34,6 @@ namespace Models.Movies
         /// Only used for posters
         /// </summary>
         [JsonProperty("id")]
-        public int? Id { get; set; }
+        public string Id { get; set; }
     }
 }

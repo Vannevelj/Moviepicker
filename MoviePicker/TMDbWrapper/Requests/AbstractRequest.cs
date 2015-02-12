@@ -59,7 +59,7 @@ namespace TMDbWrapper.Requests
         private string GetUrl(string url, Dictionary<string, string> urlParameters)
         {
             var sb = new StringBuilder(url);
-            foreach (var parameter in urlParameters)
+            foreach (var parameter in urlParameters ?? new Dictionary<string, string>())
             {
                 sb.Append(string.Format("&{0}={1}", parameter.Key, parameter.Value));
             }

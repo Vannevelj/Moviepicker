@@ -63,7 +63,7 @@ namespace Models.Movies
         /// <summary>
         /// This might need to be changed. TV languages are returned as simple "en" strings while movie languages return the ISO code and the name
         /// </summary>
-        [JsonProperty("homepage")]
+        [JsonProperty("languages")]
         public ICollection<string> Languages { get; set; }
 
         [JsonProperty("genres")]

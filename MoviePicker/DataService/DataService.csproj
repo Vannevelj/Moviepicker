@@ -49,6 +49,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{56785141-5e7e-478b-9f4f-e06f198da3ea}</Project>
+      <Name>Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{a0d9399e-5f6b-431b-8d2e-1052d52fe27d}</Project>
       <Name>Models</Name>

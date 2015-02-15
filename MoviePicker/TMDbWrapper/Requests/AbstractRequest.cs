@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,38 +9,41 @@ namespace TMDbWrapper.Requests
 {
     public abstract class AbstractRequest<TResponse> where TResponse : class
     {
-        public async Task<Response<TResponse>> ExecuteRequestAsync(string url, 
-                                                                   AuthenticationHeaderValue authHeader = null, 
-                                                                   HttpContent httpContent = null, 
-                                                                   Dictionary<string, string> urlParameters = null)
+        public async Task<Response<TResponse>> ExecuteRequestAsync(string url,
+            AuthenticationHeaderValue authHeader = null,
+            HttpContent httpContent = null,
+            Dictionary<string, string> urlParameters = null)
         {
             return await InternalExecuteRequestAsync(url, authHeader, httpContent, urlParameters);
         }
 
-        protected async Task<Response<TResponse>> InternalExecuteRequestAsync(string url, 
-                                                                              AuthenticationHeaderValue authenticationHeader = null, 
-                                                                              HttpContent httpContent = null, 
-                                                                              Dictionary<string, string> urlParameters = null)
+        protected async Task<Response<TResponse>> InternalExecuteRequestAsync(string url,
+            AuthenticationHeaderValue authenticationHeader = null,
+            HttpContent httpContent = null,
+            Dictionary<string, string> urlParameters = null)
         {
             using (var client = CreateClient(authenticationHeader))
             {
-                var response = await ExecuteRequestSpecificBehaviourAsync(client, GetUrl(url, urlParameters), httpContent);
+                var response =
+                    await ExecuteRequestSpecificBehaviourAsync(client, GetUrl(url, urlParameters), httpContent);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<TResponse>(json);
                     return new Response<TResponse>
-                    {
-                        Data = data,
-                        StatusCode = response.StatusCode
-                    };
+                           {
+                               Data = data,
+                               StatusCode = response.StatusCode,
+                               IsSuccess = true
+                           };
                 }
 
                 return new Response<TResponse>
-                {
-                    Data = null,
-                    StatusCode = response.StatusCode
-                };
+                       {
+                           Data = null,
+                           StatusCode = response.StatusCode,
+                           IsSuccess = false
+                       };
             }
         }
 
@@ -66,6 +68,7 @@ namespace TMDbWrapper.Requests
             return sb.ToString();
         }
 
-        protected abstract Task<HttpResponseMessage> ExecuteRequestSpecificBehaviourAsync(HttpClient client, string url, HttpContent httpContent);
+        protected abstract Task<HttpResponseMessage> ExecuteRequestSpecificBehaviourAsync(HttpClient client, string url,
+            HttpContent httpContent);
     }
 }

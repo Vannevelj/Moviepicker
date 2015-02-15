@@ -11,8 +11,8 @@ namespace TMDbWrapper
 // ReSharper disable once InconsistentNaming
     public class TMDbApi
     {
-        private readonly string _apikey;
         private const string BaseUrl = "https://api.themoviedb.org/3/";
+        private readonly string _apikey;
 
         public TMDbApi(string apikey)
         {
@@ -30,7 +30,8 @@ namespace TMDbWrapper
             return new Response<IEnumerable<Genre>>
                    {
                        Data = response.Data.Genres,
-                       StatusCode = response.StatusCode
+                       StatusCode = response.StatusCode,
+                       IsSuccess = response.IsSuccess
                    };
         }
 
@@ -40,7 +41,8 @@ namespace TMDbWrapper
             return new Response<IEnumerable<Genre>>
                    {
                        Data = response.Data.Genres,
-                       StatusCode = response.StatusCode
+                       StatusCode = response.StatusCode,
+                       IsSuccess = response.IsSuccess
                    };
         }
 
@@ -68,13 +70,13 @@ namespace TMDbWrapper
         {
             const string dateFormat = "yyyy-MM-dd";
             var parameters = new Dictionary<string, string>
-            {
-                {"start_date", from.ToString(dateFormat)},
-                {"end_date", to.ToString(dateFormat)},
-                {"page", page.ToString()}
-            };
+                             {
+                                 {"start_date", from.ToString(dateFormat)},
+                                 {"end_date", to.ToString(dateFormat)},
+                                 {"page", page.ToString()}
+                             };
 
-            return await new GetRequest<ChangeResponse>().ExecuteRequestAsync(url, urlParameters: parameters); 
+            return await new GetRequest<ChangeResponse>().ExecuteRequestAsync(url, urlParameters: parameters);
         }
 
         public async Task<Response<IEnumerable<Keyword>>> GetMovieKeywordsAsync(int movieId)
@@ -90,10 +92,11 @@ namespace TMDbWrapper
         private async Task<Response<IEnumerable<Keyword>>> GetKeywordsAsync(string url)
         {
             var response = await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(url);
-            return new Response<IEnumerable<Keyword>>()
+            return new Response<IEnumerable<Keyword>>
                    {
                        Data = response.Data.Keywords,
-                       StatusCode = response.StatusCode
+                       StatusCode = response.StatusCode,
+                       IsSuccess = response.IsSuccess
                    };
         }
 

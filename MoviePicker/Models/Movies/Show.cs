@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Models.Movies
@@ -67,7 +64,8 @@ namespace Models.Movies
         public DateTime? LastUpdatedOn { get; set; }
 
         /// <summary>
-        /// This might need to be changed. TV languages are returned as simple "en" strings while movie languages return the ISO code and the name
+        ///     This might need to be changed. TV languages are returned as simple "en" strings while movie languages return the
+        ///     ISO code and the name
         /// </summary>
         [JsonProperty("languages")]
         public ICollection<string> Languages { get; set; }
@@ -79,6 +77,6 @@ namespace Models.Movies
         public virtual ICollection<ImageInfo> Backdrops { get; set; }
 
         [JsonProperty("posters")]
-        public virtual ICollection<ImageInfo> Posters { get; set; } 
+        public virtual ICollection<ImageInfo> Posters { get; set; }
     }
 }

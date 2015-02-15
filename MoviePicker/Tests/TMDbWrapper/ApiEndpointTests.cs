@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,10 +12,10 @@ namespace Tests.TMDbWrapper
     [TestClass]
     public class ApiEndpointTests
     {
-        private readonly TMDbApi _api = new TMDbApi(ConfigurationManager.AppSettings["apikey"]);
         private const int ExistingMovieId = 155;
         private const int ExistingShowId = 155;
-        
+        private readonly TMDbApi _api = new TMDbApi(ConfigurationManager.AppSettings["apikey"]);
+
         [TestMethod]
         public async Task GetShowGenres_ReturnsHttpOk()
         {

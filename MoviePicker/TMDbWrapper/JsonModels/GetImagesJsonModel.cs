@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Models.Movies;
 using Newtonsoft.Json;
 
@@ -14,6 +10,6 @@ namespace TMDbWrapper.JsonModels
         public IEnumerable<ImageInfo> Backdrops { get; set; }
 
         [JsonProperty("posters")]
-        public IEnumerable<ImageInfo> Posters { get; set; } 
+        public IEnumerable<ImageInfo> Posters { get; set; }
     }
 }

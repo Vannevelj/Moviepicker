@@ -8,5 +8,6 @@ namespace Database.Repositories.Declarations
         void LikeMovie(int userId, int movieId);
         void DislikeMovie(int userId, int movieId);
         IEnumerable<Movie> GetMovies(int userId);
+        void InsertOrUpdate(Genre genre);
     }
 }

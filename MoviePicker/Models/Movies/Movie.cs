@@ -76,6 +76,6 @@ namespace Models.Movies
         public virtual ICollection<ImageInfo> Backdrops { get; set; }
 
         [JsonProperty("posters")]
-        public virtual ICollection<ImageInfo> Posters { get; set; } 
+        public virtual ICollection<ImageInfo> Posters { get; set; }
     }
 }

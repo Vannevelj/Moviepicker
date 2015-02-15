@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using Database.DatabaseModels;
 using Database.Repositories.Declarations;
 using Models.Movies;
 
@@ -34,8 +37,20 @@ namespace Database.Repositories
             // search for movie constrained by (year - 5), (year + 5) and first genre
             // For each movie that isn't inside the database: add it
 
-
             throw new NotImplementedException();
+        }
+
+        public void InsertOrUpdate(Genre genre)
+        {
+            using (var context = new MoviepickerContext())
+            {
+                if (!context.Genres.ToList().Contains(genre))
+                {
+                    Console.WriteLine("Inserting genre \"{0}\" with ID {1}", genre.Name, genre.TMDbId);
+                    context.Genres.AddOrUpdate(x => x.TMDbId, genre);
+                    context.SaveChanges();
+                }
+            }
         }
 
         private void AdjustRating(int userId, int movieId, int change)

@@ -189,3 +189,7 @@ MoviePicker/Android/MoviepickerAndroid/.idea/workspace.xml
 MoviePicker/Android/MoviepickerAndroid/.idea/libraries
 MoviePicker/Android/MoviepickerAndroid/.DS_Store
 MoviePicker/Android/MoviepickerAndroid/build
+
+# App configs
+*/App.config
+

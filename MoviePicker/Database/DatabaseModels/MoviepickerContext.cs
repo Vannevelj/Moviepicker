@@ -66,7 +66,8 @@ namespace Database.DatabaseModels
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Entity<Language>().ToTable("Languages");
-            modelBuilder.Entity<Language>().HasKey(x => x.Iso);
+            modelBuilder.Entity<Language>().HasKey(x => x.Id);
+
             modelBuilder.Entity<ImageInfo>().ToTable("Images");
             modelBuilder.Entity<ImageInfo>().HasKey(x => x.Id);
         }

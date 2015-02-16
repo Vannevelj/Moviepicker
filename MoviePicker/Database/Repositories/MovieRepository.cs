@@ -11,6 +11,13 @@ namespace Database.Repositories
 {
     public class MovieRepository : IMovieRepository
     {
+        private readonly MoviepickerContext _context;
+
+        public MovieRepository(MoviepickerContext context)
+        {
+            _context = context;
+        }
+
         public void LikeMovie(int userId, int movieId)
         {
             // retrieve movie from database
@@ -48,43 +55,37 @@ namespace Database.Repositories
 
         public void InsertOrUpdate(Genre genre)
         {
-            using (var context = new MoviepickerContext())
+            if (!_context.Genres.Any(x => x.TMDbId == genre.TMDbId))
             {
-                if (!context.Genres.Any(x => x.TMDbId == genre.TMDbId))
-                {
-                    Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TMDbId);
-                    context.Genres.AddOrUpdate(x => x.TMDbId, genre);
-                    context.SaveChanges();
-                }
-            }
+                Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TMDbId);
+                _context.Genres.AddOrUpdate(x => x.TMDbId, genre);
+                _context.SaveChanges();
+            } 
         }
 
         public void InsertOrUpdate(Movie movie)
         {
-            using (var context = new MoviepickerContext())
+            if (!_context.Movies.Any(x => x.TmdbId == movie.TmdbId))
             {
-                if (!context.Movies.Any(x => x.TmdbId == movie.TmdbId))
-                {
-                    //var localLanguages = context.Languages.ToList();
-                    //foreach (var language in movie.SpokenLanguages)
-                    //{
-                    //    if (localLanguages.Contains(language))
-                    //    {
-                    //        context.Languages.Attach(language);
-                    //    }
-                    //}
+                //var localLanguages = context.Languages.ToList();
+                //foreach (var language in movie.SpokenLanguages)
+                //{
+                //    if (localLanguages.Contains(language))
+                //    {
+                //        context.Languages.Attach(language);
+                //    }
+                //}
 
-                    var localLanguages = context.Languages.ToList();
-                    var existingLanguages = localLanguages.Union(movie.SpokenLanguages);
-                    var newLanguages = localLanguages.Except(existingLanguages).ToList();
-                    newLanguages.AddRange(existingLanguages);
-                    movie.SpokenLanguages = newLanguages;
+                var localLanguages = _context.Languages.ToList();
+                var existingLanguages = localLanguages.Union(movie.SpokenLanguages);
+                var newLanguages = localLanguages.Except(existingLanguages).ToList();
+                newLanguages.AddRange(existingLanguages);
+                movie.SpokenLanguages = newLanguages;
 
-                    movie.AddedOn = DateTime.UtcNow;
-                    Console.WriteLine("Inserting movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
-                    context.Movies.AddOrUpdate(x => x.TmdbId, movie);
-                    context.SaveChanges();
-                }
+                movie.AddedOn = DateTime.UtcNow;
+                Console.WriteLine("Inserting movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
+                _context.Movies.AddOrUpdate(x => x.TmdbId, movie);
+                _context.SaveChanges();
             }
         }
     }

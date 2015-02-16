@@ -4,6 +4,9 @@ namespace Models.Movies
 {
     public class ImageInfo
     {
+        [JsonIgnore]
+        public int Id { get; set; }
+
         [JsonProperty("aspect_ratio")]
         public double? AspectRatio { get; set; }
 

@@ -6,6 +6,18 @@ namespace Models.Movies
 {
     public class Movie
     {
+        public Movie()
+        {
+            SpokenLanguages = new List<Language>();
+            Genres = new List<Genre>();
+            Keywords = new List<Keyword>();
+            Backdrops = new List<ImageInfo>();
+            Posters = new List<ImageInfo>();
+        }
+
+        [JsonIgnore]
+        public int Id { get; set; }
+
         [JsonProperty("id")]
         public int TmdbId { get; set; }
 

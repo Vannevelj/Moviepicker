@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using Database.DatabaseModels;
@@ -40,22 +41,51 @@ namespace Database.Repositories
             throw new NotImplementedException();
         }
 
+        private void AdjustRating(int userId, int movieId, int change)
+        {
+            throw new NotImplementedException();
+        }
+
         public void InsertOrUpdate(Genre genre)
         {
             using (var context = new MoviepickerContext())
             {
-                if (!context.Genres.ToList().Contains(genre))
+                if (!context.Genres.Any(x => x.TMDbId == genre.TMDbId))
                 {
-                    Console.WriteLine("Inserting genre \"{0}\" with ID {1}", genre.Name, genre.TMDbId);
+                    Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TMDbId);
                     context.Genres.AddOrUpdate(x => x.TMDbId, genre);
                     context.SaveChanges();
                 }
             }
         }
 
-        private void AdjustRating(int userId, int movieId, int change)
+        public void InsertOrUpdate(Movie movie)
         {
-            throw new NotImplementedException();
+            using (var context = new MoviepickerContext())
+            {
+                if (!context.Movies.Any(x => x.TmdbId == movie.TmdbId))
+                {
+                    var localLanguages = context.Languages.ToList();
+                    foreach (var language in movie.SpokenLanguages)
+                    {
+                        if (localLanguages.Contains(language))
+                        {
+                            context.Languages.Attach(language);
+                        }
+                    }
+
+                    //var localLanguages = context.Languages.ToList();
+                    //var existingLanguages = localLanguages.Union(movie.SpokenLanguages);
+                    //var newLanguages = localLanguages.Except(existingLanguages).ToList();
+                    //newLanguages.AddRange(existingLanguages);
+                    //movie.SpokenLanguages = newLanguages;
+
+                    movie.AddedOn = DateTime.UtcNow;
+                    Console.WriteLine("Inserting movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
+                    context.Movies.AddOrUpdate(x => x.TmdbId, movie);
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }

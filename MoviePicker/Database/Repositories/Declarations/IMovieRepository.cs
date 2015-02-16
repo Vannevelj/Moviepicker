@@ -9,5 +9,6 @@ namespace Database.Repositories.Declarations
         void DislikeMovie(int userId, int movieId);
         IEnumerable<Movie> GetMovies(int userId);
         void InsertOrUpdate(Genre genre);
+        void InsertOrUpdate(Movie movie);
     }
 }

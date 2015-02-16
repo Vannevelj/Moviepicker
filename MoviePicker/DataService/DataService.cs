@@ -41,6 +41,7 @@ namespace DataService
         {
             var scraper = new DataScraper(ConfigurationManager.AppSettings["apikey"], new MovieRepository());
             await scraper.UpdateGenresAsync();
+            await scraper.UpdateMoviesAsync();
         }
     }
 }

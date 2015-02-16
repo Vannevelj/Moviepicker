@@ -29,6 +29,6 @@ namespace Models.Movies
         ///     Only used for posters
         /// </summary>
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public string TMDbId { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace Database.DatabaseModels
         public DbSet<User> Users { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public IDbSet<Language> Languages { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -24,7 +25,7 @@ namespace Database.DatabaseModels
             modelBuilder.Entity<User>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Entity<Movie>().ToTable("Movies");
-            modelBuilder.Entity<Movie>().HasKey(x => x.TmdbId);
+            modelBuilder.Entity<Movie>().HasKey(x => x.Id);
             modelBuilder.Entity<Movie>().HasMany(x => x.Genres).WithMany().Map(x =>
             {
                 x.ToTable("MovieGenres");
@@ -37,6 +38,24 @@ namespace Database.DatabaseModels
                 x.MapLeftKey("MovieId");
                 x.MapRightKey("LanguageCode");
             });
+            modelBuilder.Entity<Movie>().HasMany(x => x.Keywords).WithMany().Map(x =>
+            {
+                x.ToTable("MovieKeywords");
+                x.MapLeftKey("MovieId");
+                x.MapRightKey("KeywordId");
+            });
+            modelBuilder.Entity<Movie>().HasMany(x => x.Backdrops).WithMany().Map(x =>
+            {
+                x.ToTable("MovieBackdrops");
+                x.MapLeftKey("MovieId");
+                x.MapRightKey("ImageInfoId");
+            });
+            modelBuilder.Entity<Movie>().HasMany(x => x.Posters).WithMany().Map(x =>
+            {
+                x.ToTable("MoviePosters");
+                x.MapLeftKey("MovieId");
+                x.MapRightKey("ImageInfoId");
+            });
 
             modelBuilder.Entity<Genre>().ToTable("Genres");
             modelBuilder.Entity<Genre>().HasKey(x => x.Id);
@@ -48,6 +67,8 @@ namespace Database.DatabaseModels
 
             modelBuilder.Entity<Language>().ToTable("Languages");
             modelBuilder.Entity<Language>().HasKey(x => x.Iso);
+            modelBuilder.Entity<ImageInfo>().ToTable("Images");
+            modelBuilder.Entity<ImageInfo>().HasKey(x => x.Id);
         }
     }
 }

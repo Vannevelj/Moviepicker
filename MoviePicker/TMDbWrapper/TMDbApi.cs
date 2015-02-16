@@ -14,6 +14,9 @@ namespace TMDbWrapper
         private const string BaseUrl = "https://api.themoviedb.org/3/";
         private readonly string _apikey;
 
+        // Parameterless constructor only to be used for tests
+        public TMDbApi() { } 
+
         public TMDbApi(string apikey)
         {
             _apikey = apikey;

@@ -23,6 +23,8 @@ namespace Database.Migrations
                                   Lastname = "Bonkers",
                                   Password = "pissword"
                               });
+
+            context.SaveChanges();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Database.DatabaseModels
             {
                 x.ToTable("MovieLanguages");
                 x.MapLeftKey("MovieId");
-                x.MapRightKey("LanguageCode");
+                x.MapRightKey("LanguageId");
             });
             modelBuilder.Entity<Movie>().HasMany(x => x.Keywords).WithMany().Map(x =>
             {

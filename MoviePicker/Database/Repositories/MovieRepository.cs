@@ -60,20 +60,19 @@ namespace Database.Repositories
         {
             if (!_context.Movies.Any(x => x.TmdbId == movie.TmdbId))
             {
-                //var localLanguages = context.Languages.ToList();
-                //foreach (var language in movie.SpokenLanguages)
-                //{
-                //    if (localLanguages.Contains(language))
-                //    {
-                //        context.Languages.Attach(language);
-                //    }
-                //}
-
                 var localLanguages = _context.Languages.ToList();
-                var existingLanguages = localLanguages.Union(movie.SpokenLanguages);
-                var newLanguages = localLanguages.Except(existingLanguages).ToList();
-                newLanguages.AddRange(existingLanguages);
-                movie.SpokenLanguages = newLanguages;
+                foreach (var language in movie.SpokenLanguages)
+                {
+                    // More info about this approach: http://stackoverflow.com/q/28545146/1864167
+                    var localLanguage = localLanguages.Find(x => x.Iso == language.Iso);
+
+                    if (localLanguage != null)
+                    {
+                        language.Id = localLanguage.Id;
+                        _context.Entry(localLanguage).State = EntityState.Detached;
+                        _context.Languages.Attach(language);
+                    }
+                }
 
                 movie.AddedOn = DateTime.UtcNow;
                 Console.WriteLine("Inserting movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);

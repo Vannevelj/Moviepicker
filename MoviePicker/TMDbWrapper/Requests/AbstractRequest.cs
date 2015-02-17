@@ -31,19 +31,19 @@ namespace TMDbWrapper.Requests
                     var json = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<TResponse>(json);
                     return new Response<TResponse>
-                           {
-                               Data = data,
-                               StatusCode = response.StatusCode,
-                               IsSuccess = true
-                           };
+                    {
+                        Data = data,
+                        StatusCode = response.StatusCode,
+                        IsSuccess = true
+                    };
                 }
 
                 return new Response<TResponse>
-                       {
-                           Data = null,
-                           StatusCode = response.StatusCode,
-                           IsSuccess = false
-                       };
+                {
+                    Data = null,
+                    StatusCode = response.StatusCode,
+                    IsSuccess = false
+                };
             }
         }
 

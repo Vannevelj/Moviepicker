@@ -17,12 +17,12 @@ namespace Database.Migrations
             context.Users.RemoveRange(context.Users);
 
             context.Users.Add(new User
-                              {
-                                  Email = "test@test.com",
-                                  Firstname = "Frank",
-                                  Lastname = "Bonkers",
-                                  Password = "pissword"
-                              });
+            {
+                Email = "test@test.com",
+                Firstname = "Frank",
+                Lastname = "Bonkers",
+                Password = "pissword"
+            });
 
             context.SaveChanges();
         }

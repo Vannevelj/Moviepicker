@@ -13,9 +13,10 @@ namespace TMDbWrapper
     {
         private const string BaseUrl = "https://api.themoviedb.org/3/";
         private readonly string _apikey;
-
         // Parameterless constructor only to be used for tests
-        public TMDbApi() { } 
+        public TMDbApi()
+        {
+        }
 
         public TMDbApi(string apikey)
         {
@@ -31,22 +32,22 @@ namespace TMDbWrapper
         {
             var response = await new GetRequest<GetGenresJsonModel>().ExecuteRequestAsync(GetUrl("genre/tv/list"));
             return new Response<IEnumerable<Genre>>
-                   {
-                       Data = response.Data.Genres,
-                       StatusCode = response.StatusCode,
-                       IsSuccess = response.IsSuccess
-                   };
+            {
+                Data = response.Data.Genres,
+                StatusCode = response.StatusCode,
+                IsSuccess = response.IsSuccess
+            };
         }
 
         public virtual async Task<Response<IEnumerable<Genre>>> GetMovieGenresAsync()
         {
             var response = await new GetRequest<GetGenresJsonModel>().ExecuteRequestAsync(GetUrl("genre/movie/list"));
             return new Response<IEnumerable<Genre>>
-                   {
-                       Data = response.Data.Genres,
-                       StatusCode = response.StatusCode,
-                       IsSuccess = response.IsSuccess
-                   };
+            {
+                Data = response.Data.Genres,
+                StatusCode = response.StatusCode,
+                IsSuccess = response.IsSuccess
+            };
         }
 
         public virtual async Task<Response<Movie>> GetMovieAsync(int movieId)
@@ -73,11 +74,11 @@ namespace TMDbWrapper
         {
             const string dateFormat = "yyyy-MM-dd";
             var parameters = new Dictionary<string, string>
-                             {
-                                 {"start_date", from.ToString(dateFormat)},
-                                 {"end_date", to.ToString(dateFormat)},
-                                 {"page", page.ToString()}
-                             };
+            {
+                {"start_date", from.ToString(dateFormat)},
+                {"end_date", to.ToString(dateFormat)},
+                {"page", page.ToString()}
+            };
 
             return await new GetRequest<ChangeResponse>().ExecuteRequestAsync(url, urlParameters: parameters);
         }
@@ -96,11 +97,11 @@ namespace TMDbWrapper
         {
             var response = await new GetRequest<GetKeywordsJsonModel>().ExecuteRequestAsync(url);
             return new Response<IEnumerable<Keyword>>
-                   {
-                       Data = response.Data.Keywords,
-                       StatusCode = response.StatusCode,
-                       IsSuccess = response.IsSuccess
-                   };
+            {
+                Data = response.Data.Keywords,
+                StatusCode = response.StatusCode,
+                IsSuccess = response.IsSuccess
+            };
         }
 
         public virtual async Task<Response<GetImagesJsonModel>> GetMovieImagesAsync(int movieId)

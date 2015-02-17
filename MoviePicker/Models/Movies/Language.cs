@@ -20,7 +20,7 @@ namespace Models.Movies
                 return false;
             }
 
-            return ((Language)obj).Iso == Iso;
+            return ((Language) obj).Iso == Iso;
         }
 
         public override int GetHashCode()

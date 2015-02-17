@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using Database.DatabaseModels;
 using Database.Repositories.Declarations;
@@ -48,19 +46,14 @@ namespace Database.Repositories
             throw new NotImplementedException();
         }
 
-        private void AdjustRating(int userId, int movieId, int change)
-        {
-            throw new NotImplementedException();
-        }
-
         public void InsertOrUpdate(Genre genre)
         {
-            if (!_context.Genres.Any(x => x.TMDbId == genre.TMDbId))
+            if (!_context.Genres.Contains(genre))
             {
                 Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TMDbId);
-                _context.Genres.AddOrUpdate(x => x.TMDbId, genre);
+                _context.Genres.Add(genre);
                 _context.SaveChanges();
-            } 
+            }
         }
 
         public void InsertOrUpdate(Movie movie)
@@ -84,9 +77,14 @@ namespace Database.Repositories
 
                 movie.AddedOn = DateTime.UtcNow;
                 Console.WriteLine("Inserting movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
-                _context.Movies.AddOrUpdate(x => x.TmdbId, movie);
+                _context.Movies.Add(movie);
                 _context.SaveChanges();
             }
+        }
+
+        private void AdjustRating(int userId, int movieId, int change)
+        {
+            throw new NotImplementedException();
         }
     }
 }

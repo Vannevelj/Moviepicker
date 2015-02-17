@@ -41,15 +41,10 @@ namespace DataService
         private static async Task MainAsync(string[] args)
         {
             var dataService = new DataService(new MovieRepository(new MoviepickerContext()));
-            await dataService.StartScraper().ConfigureAwait(false);
-            Console.WriteLine("Data inserted");
-        }
-
-        public async Task StartScraper()
-        {
-            var scraper = new DataScraper(ConfigurationManager.AppSettings["apikey"], MovieRepository);
+            var scraper = new DataScraper(ConfigurationManager.AppSettings["apikey"], dataService.MovieRepository);
             await scraper.UpdateGenresAsync();
             await scraper.UpdateMoviesAsync();
+            Console.WriteLine("Data inserted");
         }
     }
 }

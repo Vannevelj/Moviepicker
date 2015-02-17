@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Common;
 using System.Data.Entity;
 using Models.Movies;
 using Models.Users;
@@ -12,15 +11,10 @@ namespace Database.DatabaseModels
         {
         }
 
-        // Needed for Effort to mock the database
-        public MoviepickerContext(DbConnection connection) : base(connection, true)
-        {
-        }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public IDbSet<Language> Languages { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<Genre> Genres { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

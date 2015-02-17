@@ -8,18 +8,24 @@ using TMDbWrapper;
 
 namespace DataService
 {
-    internal class DataScraper
+    public class DataScraper
     {
         private readonly TMDbApi _api;
         private readonly IMovieRepository _movieRepository;
 
-        internal DataScraper(string apiKey, IMovieRepository movieRepository)
+        public DataScraper(string apiKey, IMovieRepository movieRepository)
         {
             _api = new TMDbApi(apiKey);
             _movieRepository = movieRepository;
         }
 
-        internal async Task UpdateGenresAsync()
+        public DataScraper(TMDbApi api, IMovieRepository movieRepository)
+        {
+            _api = api;
+            _movieRepository = movieRepository;
+        }
+
+        public async Task UpdateGenresAsync()
         {
             var showResults = await _api.GetShowGenresAsync();
             if (showResults.IsSuccess)
@@ -50,7 +56,7 @@ namespace DataService
             }
         }
 
-        internal async Task UpdateMoviesAsync()
+        public async Task UpdateMoviesAsync()
         {
             const int startId = 0;
             const int endId = int.MaxValue;
@@ -60,7 +66,7 @@ namespace DataService
             }
         }
 
-        private async Task UpdateMovieAsync(int id)
+        public async Task UpdateMovieAsync(int id)
         {
             // get keywords
             // get images

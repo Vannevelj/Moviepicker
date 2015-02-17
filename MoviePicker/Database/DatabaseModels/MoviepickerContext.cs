@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Diagnostics;
 using Models.Movies;
 using Models.Users;
 
@@ -9,6 +10,7 @@ namespace Database.DatabaseModels
     {
         public MoviepickerContext() : base("name=mpdevcontext")
         {
+            Database.Log = msg => Debug.WriteLine(msg);
         }
 
         public virtual DbSet<User> Users { get; set; }

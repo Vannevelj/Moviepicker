@@ -30,7 +30,7 @@ namespace DataService
             var showResults = await _api.GetShowGenresAsync();
             if (showResults.IsSuccess)
             {
-                Console.WriteLine("Found {0} shows", showResults.Data.Count());
+                Console.WriteLine("Found {0} show genres", showResults.Data.Count());
                 foreach (var genre in showResults.Data)
                 {
                     _movieRepository.InsertOrUpdate(genre);
@@ -44,7 +44,7 @@ namespace DataService
             var movieResults = await _api.GetMovieGenresAsync();
             if (movieResults.IsSuccess)
             {
-                Console.WriteLine("Found {0} movies", movieResults.Data.Count());
+                Console.WriteLine("Found {0} movie genres", movieResults.Data.Count());
                 foreach (var genre in movieResults.Data)
                 {
                     _movieRepository.InsertOrUpdate(genre);

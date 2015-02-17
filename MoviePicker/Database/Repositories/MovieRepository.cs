@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Database.DatabaseModels;
 using Database.Repositories.Declarations;
@@ -48,7 +49,7 @@ namespace Database.Repositories
 
         public void InsertOrUpdate(Genre genre)
         {
-            if (!_context.Genres.Contains(genre))
+            if (!_context.Genres.Any(x => x.TMDbId == genre.TMDbId))
             {
                 Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TMDbId);
                 _context.Genres.Add(genre);

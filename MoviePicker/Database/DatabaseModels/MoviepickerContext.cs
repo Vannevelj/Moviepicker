@@ -8,7 +8,12 @@ namespace Database.DatabaseModels
 {
     public class MoviepickerContext : DbContext
     {
-        public MoviepickerContext() : base("name=mpdevcontext")
+        public MoviepickerContext() : this("name=mpdevcontext")
+        {
+            
+        }
+
+        public MoviepickerContext(string connection) : base(connection)
         {
             Database.Log = msg => Debug.WriteLine(msg);
         }

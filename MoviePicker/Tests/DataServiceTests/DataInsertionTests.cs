@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -29,8 +30,7 @@ namespace Tests.DataServiceTests
         public async Task GetGenresAsync_WithNewGenres_InsertsGenresInDatabase()
         {
             // Arrange
-            var context = new Mock<MoviepickerContext>();
-            var genreMock = new Mock<DbSet<Genre>>();
+            var context = new MoviepickerContext("name=localdb");
             var existingGenres = new[]
             {
                 new Genre
@@ -43,22 +43,9 @@ namespace Tests.DataServiceTests
                     TMDbId = 8942,
                     Name = "Comedy"
                 }
-            }.AsQueryable();
-            genreMock.As<IQueryable<Genre>>().Setup(x => x.Provider).Returns(existingGenres.Provider);
-            genreMock.As<IQueryable<Genre>>().Setup(x => x.Expression).Returns(existingGenres.Expression);
-            genreMock.As<IQueryable<Genre>>().Setup(x => x.ElementType).Returns(existingGenres.ElementType);
-            genreMock.As<IQueryable<Genre>>()
-                .Setup(x => x.GetEnumerator())
-                .Returns(() => existingGenres.GetEnumerator());
-            context.Setup(x => x.Genres).Returns(genreMock.Object);
-
-            //var movieMock = new Mock<DbSet<Movie>>();
-            //var movies = GetMovies().AsQueryable();
-            //movieMock.As<IQueryable<Movie>>().Setup(x => x.Provider).Returns(movies.Provider);
-            //movieMock.As<IQueryable<Movie>>().Setup(x => x.Expression).Returns(movies.Expression);
-            //movieMock.As<IQueryable<Movie>>().Setup(x => x.ElementType).Returns(movies.ElementType);
-            //movieMock.As<IQueryable<Movie>>().Setup(x => x.GetEnumerator()).Returns(movies.GetEnumerator());
-            //context.Setup(x => x.Movies).Returns(movieMock.Object);
+            };
+            context.Genres.AddRange(existingGenres);
+            context.SaveChanges();
 
             var newMovieGenres = new[]
             {
@@ -73,6 +60,7 @@ namespace Tests.DataServiceTests
                     Name = "War"
                 }
             };
+
             var apiMock = new Mock<TMDbApi>();
             apiMock.Setup(x => x.GetMovieGenresAsync())
                 .Returns(
@@ -110,15 +98,15 @@ namespace Tests.DataServiceTests
                                 StatusCode = HttpStatusCode.OK
                             }));
 
-            var repository = new MovieRepository(context.Object);
+            var repository = new MovieRepository(context);
             var dataScraper = new DataScraper(apiMock.Object, repository);
 
             // Act
             await dataScraper.UpdateGenresAsync();
 
             // Assert
-            context.Object.Genres.Should().NotBeEmpty();
-            context.Object.Genres.Should()
+            context.Genres.Should().NotBeEmpty();
+            context.Genres.Should()
                 .HaveCount(existingGenres.Count() + newMovieGenres.Count() + newShowGenres.Count());
             //context.Object.Movies.Should().BeEmpty();
         }

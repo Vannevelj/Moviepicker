@@ -74,7 +74,6 @@
     <Compile Include="DataServiceTests\DataInsertionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TMDbWrapper\ApiEndpointTests.cs" />
-    <Compile Include="Utilities\TestDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Database\Database.csproj">
@@ -98,6 +97,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

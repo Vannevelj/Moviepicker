@@ -10,7 +10,6 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Movies;
 using Moq;
-using Tests.Utilities;
 using TMDbWrapper;
 using TMDbWrapper.Requests;
 
@@ -32,11 +31,25 @@ namespace Tests.DataServiceTests
             // Arrange
             var context = new Mock<MoviepickerContext>();
             var genreMock = new Mock<DbSet<Genre>>();
-            var existingGenres = TestDataProvider.GetGenres().Take(2).AsQueryable();
+            var existingGenres = new[]
+            {
+                new Genre
+                {
+                    TMDbId = 15,
+                    Name = "Horror"
+                },
+                new Genre
+                {
+                    TMDbId = 8942,
+                    Name = "Comedy"
+                }
+            }.AsQueryable();
             genreMock.As<IQueryable<Genre>>().Setup(x => x.Provider).Returns(existingGenres.Provider);
             genreMock.As<IQueryable<Genre>>().Setup(x => x.Expression).Returns(existingGenres.Expression);
             genreMock.As<IQueryable<Genre>>().Setup(x => x.ElementType).Returns(existingGenres.ElementType);
-            genreMock.As<IQueryable<Genre>>().Setup(x => x.GetEnumerator()).Returns(() => existingGenres.GetEnumerator());
+            genreMock.As<IQueryable<Genre>>()
+                .Setup(x => x.GetEnumerator())
+                .Returns(() => existingGenres.GetEnumerator());
             context.Setup(x => x.Genres).Returns(genreMock.Object);
 
             //var movieMock = new Mock<DbSet<Movie>>();
@@ -47,10 +60,22 @@ namespace Tests.DataServiceTests
             //movieMock.As<IQueryable<Movie>>().Setup(x => x.GetEnumerator()).Returns(movies.GetEnumerator());
             //context.Setup(x => x.Movies).Returns(movieMock.Object);
 
-            var newMovieGenres = TestDataProvider.GetGenres().Skip(2).Take(2);
+            var newMovieGenres = new[]
+            {
+                new Genre
+                {
+                    TMDbId = 1234,
+                    Name = "Drama"
+                },
+                new Genre
+                {
+                    TMDbId = 2345,
+                    Name = "War"
+                }
+            };
             var apiMock = new Mock<TMDbApi>();
             apiMock.Setup(x => x.GetMovieGenresAsync())
-                .Returns( 
+                .Returns(
                     Task.Run(
                         () =>
                             new Response<IEnumerable<Genre>>
@@ -61,9 +86,21 @@ namespace Tests.DataServiceTests
                             }));
 
 
-            var newShowGenres = TestDataProvider.GetGenres().Skip(4).Take(2);
+            var newShowGenres = new[]
+            {
+                new Genre
+                {
+                    TMDbId = 3456,
+                    Name = "Cartoon"
+                },
+                new Genre
+                {
+                    TMDbId = 4567,
+                    Name = "History"
+                }
+            };
             apiMock.Setup(x => x.GetShowGenresAsync())
-                .Returns( 
+                .Returns(
                     Task.Run(
                         () =>
                             new Response<IEnumerable<Genre>>

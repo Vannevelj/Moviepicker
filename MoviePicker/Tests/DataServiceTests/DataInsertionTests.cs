@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using Database.DatabaseModels;
@@ -19,13 +21,18 @@ namespace Tests.DataServiceTests
     [TestClass]
     public class DataInsertionTests
     {
-        private TMDbApi _api;
+        private Mock<TMDbApi> _api;
         private MoviepickerContext _context;
+        private MovieRepository _movieRepository;
+        private DataScraper _dataScraper;
 
         [TestInitialize]
         public void Initialize()
         {
             _context = new MoviepickerContext("name=localdb");
+            _movieRepository = new MovieRepository(_context);
+            _api = new Mock<TMDbApi>();
+            _dataScraper = new DataScraper(_api.Object, _movieRepository);
         }
 
         [TestCleanup]
@@ -71,19 +78,7 @@ namespace Tests.DataServiceTests
                     Name = "War"
                 }
             };
-
-            var apiMock = new Mock<TMDbApi>();
-            apiMock.Setup(x => x.GetMovieGenresAsync())
-                .Returns(
-                    Task.Run(
-                        () =>
-                            new Response<IEnumerable<Genre>>
-                            {
-                                Data = newMovieGenres,
-                                IsSuccess = true,
-                                StatusCode = HttpStatusCode.OK
-                            }));
-
+            SetupMethod(_api, x => x.GetMovieGenresAsync(), newMovieGenres);
 
             var newShowGenres = new[]
             {
@@ -98,26 +93,25 @@ namespace Tests.DataServiceTests
                     Name = "History"
                 }
             };
-            apiMock.Setup(x => x.GetShowGenresAsync())
-                .Returns(
-                    Task.Run(
-                        () =>
-                            new Response<IEnumerable<Genre>>
-                            {
-                                Data = newShowGenres,
-                                IsSuccess = true,
-                                StatusCode = HttpStatusCode.OK
-                            }));
-
-            var repository = new MovieRepository(_context);
-            var dataScraper = new DataScraper(apiMock.Object, repository);
+            SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
 
             // Act
-            await dataScraper.UpdateGenresAsync();
+            await _dataScraper.UpdateGenresAsync();
 
             // Assert
             _context.Genres.Should().NotBeEmpty();
-            _context.Genres.Should().HaveCount(existingGenres.Count() + newMovieGenres.Count() + newShowGenres.Count());
+            _context.Genres.Should().HaveCount(existingGenres.Count() + newMovieGenres.Count() + newShowGenres.Count()); 
+        }
+
+        private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class
+        {
+            api.Setup(method)
+                .ReturnsAsync(new Response<TResponse>
+                {
+                    Data = data,
+                    IsSuccess = true,
+                    StatusCode = HttpStatusCode.OK
+                });
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -23,8 +20,8 @@ namespace Tests.DataServiceTests
     {
         private Mock<TMDbApi> _api;
         private MoviepickerContext _context;
-        private MovieRepository _movieRepository;
         private DataScraper _dataScraper;
+        private MovieRepository _movieRepository;
 
         [TestInitialize]
         public void Initialize()
@@ -46,61 +43,65 @@ namespace Tests.DataServiceTests
         }
 
         [TestMethod]
-        public async Task GetGenresAsync_WithNewGenres_InsertsGenresInDatabase()
+        public async Task GetGenresAsync_WithNewMovieGenres_InsertsGenresInDatabase()
         {
             // Arrange
-            var existingGenres = new[]
-            {
-                new Genre
-                {
-                    TMDbId = 15,
-                    Name = "Horror"
-                },
-                new Genre
-                {
-                    TMDbId = 8942,
-                    Name = "Comedy"
-                }
-            };
+            var existingGenres = new[] {new Genre(15, "Horror"), new Genre(8942, "Comedy")};
             _context.Genres.AddRange(existingGenres);
-            _context.SaveChanges();
 
-            var newMovieGenres = new[]
-            {
-                new Genre
-                {
-                    TMDbId = 1234,
-                    Name = "Drama"
-                },
-                new Genre
-                {
-                    TMDbId = 2345,
-                    Name = "War"
-                }
-            };
+            var newMovieGenres = new[] {new Genre(9845, "Drama"), new Genre(87422, "War")};
             SetupMethod(_api, x => x.GetMovieGenresAsync(), newMovieGenres);
-
-            var newShowGenres = new[]
-            {
-                new Genre
-                {
-                    TMDbId = 3456,
-                    Name = "Cartoon"
-                },
-                new Genre
-                {
-                    TMDbId = 4567,
-                    Name = "History"
-                }
-            };
-            SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
+            SetupMethod(_api, x => x.GetShowGenresAsync(), new Genre[] {});
 
             // Act
             await _dataScraper.UpdateGenresAsync();
 
             // Assert
             _context.Genres.Should().NotBeEmpty();
-            _context.Genres.Should().HaveCount(existingGenres.Count() + newMovieGenres.Count() + newShowGenres.Count()); 
+            _context.Genres.Should().HaveCount(existingGenres.Count() + newMovieGenres.Count());
+        }
+
+        [TestMethod]
+        public async Task GetGenresAsync_WithNewShowGenres_InsertsGenresInDatabase()
+        {
+            // Arrange
+            var existingGenres = new[] {new Genre(15, "Horror"), new Genre(8942, "Comedy")};
+            _context.Genres.AddRange(existingGenres);
+
+            var newShowGenres = new[] {new Genre(9845, "Drama"), new Genre(87422, "War")};
+            SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
+            SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] {});
+
+            // Act
+            await _dataScraper.UpdateGenresAsync();
+
+            // Assert
+            _context.Genres.Should().NotBeEmpty();
+            _context.Genres.Should().HaveCount(existingGenres.Count() + newShowGenres.Count());
+        }
+
+        [TestMethod]
+        public async Task GetGenresAsync_WithExistingGenres_DoesNotChangeExistingGenres()
+        {
+            // Arrange
+            const int genreId = 8942;
+            var existingGenres = new[] { new Genre(15, "Horror"), new Genre(genreId, "Comedy") };
+            _context.Genres.AddRange(existingGenres);
+            _context.SaveChanges();
+            int initialId = _context.Genres.First(x => x.TMDbId == genreId).Id;
+
+            var newShowGenres = new[] { new Genre(9845, "Drama"), new Genre(genreId, "Comedy") };
+            SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
+            SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] {});
+
+            // Act
+            await _dataScraper.UpdateGenresAsync();
+
+            // Assert
+            int resultingId = _context.Genres.First(x => x.TMDbId == genreId).Id;
+            _context.Genres.Should().NotBeEmpty();
+            _context.Genres.Should().HaveCount(3);
+            resultingId.Should().Be(initialId);
         }
 
         private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class

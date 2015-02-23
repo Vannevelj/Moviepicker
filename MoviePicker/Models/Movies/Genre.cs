@@ -16,6 +16,17 @@ namespace Models.Movies
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        public Genre()
+        {
+            
+        }
+
+        public Genre(int tmdbId, string name)
+        {
+            TMDbId = tmdbId;
+            Name = name;
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is Genre))

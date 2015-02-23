@@ -20,17 +20,28 @@ namespace Tests.DataServiceTests
     public class DataInsertionTests
     {
         private TMDbApi _api;
+        private MoviepickerContext _context;
 
         [TestInitialize]
         public void Initialize()
         {
+            _context = new MoviepickerContext("name=localdb");
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            _context.Genres.RemoveRange(_context.Genres);
+            _context.Users.RemoveRange(_context.Users);
+            _context.Languages.RemoveRange(_context.Languages);
+            _context.Movies.RemoveRange(_context.Movies);
+            _context.SaveChanges();
         }
 
         [TestMethod]
         public async Task GetGenresAsync_WithNewGenres_InsertsGenresInDatabase()
         {
             // Arrange
-            var context = new MoviepickerContext("name=localdb");
             var existingGenres = new[]
             {
                 new Genre
@@ -44,8 +55,8 @@ namespace Tests.DataServiceTests
                     Name = "Comedy"
                 }
             };
-            context.Genres.AddRange(existingGenres);
-            context.SaveChanges();
+            _context.Genres.AddRange(existingGenres);
+            _context.SaveChanges();
 
             var newMovieGenres = new[]
             {
@@ -98,17 +109,15 @@ namespace Tests.DataServiceTests
                                 StatusCode = HttpStatusCode.OK
                             }));
 
-            var repository = new MovieRepository(context);
+            var repository = new MovieRepository(_context);
             var dataScraper = new DataScraper(apiMock.Object, repository);
 
             // Act
             await dataScraper.UpdateGenresAsync();
 
             // Assert
-            context.Genres.Should().NotBeEmpty();
-            context.Genres.Should()
-                .HaveCount(existingGenres.Count() + newMovieGenres.Count() + newShowGenres.Count());
-            //context.Object.Movies.Should().BeEmpty();
+            _context.Genres.Should().NotBeEmpty();
+            _context.Genres.Should().HaveCount(existingGenres.Count() + newMovieGenres.Count() + newShowGenres.Count());
         }
     }
 }

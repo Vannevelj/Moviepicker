@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +16,15 @@ namespace Tests.TMDbWrapper
         private const int ExistingMovieId = 155;
         private const int ExistingShowId = 155;
         private readonly TMDbApi _api = new TMDbApi(ConfigurationManager.AppSettings["apikey"]);
+
+        /// <summary>
+        /// The external API limits the amount of requests in a short period
+        /// </summary>
+        [TestCleanup]
+        public void CleanUp()
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+        }
 
         [TestMethod]
         public async Task GetShowGenres_ReturnsHttpOk()

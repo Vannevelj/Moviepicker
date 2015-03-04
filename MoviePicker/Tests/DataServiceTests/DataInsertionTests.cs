@@ -79,7 +79,7 @@ namespace Tests.DataServiceTests
             var existingGenres = new[] { new Genre(15, "Horror"), new Genre(genreId, "Comedy") };
             _context.Genres.AddRange(existingGenres);
             _context.SaveChanges();
-            int initialId = _context.Genres.First(x => x.TMDbId == genreId).Id;
+            int initialId = _context.Genres.Single(x => x.TMDbId == genreId).Id;
 
             var newShowGenres = new[] { new Genre(9845, "Drama"), new Genre(genreId, "Comedy") };
             SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
@@ -89,7 +89,7 @@ namespace Tests.DataServiceTests
             await _dataScraper.UpdateGenresAsync();
 
             // Assert
-            int resultingId = _context.Genres.First(x => x.TMDbId == genreId).Id;
+            int resultingId = _context.Genres.Single(x => x.TMDbId == genreId).Id;
             _context.Genres.Should().NotBeEmpty();
             _context.Genres.Should().HaveCount(3);
             resultingId.Should().Be(initialId);

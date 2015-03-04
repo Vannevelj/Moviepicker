@@ -33,16 +33,6 @@ namespace Tests.DataServiceTests
             _dataScraper = new DataScraper(_api.Object, _movieRepository);
         }
 
-        [TestCleanup]
-        public void CleanUp()
-        {
-            _context.Genres.RemoveRange(_context.Genres);
-            _context.Users.RemoveRange(_context.Users);
-            _context.Languages.RemoveRange(_context.Languages);
-            _context.Movies.RemoveRange(_context.Movies);
-            _context.SaveChanges();
-        }
-
         [TestMethod]
         public async Task GetGenresAsync_WithNewMovieGenres_InsertsGenresInDatabase()
         {

@@ -11,7 +11,6 @@ namespace Database.DatabaseModels
     {
         public MoviepickerContext() : base("name=mpdevcontext")
         {
-            
         }
 
         public MoviepickerContext(DbConnection connection) : base(connection, true)
@@ -23,6 +22,7 @@ namespace Database.DatabaseModels
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Keyword> Keywords { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -78,6 +78,9 @@ namespace Database.DatabaseModels
 
             modelBuilder.Entity<ImageInfo>().ToTable("Images");
             modelBuilder.Entity<ImageInfo>().HasKey(x => x.Id);
+
+            modelBuilder.Entity<Keyword>().ToTable("Keywords");
+            modelBuilder.Entity<Keyword>().HasKey(x => x.Id);
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Migrations.Migrations
 
         protected override void Seed(MoviepickerContext context)
         {
-
         }
     }
 }

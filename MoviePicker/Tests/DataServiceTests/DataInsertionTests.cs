@@ -11,7 +11,9 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Movies;
 using Moq;
+using Tests.TestUtilities;
 using TMDbWrapper;
+using TMDbWrapper.JsonModels;
 using TMDbWrapper.Requests;
 
 namespace Tests.DataServiceTests
@@ -34,7 +36,8 @@ namespace Tests.DataServiceTests
         }
 
         [TestMethod]
-        public async Task GetGenresAsync_WithNewMovieGenres_InsertsGenresInDatabase()
+        [TestCategory("Unit_DATASCRAPER")]
+        public async Task UpdateGenresAsync_WithNewMovieGenres_InsertsGenresInDatabase()
         {
             // Arrange
             var existingGenres = new[] {new Genre(15, "Horror"), new Genre(8942, "Comedy")};
@@ -48,12 +51,12 @@ namespace Tests.DataServiceTests
             await _dataScraper.UpdateGenresAsync();
 
             // Assert
-            _context.Genres.Should().NotBeEmpty();
             _context.Genres.Should().HaveCount(existingGenres.Count() + newMovieGenres.Count());
         }
 
         [TestMethod]
-        public async Task GetGenresAsync_WithNewShowGenres_InsertsGenresInDatabase()
+        [TestCategory("Unit_DATASCRAPER")]
+        public async Task UpdateGenresAsync_WithNewShowGenres_InsertsGenresInDatabase()
         {
             // Arrange
             var existingGenres = new[] {new Genre(15, "Horror"), new Genre(8942, "Comedy")};
@@ -67,21 +70,21 @@ namespace Tests.DataServiceTests
             await _dataScraper.UpdateGenresAsync();
 
             // Assert
-            _context.Genres.Should().NotBeEmpty();
             _context.Genres.Should().HaveCount(existingGenres.Count() + newShowGenres.Count());
         }
 
         [TestMethod]
-        public async Task GetGenresAsync_WithExistingGenres_DoesNotChangeExistingGenres()
+        [TestCategory("Unit_DATASCRAPER")]
+        public async Task UpdateGenresAsync_WithExistingGenres_DoesNotChangeExistingGenres()
         {
             // Arrange
             const int genreId = 8942;
-            var existingGenres = new[] { new Genre(15, "Horror"), new Genre(genreId, "Comedy") };
+            var existingGenres = new[] {new Genre(15, "Horror"), new Genre(genreId, "Comedy")};
             _context.Genres.AddRange(existingGenres);
             _context.SaveChanges();
-            int initialId = _context.Genres.Single(x => x.TMDbId == genreId).Id;
+            var initialId = _context.Genres.Single(x => x.TMDbId == genreId).Id;
 
-            var newShowGenres = new[] { new Genre(9845, "Drama"), new Genre(genreId, "Comedy") };
+            var newShowGenres = new[] {new Genre(9845, "Drama"), new Genre(genreId, "Comedy")};
             SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
             SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] {});
 
@@ -89,10 +92,39 @@ namespace Tests.DataServiceTests
             await _dataScraper.UpdateGenresAsync();
 
             // Assert
-            int resultingId = _context.Genres.Single(x => x.TMDbId == genreId).Id;
-            _context.Genres.Should().NotBeEmpty();
+            var resultingId = _context.Genres.Single(x => x.TMDbId == genreId).Id;
             _context.Genres.Should().HaveCount(3);
             resultingId.Should().Be(initialId);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        public async Task UpdateMovieAsync_WithoutExistingData_InsertsMovieInDatabase()
+        {
+            // Arrange
+            const int movieId = 15;
+            var newKeywords = TestDataProvider.GetKeywords().ToList();
+            var newBackdrops = TestDataProvider.GetBackdrops().ToList();
+            var newPosters = TestDataProvider.GetPosters().ToList();
+            SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), newKeywords);
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = newBackdrops, Posters = newPosters});
+
+            var newMovie = TestDataProvider.GetMovie();
+            newMovie.SpokenLanguages = TestDataProvider.GetLanguages().ToList();
+            SetupMethod(_api, x => x.GetMovieAsync(movieId), newMovie);
+
+            // Act
+            await _dataScraper.UpdateMovieAsync(15);
+
+            // Assert
+            _context.Movies.Should().HaveCount(1);
+            _context.Movies.First().Title.Should().Be(newMovie.Title);
+            _context.Keywords.Should().HaveCount(newKeywords.Count);
+            _context.Movies.First().Keywords.Should().HaveCount(newKeywords.Count);
+            _context.Movies.First().Backdrops.Should().HaveCount(newBackdrops.Count);
+            _context.Movies.First().Posters.Should().HaveCount(newPosters.Count);
+            _context.Languages.Should().HaveCount(newMovie.SpokenLanguages.Count);
+            _context.Movies.First().SpokenLanguages.Should().HaveCount(newMovie.SpokenLanguages.Count);
         }
 
         private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class

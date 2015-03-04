@@ -18,7 +18,7 @@ namespace Tests.TMDbWrapper
         private readonly TMDbApi _api = new TMDbApi(ConfigurationManager.AppSettings["apikey"]);
 
         /// <summary>
-        /// The external API limits the amount of requests in a short period
+        ///     The external API limits the amount of requests in a short period
         /// </summary>
         [TestCleanup]
         public void CleanUp()
@@ -27,30 +27,35 @@ namespace Tests.TMDbWrapper
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetShowGenres_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetShowGenresAsync());
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetMovieGenres_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetMovieGenresAsync());
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetMovie_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetMovieAsync(ExistingMovieId));
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetShow_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetShowAsync(ExistingShowId));
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetChangedMovies_ReturnsHttpOk()
         {
             var from = new DateTime(2015, 01, 01);
@@ -60,6 +65,7 @@ namespace Tests.TMDbWrapper
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetChangedShows_ReturnsHttpOk()
         {
             var from = new DateTime(2015, 01, 01);
@@ -69,24 +75,28 @@ namespace Tests.TMDbWrapper
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetMovieKeywords_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetMovieKeywordsAsync(ExistingMovieId));
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetShowKeywords_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetShowKeywordsAsync(ExistingShowId));
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetMovieImages_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetMovieImagesAsync(ExistingMovieId));
         }
 
         [TestMethod]
+        [TestCategory("Integration_API")]
         public async Task GetShowImages_ReturnsHttpOk()
         {
             VerifyStatusCode(await _api.GetShowImagesAsync(ExistingShowId));

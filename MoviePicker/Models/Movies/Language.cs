@@ -4,6 +4,16 @@ namespace Models.Movies
 {
     public class Language
     {
+        public Language()
+        {
+        }
+
+        public Language(string iso, string name)
+        {
+            Iso = iso;
+            Name = name;
+        }
+
         [JsonIgnore]
         public int Id { get; set; }
 

@@ -4,6 +4,16 @@ namespace Models.Movies
 {
     public class Genre
     {
+        public Genre()
+        {
+        }
+
+        public Genre(int tmdbId, string name)
+        {
+            TMDbId = tmdbId;
+            Name = name;
+        }
+
         /// <summary>
         ///     This ID is used for internal representation in the database
         /// </summary>
@@ -15,17 +25,6 @@ namespace Models.Movies
 
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        public Genre()
-        {
-            
-        }
-
-        public Genre(int tmdbId, string name)
-        {
-            TMDbId = tmdbId;
-            Name = name;
-        }
 
         public override bool Equals(object obj)
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Database.DatabaseModels;
 using Database.Repositories;
 using DataService;
+using Effort;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Movies;
@@ -26,7 +27,7 @@ namespace Tests.DataServiceTests
         [TestInitialize]
         public void Initialize()
         {
-            _context = new MoviepickerContext("name=localdb");
+            _context = new MoviepickerContext(DbConnectionFactory.CreateTransient());
             _movieRepository = new MovieRepository(_context);
             _api = new Mock<TMDbApi>();
             _dataScraper = new DataScraper(_api.Object, _movieRepository);

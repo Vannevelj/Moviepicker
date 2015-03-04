@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Diagnostics;
 using Models.Movies;
@@ -8,12 +9,12 @@ namespace Database.DatabaseModels
 {
     public class MoviepickerContext : DbContext
     {
-        public MoviepickerContext() : this("name=mpdevcontext")
+        public MoviepickerContext() : base("name=mpdevcontext")
         {
             
         }
 
-        public MoviepickerContext(string connection) : base(connection)
+        public MoviepickerContext(DbConnection connection) : base(connection, true)
         {
             Database.Log = msg => Debug.WriteLine(msg);
         }

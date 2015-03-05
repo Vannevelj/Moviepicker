@@ -150,7 +150,7 @@ namespace Tests.DataServiceTests
 
             // Assert
             _context.Keywords.Should().HaveCount(existingKeywords.Count);
-            _context.Movies.First().Keywords.Should().HaveCount(existingKeywords.Count);
+            _context.Movies.First().Keywords.Should().HaveCount(newKeywords.Count);
             _context.Keywords.Should().BeEquivalentTo(newKeywords);
         }
 
@@ -177,8 +177,35 @@ namespace Tests.DataServiceTests
 
             // Assert
             _context.Languages.Should().HaveCount(existingLanguages.Count);
-            _context.Movies.First().SpokenLanguages.Should().HaveCount(existingLanguages.Count);
+            _context.Movies.First().SpokenLanguages.Should().HaveCount(newLanguages.Count);
             _context.Languages.Should().BeEquivalentTo(newLanguages);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        public async Task UpdateMovieAsync_WithExistingGenres_DoesNotDuplicateGenres()
+        {
+            // Arrange
+            var existingGenres = TestDataProvider.GetGenres().ToList();
+            _context.Genres.AddRange(existingGenres);
+            _context.SaveChanges();
+
+            const int movieId = 15;
+            SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), Enumerable.Empty<Keyword>());
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<ImageInfo>(), Posters = Enumerable.Empty<ImageInfo>()});
+
+            var newMovie = TestDataProvider.GetMovie();
+            var newGenres = TestDataProvider.GetGenres().ToList();
+            newMovie.Genres.AddRange(newGenres);
+            SetupMethod(_api, x => x.GetMovieAsync(movieId), newMovie);
+
+            // Act
+            await _dataScraper.UpdateMovieAsync(movieId);
+
+            // Assert
+            _context.Genres.Should().HaveCount(existingGenres.Count);
+            _context.Movies.First().SpokenLanguages.Should().HaveCount(newGenres.Count);
+            _context.Genres.Should().BeEquivalentTo(newGenres);
         }
 
         private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class

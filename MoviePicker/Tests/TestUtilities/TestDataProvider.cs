@@ -70,5 +70,12 @@ namespace Tests.TestUtilities
             yield return new Language("nl-BE", "Nederlands");
             yield return new Language("fr-FR", "Français");
         }
+
+        public static IEnumerable<Genre> GetGenres()
+        {
+            yield return new Genre(148, "Horror");
+            yield return new Genre(8411, "Comedy");
+            yield return new Genre(974, "Adventure");
+        } 
     }
 }

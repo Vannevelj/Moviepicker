@@ -114,7 +114,7 @@ namespace Tests.DataServiceTests
             SetupMethod(_api, x => x.GetMovieAsync(movieId), newMovie);
 
             // Act
-            await _dataScraper.UpdateMovieAsync(15);
+            await _dataScraper.UpdateMovieAsync(movieId);
 
             // Assert
             _context.Movies.Should().HaveCount(1);
@@ -125,6 +125,31 @@ namespace Tests.DataServiceTests
             _context.Movies.First().Posters.Should().HaveCount(newPosters.Count);
             _context.Languages.Should().HaveCount(newMovie.SpokenLanguages.Count);
             _context.Movies.First().SpokenLanguages.Should().HaveCount(newMovie.SpokenLanguages.Count);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        public async Task UpdateMovieAsync_WithExistingKeywords_DoesNotDuplicateKeywords()
+        {
+            // Arrange
+            var existingKeywords = TestDataProvider.GetKeywords().ToList();
+            _context.Keywords.AddRange(existingKeywords);
+            _context.SaveChanges();
+
+            const int movieId = 15;
+            SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), existingKeywords);
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<ImageInfo>(), Posters = Enumerable.Empty<ImageInfo>()});
+
+            var newMovie = TestDataProvider.GetMovie();
+            SetupMethod(_api, x => x.GetMovieAsync(movieId), newMovie);
+
+            // Act
+            await _dataScraper.UpdateMovieAsync(movieId);
+
+            // Assert
+            _context.Keywords.Should().HaveCount(existingKeywords.Count);
+            _context.Movies.First().Keywords.Should().HaveCount(existingKeywords.Count);
+            _context.Keywords.Should().BeEquivalentTo(existingKeywords);
         }
 
         private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class

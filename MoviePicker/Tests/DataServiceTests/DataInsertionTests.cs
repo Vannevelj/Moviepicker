@@ -10,6 +10,7 @@ using Effort;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Movies;
+using Models.Utilities;
 using Moq;
 using Tests.TestUtilities;
 using TMDbWrapper;
@@ -137,7 +138,8 @@ namespace Tests.DataServiceTests
             _context.SaveChanges();
 
             const int movieId = 15;
-            SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), existingKeywords);
+            var newKeywords = TestDataProvider.GetKeywords().ToList();
+            SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), newKeywords);
             SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<ImageInfo>(), Posters = Enumerable.Empty<ImageInfo>()});
 
             var newMovie = TestDataProvider.GetMovie();
@@ -149,7 +151,34 @@ namespace Tests.DataServiceTests
             // Assert
             _context.Keywords.Should().HaveCount(existingKeywords.Count);
             _context.Movies.First().Keywords.Should().HaveCount(existingKeywords.Count);
-            _context.Keywords.Should().BeEquivalentTo(existingKeywords);
+            _context.Keywords.Should().BeEquivalentTo(newKeywords);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        public async Task UpdateMovieAsync_WithExistingLanguages_DoesNotDuplicateLanguages()
+        {
+            // Arrange
+            var existingLanguages = TestDataProvider.GetLanguages().ToList();
+            _context.Languages.AddRange(existingLanguages);
+            _context.SaveChanges();
+
+            const int movieId = 15;
+            SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), Enumerable.Empty<Keyword>());
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<ImageInfo>(), Posters = Enumerable.Empty<ImageInfo>()});
+
+            var newMovie = TestDataProvider.GetMovie();
+            var newLanguages = TestDataProvider.GetLanguages().ToList();
+            newMovie.SpokenLanguages.AddRange(newLanguages);
+            SetupMethod(_api, x => x.GetMovieAsync(movieId), newMovie);
+
+            // Act
+            await _dataScraper.UpdateMovieAsync(movieId);
+
+            // Assert
+            _context.Languages.Should().HaveCount(existingLanguages.Count);
+            _context.Movies.First().SpokenLanguages.Should().HaveCount(existingLanguages.Count);
+            _context.Languages.Should().BeEquivalentTo(newLanguages);
         }
 
         private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class

@@ -208,6 +208,48 @@ namespace Tests.DataServiceTests
             _context.Genres.Should().BeEquivalentTo(newGenres);
         }
 
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        [Ignore]
+        public async Task UpdateMovieAsync_WithExistingMovie_UpdatesFields()
+        {
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        [Ignore]
+        public async Task UpdateShowAsync_WithoutExistingData_InsertsShowInDatabase()
+        {
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        [Ignore]
+        public async Task UpdateShowAsync_WithExistingShow_UpdatesFields()
+        {
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        [Ignore]
+        public async Task UpdateShowAsync_WithExistingKeywords_DoesNotDuplicateKeywords()
+        {
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        [Ignore]
+        public async Task UpdateShowAsync_WithExistingLanguages_DoesNotDuplicateLanguages()
+        {
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_DATASCRAPER")]
+        [Ignore]
+        public async Task UpdateShowAsync_WithExistingGenres_DoesNotDuplicateGenres()
+        {
+        }
+
         private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class
         {
             api.Setup(method)

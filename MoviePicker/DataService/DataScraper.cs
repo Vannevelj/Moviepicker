@@ -100,5 +100,33 @@ namespace DataService
 
             _movieRepository.InsertOrUpdate(movie);
         }
+
+        public async Task UpdateShowAsync(int id)
+        {
+            // get images
+            // get movie
+            // combine
+
+            Show show;
+            var showResult = await _api.GetShowAsync(id);
+            if (showResult.IsSuccess)
+            {
+                show = showResult.Data;
+            }
+            else
+            {
+                Console.WriteLine("Could not find show with ID {0}", id);
+                return;
+            }
+
+            var imageResult = await _api.GetShowImagesAsync(id);
+            if (imageResult.IsSuccess)
+            {
+                show.Posters.AddRange(imageResult.Data.Posters);
+                show.Backdrops.AddRange(imageResult.Data.Backdrops);
+            }
+
+            _movieRepository.InsertOrUpdate(show);
+        }
     }
 }

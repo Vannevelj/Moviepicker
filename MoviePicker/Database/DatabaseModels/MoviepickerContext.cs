@@ -20,9 +20,12 @@ namespace Database.DatabaseModels
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<Show> Shows { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Keyword> Keywords { get; set; }
+        public virtual DbSet<BackdropImageInfo> Backdrops { get; set; }
+        public virtual DbSet<PosterImageInfo> Posters { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -33,14 +36,15 @@ namespace Database.DatabaseModels
             modelBuilder.Entity<User>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Entity<Movie>().ToTable("Movies");
-            modelBuilder.Entity<Movie>().HasKey(x => x.Id);
+            modelBuilder.Entity<Movie>().HasKey(x => x.TmdbId);
+            modelBuilder.Entity<Movie>().Property(x => x.TmdbId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Movie>().HasMany(x => x.Genres).WithMany().Map(x =>
             {
                 x.ToTable("MovieGenres");
                 x.MapLeftKey("MovieId");
                 x.MapRightKey("GenreId");
             });
-            modelBuilder.Entity<Movie>().HasMany(x => x.SpokenLanguages).WithMany().Map(x =>
+            modelBuilder.Entity<Movie>().HasMany(x => x.Languages).WithMany().Map(x =>
             {
                 x.ToTable("MovieLanguages");
                 x.MapLeftKey("MovieId");
@@ -56,31 +60,68 @@ namespace Database.DatabaseModels
             {
                 x.ToTable("MovieBackdrops");
                 x.MapLeftKey("MovieId");
-                x.MapRightKey("ImageInfoId");
+                x.MapRightKey("ImageId");
             });
             modelBuilder.Entity<Movie>().HasMany(x => x.Posters).WithMany().Map(x =>
             {
                 x.ToTable("MoviePosters");
                 x.MapLeftKey("MovieId");
-                x.MapRightKey("ImageInfoId");
+                x.MapRightKey("ImageId");
             });
 
             modelBuilder.Entity<Genre>().ToTable("Genres");
-            modelBuilder.Entity<Genre>().HasKey(x => x.Id);
-            modelBuilder.Entity<Genre>().Property(x => x.TMDbId).IsRequired();
+            modelBuilder.Entity<Genre>().HasKey(x => x.TmdbId);
+            modelBuilder.Entity<Genre>().Property(x => x.TmdbId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<Genre>().Property(x => x.TmdbId).IsRequired();
             modelBuilder.Entity<Genre>().Property(x => x.Name).IsRequired();
-            modelBuilder.Entity<Genre>()
-                .Property(x => x.Id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Entity<Language>().ToTable("Languages");
-            modelBuilder.Entity<Language>().HasKey(x => x.Id);
+            modelBuilder.Entity<Language>().HasKey(x => x.Iso);
+            modelBuilder.Entity<Language>().Property(x => x.Iso).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             modelBuilder.Entity<ImageInfo>().ToTable("Images");
             modelBuilder.Entity<ImageInfo>().HasKey(x => x.Id);
+            modelBuilder.Entity<ImageInfo>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             modelBuilder.Entity<Keyword>().ToTable("Keywords");
             modelBuilder.Entity<Keyword>().HasKey(x => x.Id);
+            modelBuilder.Entity<Keyword>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            modelBuilder.Entity<Show>().ToTable("Shows");
+            modelBuilder.Entity<Show>().HasKey(x => x.TmdbId);
+            modelBuilder.Entity<Show>().Property(x => x.TmdbId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<Show>().HasMany(x => x.Languages).WithMany().Map(x =>
+            {
+                x.ToTable("ShowLanguages");
+                x.MapLeftKey("ShowId");
+                x.MapRightKey("LanguageId");
+            });
+            modelBuilder.Entity<Show>().HasMany(x => x.Genres).WithMany().Map(x =>
+            {
+                x.ToTable("ShowGenres");
+                x.MapLeftKey("ShowId");
+                x.MapRightKey("GenreId");
+            });
+            modelBuilder.Entity<Show>().HasMany(x => x.Backdrops).WithMany().Map(x =>
+            {
+                x.ToTable("ShowBackdrops");
+                x.MapLeftKey("ShowId");
+                x.MapRightKey("BackdropId");
+            });
+            modelBuilder.Entity<Show>().HasMany(x => x.Posters).WithMany().Map(x =>
+            {
+                x.ToTable("ShowPosters");
+                x.MapLeftKey("ShowId");
+                x.MapRightKey("PosterId");
+            });
+
+            modelBuilder.Entity<BackdropImageInfo>().ToTable("Backdrops");
+            modelBuilder.Entity<BackdropImageInfo>().HasKey(x => x.Id);
+            modelBuilder.Entity<BackdropImageInfo>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            modelBuilder.Entity<PosterImageInfo>().ToTable("Posters");
+            modelBuilder.Entity<PosterImageInfo>().HasKey(x => x.Id);
+            modelBuilder.Entity<PosterImageInfo>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
     }
 }

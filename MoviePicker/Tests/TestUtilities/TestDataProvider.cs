@@ -6,22 +6,24 @@ namespace Tests.TestUtilities
 {
     internal static class TestDataProvider
     {
-        public static IEnumerable<ImageInfo> GetBackdrops()
+        public static IEnumerable<BackdropImageInfo> GetBackdrops()
         {
-            yield return new ImageInfo
+            yield return new BackdropImageInfo
             {
                 AspectRatio = 1.77,
                 Path = "/nnMC0BM6XbjIIrT4miYmMtPGcQV.jpg",
                 Height = 1080,
                 IsoCode = "xx",
                 AverageVote = 5.28,
-                Width = 1920
+                Width = 1920,
+                Id = 85,
+                VoteCount = 21
             };
         }
 
-        public static IEnumerable<ImageInfo> GetPosters()
+        public static IEnumerable<PosterImageInfo> GetPosters()
         {
-            yield return new ImageInfo
+            yield return new PosterImageInfo
             {
                 AspectRatio = 1.52,
                 Path = "/nmiYmMtPGcQV.jpg",
@@ -29,7 +31,9 @@ namespace Tests.TestUtilities
                 IsoCode = "xx",
                 AverageVote = 7.36,
                 Width = 1080,
-                TMDbId = "7891"
+                TdmbId = "7891",
+                Id = 89,
+                VoteCount = 5
             };
         }
 
@@ -60,7 +64,8 @@ namespace Tests.TestUtilities
                 Tagline = "Sample Tagline",
                 VoteAverage = 8.6,
                 VoteCount = 999,
-                PosterPath = "/w0NzAc4Lv6euPtPAmsdEf0ZCF8C.jpg"
+                PosterPath = "/w0NzAc4Lv6euPtPAmsdEf0ZCF8C.jpg",
+                BackdropPath = "/sdqsw0NzAc4Lv6euPtPAmsjhfgf0ZCF8C.jpg"
             };
         }
 
@@ -76,6 +81,32 @@ namespace Tests.TestUtilities
             yield return new Genre(148, "Horror");
             yield return new Genre(8411, "Comedy");
             yield return new Genre(974, "Adventure");
-        } 
+        }
+
+        public static Show GetShow()
+        {
+            return new Show
+            {
+                TmdbId = 987,
+                AddedOn = new DateTime(2012, 07, 06),
+                LastUpdatedOn = new DateTime(2013, 07, 25),
+                Popularity = 12.3,
+                Overview = "Overview",
+                Status = "Released",
+                Name = "Test name",
+                Homepage = "http://myshow.com",
+                FirstAiring = new DateTime(2010, 05, 07),
+                LastAiring = new DateTime(2015, 01, 25),
+                AmountOfEpisodes = 14,
+                AmountOfSeasons = 3,
+                AmountOfVotes = 204,
+                AverageVote = 6.8,
+                BackdropPath = "/w0NzAc4LPtPAmsdEf0ZCF8C.jpg",
+                Type = "something",
+                InProduction = true,
+                OriginalLanguage = "en-US",
+                OriginalName = "La vida loca"
+            };
+        }
     }
 }

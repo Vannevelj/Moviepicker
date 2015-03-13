@@ -8,15 +8,12 @@ namespace Models.Movies
     {
         public Movie()
         {
-            SpokenLanguages = new List<Language>();
+            Languages = new List<Language>();
             Genres = new List<Genre>();
             Keywords = new List<Keyword>();
-            Backdrops = new List<ImageInfo>();
-            Posters = new List<ImageInfo>();
+            Backdrops = new List<BackdropImageInfo>();
+            Posters = new List<PosterImageInfo>();
         }
-
-        [JsonIgnore]
-        public int Id { get; set; }
 
         [JsonProperty("id")]
         public int TmdbId { get; set; }
@@ -70,13 +67,13 @@ namespace Models.Movies
         public int? VoteCount { get; set; }
 
         [JsonProperty("added_on")]
-        public DateTime? AddedOn { get; set; }
+        public DateTime AddedOn { get; set; }
 
         [JsonProperty("last_updated_on")]
         public DateTime? LastUpdatedOn { get; set; }
 
         [JsonProperty("spoken_languages")]
-        public virtual ICollection<Language> SpokenLanguages { get; set; }
+        public virtual ICollection<Language> Languages { get; set; }
 
         [JsonProperty("genres")]
         public virtual ICollection<Genre> Genres { get; set; }
@@ -85,9 +82,26 @@ namespace Models.Movies
         public virtual ICollection<Keyword> Keywords { get; set; }
 
         [JsonProperty("backdrops")]
-        public virtual ICollection<ImageInfo> Backdrops { get; set; }
+        public virtual ICollection<BackdropImageInfo> Backdrops { get; set; }
 
         [JsonProperty("posters")]
-        public virtual ICollection<ImageInfo> Posters { get; set; }
+        public virtual ICollection<PosterImageInfo> Posters { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var otherMovie = obj as Movie;
+            if (otherMovie == null)
+            {
+                return false;
+            }
+
+            return otherMovie.TmdbId == TmdbId;
+        }
+
+        public override int GetHashCode()
+        {
+            return TmdbId.GetHashCode();
+        }
+
     }
 }

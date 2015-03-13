@@ -2,7 +2,7 @@
 
 namespace Models.Movies
 {
-    public class ImageInfo
+    public abstract class ImageInfo
     {
         [JsonIgnore]
         public int Id { get; set; }
@@ -27,11 +27,15 @@ namespace Models.Movies
 
         [JsonProperty("vote_count")]
         public int? VoteCount { get; set; }
+    }
 
-        /// <summary>
-        ///     Only used for posters
-        /// </summary>
+    public class PosterImageInfo : ImageInfo
+    {
         [JsonProperty("id")]
-        public string TMDbId { get; set; }
+        public string TdmbId { get; set; }
+    }
+
+    public class BackdropImageInfo : ImageInfo
+    {
     }
 }

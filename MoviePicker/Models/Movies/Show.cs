@@ -1,25 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using Models.Utilities;
 using Newtonsoft.Json;
 
 namespace Models.Movies
 {
     public class Show
     {
+        public Show()
+        {
+            Languages = new List<Language>();
+            Genres = new List<Genre>();
+            Posters = new List<PosterImageInfo>();
+            Backdrops = new List<BackdropImageInfo>();
+        }
+
         [JsonProperty("backdrop_path")]
         public string BackdropPath { get; set; }
 
         [JsonProperty("first_air_date")]
-        public DateTime FirstAiring { get; set; }
+        public DateTime? FirstAiring { get; set; }
 
         [JsonProperty("last_air_date")]
-        public DateTime LastAiring { get; set; }
+        public DateTime? LastAiring { get; set; }
 
         [JsonProperty("homepage")]
         public string Homepage { get; set; }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int TmdbId { get; set; }
 
         [JsonProperty("in_production")]
         public bool? InProduction { get; set; }
@@ -58,25 +67,43 @@ namespace Models.Movies
         public int? AmountOfVotes { get; set; }
 
         [JsonProperty("added_on")]
-        public DateTime? AddedOn { get; set; }
+        public DateTime AddedOn { get; set; }
 
         [JsonProperty("last_updated_on")]
         public DateTime? LastUpdatedOn { get; set; }
 
-        /// <summary>
-        ///     This might need to be changed. TV languages are returned as simple "en" strings while movie languages return the
-        ///     ISO code and the name
-        /// </summary>
         [JsonProperty("languages")]
-        public ICollection<string> Languages { get; set; }
+        [JsonConverter(typeof (LanguageConverter))]
+        public virtual ICollection<Language> Languages { get; set; }
 
         [JsonProperty("genres")]
-        public ICollection<Genre> Genres { get; set; }
+        public virtual ICollection<Genre> Genres { get; set; }
 
         [JsonProperty("backdrops")]
-        public virtual ICollection<ImageInfo> Backdrops { get; set; }
+        public virtual ICollection<BackdropImageInfo> Backdrops { get; set; }
 
         [JsonProperty("posters")]
-        public virtual ICollection<ImageInfo> Posters { get; set; }
+        public virtual ICollection<PosterImageInfo> Posters { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var otherMovie = obj as Show;
+            if (otherMovie == null)
+            {
+                return false;
+            }
+
+            return otherMovie.TmdbId == TmdbId;
+        }
+
+        public override int GetHashCode()
+        {
+            return TmdbId.GetHashCode();
+        }
+
+        public void Update(Show show)
+        {
+            
+        }
     }
 }

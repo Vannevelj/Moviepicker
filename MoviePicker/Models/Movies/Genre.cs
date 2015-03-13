@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Models.Movies
 {
@@ -10,18 +11,12 @@ namespace Models.Movies
 
         public Genre(int tmdbId, string name)
         {
-            TMDbId = tmdbId;
+            TmdbId = tmdbId;
             Name = name;
         }
 
-        /// <summary>
-        ///     This ID is used for internal representation in the database
-        /// </summary>
-        [JsonIgnore]
-        public int Id { get; set; }
-
         [JsonProperty("id")]
-        public int TMDbId { get; set; }
+        public int TmdbId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -33,12 +28,12 @@ namespace Models.Movies
                 return false;
             }
 
-            return ((Genre) obj).TMDbId == TMDbId;
+            return ((Genre) obj).TmdbId == TmdbId;
         }
 
         public override int GetHashCode()
         {
-            return TMDbId.GetHashCode();
-        }
+            return TmdbId.GetHashCode();
+        } 
     }
 }

@@ -14,9 +14,6 @@ namespace Models.Movies
             Name = name;
         }
 
-        [JsonIgnore]
-        public int Id { get; set; }
-
         [JsonProperty("iso_639_1")]
         public string Iso { get; set; }
 

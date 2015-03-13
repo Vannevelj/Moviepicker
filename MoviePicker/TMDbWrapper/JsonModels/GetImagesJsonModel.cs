@@ -7,9 +7,9 @@ namespace TMDbWrapper.JsonModels
     public class GetImagesJsonModel
     {
         [JsonProperty("backdrops")]
-        public IEnumerable<ImageInfo> Backdrops { get; set; }
+        public IEnumerable<BackdropImageInfo> Backdrops { get; set; }
 
         [JsonProperty("posters")]
-        public IEnumerable<ImageInfo> Posters { get; set; }
+        public IEnumerable<PosterImageInfo> Posters { get; set; }
     }
 }

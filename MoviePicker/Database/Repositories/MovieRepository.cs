@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using Database.DatabaseModels;
@@ -48,15 +47,64 @@ namespace Database.Repositories
             throw new NotImplementedException();
         }
 
-        public void InsertOrUpdate(Genre genre)
+        public IEnumerable<Genre> InsertOrUpdate(IEnumerable<Genre> genres)
         {
-            Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TmdbId);
-            _context.Genres.AddOrUpdate(genre);
+            foreach (var genre in genres)
+            {
+                _context.Genres.AddOrUpdate(genre);
+                yield return _context.Genres.Single(x => x.TmdbId == genre.TmdbId);
+            }
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Language> InsertOrUpdate(IEnumerable<Language> languages)
+        {
+            foreach (var language in languages)
+            {
+                _context.Languages.AddOrUpdate(language);
+                yield return _context.Languages.Single(x => x.Iso == language.Iso);
+            }
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Keyword> InsertOrUpdate(IEnumerable<Keyword> keywords)
+        {
+            foreach (var keyword in keywords)
+            {
+                _context.Keywords.AddOrUpdate(keyword);
+                yield return _context.Keywords.Single(x => x.Id == keyword.Id);
+            }
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<BackdropImageInfo> InsertOrUpdate(IEnumerable<BackdropImageInfo> backdrops)
+        {
+            foreach (var backdrop in backdrops)
+            {
+                _context.Backdrops.AddOrUpdate(backdrop);
+                yield return _context.Backdrops.Single(x => x.Id == backdrop.Id);
+            }
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<PosterImageInfo> InsertOrUpdate(IEnumerable<PosterImageInfo> posters)
+        {
+            foreach (var poster in posters)
+            {
+                _context.Posters.AddOrUpdate(poster);
+                yield return _context.Posters.Single(x => x.Id == poster.Id);
+            }
             _context.SaveChanges();
         }
 
         public void InsertOrUpdate(Movie movie)
         {
+            movie.Genres = new List<Genre>(InsertOrUpdate(movie.Genres));
+            movie.Keywords = new List<Keyword>(InsertOrUpdate(movie.Keywords));
+            movie.Languages = new List<Language>(InsertOrUpdate(movie.Languages));
+            movie.Backdrops = new List<BackdropImageInfo>(InsertOrUpdate(movie.Backdrops));
+            movie.Posters = new List<PosterImageInfo>(InsertOrUpdate(movie.Posters));
+
             var localMovie = _context.Movies.SingleOrDefault(x => x.TmdbId == movie.TmdbId);
             if (localMovie == null)
             {
@@ -79,11 +127,13 @@ namespace Database.Repositories
         {
             show.AddedOn = DateTime.UtcNow;
             Console.WriteLine("Inserting show \"{0}\" with TMDb ID {1}", show.Name, show.TmdbId);
-            _context.Shows.AddOrUpdate(show);
+
             _context.Genres.AddOrUpdate(show.Genres.ToArray());
             _context.Languages.AddOrUpdate(show.Languages.ToArray());
             _context.Backdrops.AddOrUpdate(show.Backdrops.ToArray());
             _context.Posters.AddOrUpdate(show.Posters.ToArray());
+            _context.SaveChanges();
+            //_context.Shows.AddOrUpdate(show);
             _context.SaveChanges();
         }
 

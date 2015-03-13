@@ -34,5 +34,10 @@ namespace Models.Movies
         {
             return Iso.GetHashCode();
         }
+
+        public virtual void Update(Language language)
+        {
+            Name = language.Name;
+        }
     }
 }

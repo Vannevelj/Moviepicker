@@ -31,10 +31,7 @@ namespace DataService
             if (showResults.IsSuccess)
             {
                 Console.WriteLine("Found {0} show genres", showResults.Data.Count());
-                foreach (var genre in showResults.Data)
-                {
-                    _movieRepository.InsertOrUpdate(genre);
-                }
+                _movieRepository.InsertOrUpdate(showResults.Data);
             }
             else
             {
@@ -45,10 +42,7 @@ namespace DataService
             if (movieResults.IsSuccess)
             {
                 Console.WriteLine("Found {0} movie genres", movieResults.Data.Count());
-                foreach (var genre in movieResults.Data)
-                {
-                    _movieRepository.InsertOrUpdate(genre);
-                }
+                _movieRepository.InsertOrUpdate(movieResults.Data);
             }
             else
             {

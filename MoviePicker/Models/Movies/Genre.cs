@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Models.Movies
 {
@@ -34,6 +33,11 @@ namespace Models.Movies
         public override int GetHashCode()
         {
             return TmdbId.GetHashCode();
-        } 
+        }
+
+        public virtual void Update(Genre genre)
+        {
+            Name = genre.Name;
+        }
     }
 }

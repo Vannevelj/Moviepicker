@@ -31,7 +31,7 @@ namespace Tests.TestUtilities
                 IsoCode = "xx",
                 AverageVote = 7.36,
                 Width = 1080,
-                TdmbId = "7891",
+                TmdbId = "7891",
                 Id = 89,
                 VoteCount = 5
             };

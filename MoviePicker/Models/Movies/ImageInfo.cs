@@ -27,12 +27,29 @@ namespace Models.Movies
 
         [JsonProperty("vote_count")]
         public int? VoteCount { get; set; }
+
+        public virtual void Update(ImageInfo image)
+        {
+            AspectRatio = image.AspectRatio;
+            Path = image.Path;
+            Height = image.Height;
+            Width = image.Width;
+            IsoCode = image.IsoCode;
+            AverageVote = image.AverageVote;
+            VoteCount = image.VoteCount;
+        }
     }
 
     public class PosterImageInfo : ImageInfo
     {
         [JsonProperty("id")]
-        public string TdmbId { get; set; }
+        public string TmdbId { get; set; }
+
+        public virtual void Update(PosterImageInfo image)
+        {
+            base.Update(image);
+            TmdbId = image.TmdbId;
+        }
     }
 
     public class BackdropImageInfo : ImageInfo

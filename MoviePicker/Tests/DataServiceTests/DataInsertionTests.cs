@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -105,7 +104,7 @@ namespace Tests.DataServiceTests
 
             // Assert
             var resultingId = _context.Genres.Single(x => x.TmdbId == genreId).TmdbId;
-            _context.Genres.Should().HaveCount(4);
+            _context.Genres.Should().HaveCount(3);
             resultingId.Should().Be(initialId);
         }
 
@@ -214,7 +213,7 @@ namespace Tests.DataServiceTests
 
             // Assert
             _context.Genres.Should().HaveCount(existingGenres.Count);
-            _context.Movies.First().Languages.Should().HaveCount(newGenres.Count);
+            _context.Movies.First().Genres.Should().HaveCount(newGenres.Count);
             _context.Genres.Should().BeEquivalentTo(newGenres);
         }
 
@@ -370,7 +369,7 @@ namespace Tests.DataServiceTests
 
             const int movieId = 24;
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), Enumerable.Empty<Keyword>());
-            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel { Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>() });
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>()});
 
             var newMovie = TestDataProvider.GetMovie();
             var newGenres = TestDataProvider.GetGenres().ToList();

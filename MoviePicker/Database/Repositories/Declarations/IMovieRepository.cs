@@ -13,6 +13,7 @@ namespace Database.Repositories.Declarations
         IEnumerable<Keyword> InsertOrUpdate(IEnumerable<Keyword> keywords);
         IEnumerable<BackdropImageInfo> InsertOrUpdate(IEnumerable<BackdropImageInfo> backdrops);
         IEnumerable<PosterImageInfo> InsertOrUpdate(IEnumerable<PosterImageInfo> posters);
+        void InsertOrUpdate(Genre genre);
         void InsertOrUpdate(Movie movie);
         void InsertOrUpdate(Show show);
     }

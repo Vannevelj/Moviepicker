@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace Models.Movies
@@ -124,71 +123,11 @@ namespace Models.Movies
             VoteCount = movie.VoteCount;
             AddedOn = movie.AddedOn;
             LastUpdatedOn = movie.LastUpdatedOn;
-
-            foreach (var genre in movie.Genres)
-            {
-                var existingGenre = Genres.SingleOrDefault(x => x.TmdbId == genre.TmdbId);
-                if (existingGenre == null)
-                {
-                    Genres.Add(genre);
-                }
-                else
-                {
-                    existingGenre.Update(genre);
-                }
-            }
-
-            foreach (var keyword in movie.Keywords)
-            {
-                var existingKeyword = Keywords.SingleOrDefault(x => x.Id == keyword.Id);
-                if (existingKeyword == null)
-                {
-                    Keywords.Add(keyword);
-                }
-                else
-                {
-                    existingKeyword.Update(keyword);
-                }
-            }
-
-            foreach (var backdrop in movie.Backdrops)
-            {
-                var existingBackdrop = Backdrops.SingleOrDefault(x => x.Id == backdrop.Id);
-                if (existingBackdrop == null)
-                {
-                    Backdrops.Add(backdrop);
-                }
-                else
-                {
-                    existingBackdrop.Update(backdrop);
-                }
-            }
-
-            foreach (var poster in movie.Posters)
-            {
-                var existingPoster = Posters.SingleOrDefault(x => x.Id == poster.Id);
-                if (existingPoster == null)
-                {
-                    Posters.Add(poster);
-                }
-                else
-                {
-                    existingPoster.Update(poster);
-                }
-            }
-
-            foreach (var language in movie.Languages)
-            {
-                var existingLanguage = Languages.SingleOrDefault(x => x.Iso == language.Iso);
-                if (existingLanguage == null)
-                {
-                    Languages.Add(language);
-                }
-                else
-                {
-                    existingLanguage.Update(language);
-                }
-            }
+            Keywords = movie.Keywords;
+            Languages = movie.Languages;
+            Posters = movie.Posters;
+            Backdrops = movie.Backdrops;
+            Genres = movie.Genres;
         }
     }
 }

@@ -53,6 +53,7 @@ namespace Tests.DataServiceTests
             // Arrange
             var existingGenres = TestDataProvider.GetGenres().ToList();
             _context.Genres.AddRange(existingGenres);
+            _context.SaveChanges();
 
             var newMovieGenres = new[] {new Genre(9845, "Drama"), new Genre(87422, "War")};
             SetupMethod(_api, x => x.GetMovieGenresAsync(), newMovieGenres);
@@ -72,6 +73,7 @@ namespace Tests.DataServiceTests
             // Arrange
             var existingGenres = TestDataProvider.GetGenres().ToList();
             _context.Genres.AddRange(existingGenres);
+            _context.SaveChanges();
 
             var newShowGenres = new[] {new Genre(9845, "Drama"), new Genre(87422, "War")};
             SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
@@ -89,13 +91,13 @@ namespace Tests.DataServiceTests
         public async Task UpdateGenresAsync_WithExistingGenres_ChangesExistingGenres()
         {
             // Arrange
-            const int genreId = 148;
             var existingGenres = TestDataProvider.GetGenres().ToList();
+            var genreId = existingGenres.First().TmdbId;
             _context.Genres.AddRange(existingGenres);
             _context.SaveChanges();
             var initialId = _context.Genres.Single(x => x.TmdbId == genreId).TmdbId;
 
-            var newShowGenres = new[] {new Genre(9845, "Drama"), new Genre(genreId, "Comedy")};
+            var newShowGenres = new[] {new Genre(genreId, "Cartoon")};
             SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
             SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] {});
 
@@ -105,6 +107,7 @@ namespace Tests.DataServiceTests
             // Assert
             var resultingId = _context.Genres.Single(x => x.TmdbId == genreId).TmdbId;
             _context.Genres.Should().HaveCount(3);
+            _context.Genres.Should().BeEquivalentTo(existingGenres.Except(newShowGenres).Union(newShowGenres));
             resultingId.Should().Be(initialId);
         }
 
@@ -354,7 +357,7 @@ namespace Tests.DataServiceTests
 
             // Assert
             _context.Genres.Should().HaveCount(existingGenres.Count);
-            _context.Shows.First().Languages.Should().HaveCount(newGenres.Count);
+            _context.Shows.First().Genres.Should().HaveCount(newGenres.Count);
             _context.Genres.Should().BeEquivalentTo(newGenres);
         }
 

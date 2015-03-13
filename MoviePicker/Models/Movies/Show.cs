@@ -103,6 +103,28 @@ namespace Models.Movies
 
         public void Update(Show show)
         {
+            BackdropPath = show.BackdropPath;
+            FirstAiring = show.FirstAiring;
+            LastAiring = show.LastAiring;
+            Homepage = show.Homepage;
+            InProduction = show.InProduction;
+            Name = show.Name;
+            AmountOfEpisodes = show.AmountOfEpisodes;
+            AmountOfSeasons = show.AmountOfSeasons;
+            OriginalLanguage = show.OriginalLanguage;
+            OriginalName = show.OriginalName;
+            Overview = show.Overview;
+            Popularity = show.Popularity;
+            Status = show.Status;
+            Type = show.Type;
+            AverageVote = show.AverageVote;
+            AmountOfVotes = show.AmountOfVotes;
+            AddedOn = show.AddedOn;
+            LastUpdatedOn = show.LastUpdatedOn;
+            Languages = show.Languages;
+            Genres = show.Genres;
+            Backdrops = show.Backdrops;
+            Posters = show.Posters;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using Database.DatabaseModels;
 using Database.Repositories.Declarations;
@@ -49,37 +50,41 @@ namespace Database.Repositories
 
         public void InsertOrUpdate(Genre genre)
         {
-            if (!_context.Genres.Any(x => x.TMDbId == genre.TMDbId))
-            {
-                Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TMDbId);
-                _context.Genres.Add(genre);
-                _context.SaveChanges();
-            }
+            Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TmdbId);
+            _context.Genres.AddOrUpdate(genre);
+            _context.SaveChanges();
         }
 
         public void InsertOrUpdate(Movie movie)
         {
-            if (!_context.Movies.Any(x => x.TmdbId == movie.TmdbId))
+            var localMovie = _context.Movies.SingleOrDefault(x => x.TmdbId == movie.TmdbId);
+            if (localMovie == null)
             {
-                var localLanguages = _context.Languages.ToList();
-                foreach (var language in movie.SpokenLanguages)
-                {
-                    // More info about this approach: http://stackoverflow.com/q/28545146/1864167
-                    var localLanguage = localLanguages.Find(x => x.Iso == language.Iso);
-
-                    if (localLanguage != null)
-                    {
-                        language.Id = localLanguage.Id;
-                        _context.Entry(localLanguage).State = EntityState.Detached;
-                        _context.Languages.Attach(language);
-                    }
-                }
-
-                movie.AddedOn = DateTime.UtcNow;
                 Console.WriteLine("Inserting movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
+                movie.AddedOn = DateTime.UtcNow;
+                movie.LastUpdatedOn = DateTime.UtcNow;
                 _context.Movies.Add(movie);
-                _context.SaveChanges();
             }
+            else
+            {
+                Console.WriteLine("Updating movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
+                movie.LastUpdatedOn = DateTime.UtcNow;
+                localMovie.Update(movie);
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void InsertOrUpdate(Show show)
+        {
+            show.AddedOn = DateTime.UtcNow;
+            Console.WriteLine("Inserting show \"{0}\" with TMDb ID {1}", show.Name, show.TmdbId);
+            _context.Shows.AddOrUpdate(show);
+            _context.Genres.AddOrUpdate(show.Genres.ToArray());
+            _context.Languages.AddOrUpdate(show.Languages.ToArray());
+            _context.Backdrops.AddOrUpdate(show.Backdrops.ToArray());
+            _context.Posters.AddOrUpdate(show.Posters.ToArray());
+            _context.SaveChanges();
         }
 
         private void AdjustRating(int userId, int movieId, int change)

@@ -10,5 +10,6 @@ namespace Database.Repositories.Declarations
         IEnumerable<Movie> GetMovies(int userId);
         void InsertOrUpdate(Genre genre);
         void InsertOrUpdate(Movie movie);
+        void InsertOrUpdate(Show show);
     }
 }

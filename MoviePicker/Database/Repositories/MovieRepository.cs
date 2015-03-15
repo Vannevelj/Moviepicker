@@ -53,108 +53,13 @@ namespace Database.Repositories
             _context.SaveChanges();
         }
 
-        public IEnumerable<Genre> InsertOrUpdate(IEnumerable<Genre> genres)
-        {
-            foreach (var genre in genres)
-            {
-                var existingGenre = _context.Genres.SingleOrDefault(x => x.TmdbId == genre.TmdbId);
-                if (existingGenre != null)
-                {
-                    existingGenre.Update(genre);
-                    yield return existingGenre;
-                }
-                else
-                {
-                    _context.Genres.Add(genre);
-                    yield return genre;
-                }
-            }
-            _context.SaveChanges();
-        }
-
-        public IEnumerable<Language> InsertOrUpdate(IEnumerable<Language> languages)
-        {
-            foreach (var language in languages)
-            {
-                var existingLanguage = _context.Languages.SingleOrDefault(x => x.Iso == language.Iso);
-                if (existingLanguage != null)
-                {
-                    existingLanguage.Update(language);
-                    yield return existingLanguage;
-                }
-                else
-                {
-                    _context.Languages.Add(language);
-                    yield return language;
-                }
-            }
-            _context.SaveChanges();
-        }
-
-        public IEnumerable<Keyword> InsertOrUpdate(IEnumerable<Keyword> keywords)
-        {
-            foreach (var keyword in keywords)
-            {
-                var existingKeyword = _context.Keywords.SingleOrDefault(x => x.Id == keyword.Id);
-                if (existingKeyword != null)
-                {
-                    existingKeyword.Update(keyword);
-                    yield return existingKeyword;
-                }
-                else
-                {
-                    _context.Keywords.Add(keyword);
-                    yield return keyword;
-                }
-            }
-            _context.SaveChanges();
-        }
-
-        public IEnumerable<BackdropImageInfo> InsertOrUpdate(IEnumerable<BackdropImageInfo> backdrops)
-        {
-            foreach (var backdrop in backdrops)
-            {
-                var existingBackdrop = _context.Backdrops.SingleOrDefault(x => x.Id == backdrop.Id);
-                if (existingBackdrop != null)
-                {
-                    existingBackdrop.Update(backdrop);
-                    yield return existingBackdrop;
-                }
-                else
-                {
-                    _context.Backdrops.Add(backdrop);
-                    yield return backdrop;
-                }
-            }
-            _context.SaveChanges();
-        }
-
-        public IEnumerable<PosterImageInfo> InsertOrUpdate(IEnumerable<PosterImageInfo> posters)
-        {
-            foreach (var poster in posters)
-            {
-                var existingPoster = _context.Posters.SingleOrDefault(x => x.Id == poster.Id);
-                if (existingPoster != null)
-                {
-                    existingPoster.Update(poster);
-                    yield return existingPoster;
-                }
-                else
-                {
-                    _context.Posters.Add(poster);
-                    yield return poster;
-                }
-            }
-            _context.SaveChanges();
-        }
-
         public void InsertOrUpdate(Movie movie)
         {
-            movie.Genres = new List<Genre>(InsertOrUpdate(movie.Genres));
-            movie.Keywords = new List<Keyword>(InsertOrUpdate(movie.Keywords));
-            movie.Languages = new List<Language>(InsertOrUpdate(movie.Languages));
-            movie.Backdrops = new List<BackdropImageInfo>(InsertOrUpdate(movie.Backdrops));
-            movie.Posters = new List<PosterImageInfo>(InsertOrUpdate(movie.Posters));
+            movie.Genres = new List<Genre>(InsertOrUpdate(movie.Genres, x => x.TmdbId));
+            movie.Keywords = new List<Keyword>(InsertOrUpdate(movie.Keywords, x => x.Id));
+            movie.Languages = new List<Language>(InsertOrUpdate(movie.Languages, x => x.Iso));
+            movie.Backdrops = new List<BackdropImageInfo>(InsertOrUpdate(movie.Backdrops, x => x.Id));
+            movie.Posters = new List<PosterImageInfo>(InsertOrUpdate(movie.Posters, x => x.Id));
 
             var localMovie = _context.Movies.SingleOrDefault(x => x.TmdbId == movie.TmdbId);
             if (localMovie == null)
@@ -176,10 +81,10 @@ namespace Database.Repositories
 
         public void InsertOrUpdate(Show show)
         {
-            show.Genres = new List<Genre>(InsertOrUpdate(show.Genres));
-            show.Languages = new List<Language>(InsertOrUpdate(show.Languages));
-            show.Backdrops = new List<BackdropImageInfo>(InsertOrUpdate(show.Backdrops));
-            show.Posters = new List<PosterImageInfo>(InsertOrUpdate(show.Posters));
+            show.Genres = new List<Genre>(InsertOrUpdate(show.Genres, x => x.TmdbId));
+            show.Languages = new List<Language>(InsertOrUpdate(show.Languages, x => x.Iso));
+            show.Backdrops = new List<BackdropImageInfo>(InsertOrUpdate(show.Backdrops, x => x.Id));
+            show.Posters = new List<PosterImageInfo>(InsertOrUpdate(show.Posters, x => x.Id));
 
             var localShow = _context.Shows.SingleOrDefault(x => x.TmdbId == show.TmdbId);
             if (localShow == null)
@@ -194,6 +99,25 @@ namespace Database.Repositories
                 Console.WriteLine("Updating show \"{0}\" with TMDb ID {1}", show.Name, show.TmdbId);
                 show.LastUpdatedOn = DateTime.UtcNow;
                 localShow.Update(show);
+            }
+            _context.SaveChanges();
+        }
+
+        private IEnumerable<T> InsertOrUpdate<T, TKey>(IEnumerable<T> entities, Func<T, TKey> idExpression) where T : class
+        {
+            foreach (var entity in entities)
+            {
+                var existingEntity = _context.Set<T>().Find(idExpression(entity));
+                if (existingEntity != null)
+                {
+                    _context.Entry(existingEntity).CurrentValues.SetValues(entity);
+                    yield return existingEntity;
+                }
+                else
+                {
+                    _context.Set<T>().Add(entity);
+                    yield return entity;
+                }
             }
             _context.SaveChanges();
         }

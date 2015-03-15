@@ -79,10 +79,6 @@ namespace Database.DatabaseModels
             modelBuilder.Entity<Language>().HasKey(x => x.Iso);
             modelBuilder.Entity<Language>().Property(x => x.Iso).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-            modelBuilder.Entity<ImageInfo>().ToTable("Images");
-            modelBuilder.Entity<ImageInfo>().HasKey(x => x.Id);
-            modelBuilder.Entity<ImageInfo>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
             modelBuilder.Entity<Keyword>().ToTable("Keywords");
             modelBuilder.Entity<Keyword>().HasKey(x => x.Id);
             modelBuilder.Entity<Keyword>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);

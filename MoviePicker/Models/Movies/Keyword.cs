@@ -35,10 +35,5 @@ namespace Models.Movies
         {
             return Id.GetHashCode();
         }
-
-        public virtual void Update(Keyword keyword)
-        {
-            Name = keyword.Name;
-        }
     }
 }

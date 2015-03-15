@@ -34,10 +34,5 @@ namespace Models.Movies
         {
             return TmdbId.GetHashCode();
         }
-
-        public virtual void Update(Genre genre)
-        {
-            Name = genre.Name;
-        }
     }
 }

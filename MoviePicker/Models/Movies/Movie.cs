@@ -111,32 +111,5 @@ namespace Models.Movies
         {
             return TmdbId.GetHashCode();
         }
-
-        public virtual void Update(Movie movie)
-        {
-            ImdbId = movie.ImdbId;
-            Title = movie.Title;
-            OriginalTitle = movie.OriginalTitle;
-            Status = movie.Status;
-            Tagline = movie.Tagline;
-            Overview = movie.Overview;
-            BackdropPath = movie.BackdropPath;
-            PosterPath = movie.PosterPath;
-            IsAdult = movie.IsAdult;
-            ReleaseDate = movie.ReleaseDate;
-            Revenue = movie.Revenue;
-            Budget = movie.Budget;
-            Runtime = movie.Runtime;
-            Popularity = movie.Popularity;
-            VoteAverage = movie.VoteAverage;
-            VoteCount = movie.VoteCount;
-            AddedOn = movie.AddedOn;
-            LastUpdatedOn = movie.LastUpdatedOn;
-            Keywords = movie.Keywords;
-            Languages = movie.Languages;
-            Posters = movie.Posters;
-            Backdrops = movie.Backdrops;
-            Genres = movie.Genres;
-        }
     }
 }

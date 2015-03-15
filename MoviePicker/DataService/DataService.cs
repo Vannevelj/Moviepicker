@@ -27,14 +27,7 @@ namespace DataService
             // Step 4.1: get the show's keywords
             // Step 4.2: get the show's images
 
-            //try
-            //{
             AsyncContext.Run(() => MainAsync(args));
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //}
             Console.Read();
         }
 

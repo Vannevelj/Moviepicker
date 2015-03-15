@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Models.Movies;
 using Newtonsoft.Json;
 
@@ -13,25 +14,21 @@ namespace Models.Utilities
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string language = null;
-            try
+            var languages = new List<Language>();
+            while (reader.TokenType != JsonToken.EndArray && reader.Read())
             {
-                language = reader.Value.ToString();
+                var language = reader.Value as string;
+                if (!string.IsNullOrWhiteSpace(language))
+                {
+                    languages.Add(new Language(language, string.Empty));
+                }
             }
-            catch
-            {
-                // Log
-            }
-
-            return new Language
-            {
-                Iso = language
-            };
+            return languages;
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof (string);
+            return objectType == typeof (ICollection<>);
         }
     }
 }

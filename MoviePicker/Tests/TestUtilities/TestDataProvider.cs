@@ -49,7 +49,7 @@ namespace Tests.TestUtilities
             {
                 TmdbId = 987,
                 ImdbId = "tt0094675",
-                Adult = false,
+                IsAdult = false,
                 Budget = 157845,
                 AddedOn = new DateTime(2012, 07, 06),
                 LastUpdatedOn = new DateTime(2013, 07, 25),

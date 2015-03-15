@@ -18,6 +18,9 @@ namespace Models.Movies
         [JsonProperty("backdrop_path")]
         public string BackdropPath { get; set; }
 
+        [JsonProperty("poster_path")]
+        public string PosterPath { get; set; }
+
         [JsonProperty("first_air_date")]
         public DateTime? FirstAiring { get; set; }
 

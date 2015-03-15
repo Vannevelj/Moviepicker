@@ -36,6 +36,15 @@ namespace Models.Movies
         [JsonProperty("overview")]
         public string Overview { get; set; }
 
+        [JsonProperty("homepage")]
+        public string Homepage { get; set; }
+
+        [JsonProperty("original_language")]
+        public string OriginalLanguage { get; set; }
+
+        [JsonProperty("video")]
+        public bool? HasVideo { get; set; }
+
         [JsonProperty("backdrop_path")]
         public string BackdropPath { get; set; }
 
@@ -43,7 +52,7 @@ namespace Models.Movies
         public string PosterPath { get; set; }
 
         [JsonProperty("adult")]
-        public bool? Adult { get; set; }
+        public bool? IsAdult { get; set; }
 
         [JsonProperty("release_date")]
         public DateTime? ReleaseDate { get; set; }
@@ -113,7 +122,7 @@ namespace Models.Movies
             Overview = movie.Overview;
             BackdropPath = movie.BackdropPath;
             PosterPath = movie.PosterPath;
-            Adult = movie.Adult;
+            IsAdult = movie.IsAdult;
             ReleaseDate = movie.ReleaseDate;
             Revenue = movie.Revenue;
             Budget = movie.Budget;

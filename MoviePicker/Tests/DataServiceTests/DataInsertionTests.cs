@@ -1,4 +1,8 @@
-﻿using System;
+﻿#define INMEMORY
+#define DATABASE
+#undef DATABASE
+
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -16,6 +20,9 @@ using Tests.TestUtilities;
 using TMDbWrapper;
 using TMDbWrapper.JsonModels;
 using TMDbWrapper.Requests;
+#if DATABASE
+using System.Diagnostics;
+#endif
 
 namespace Tests.DataServiceTests
 {
@@ -30,21 +37,25 @@ namespace Tests.DataServiceTests
         [TestInitialize]
         public void Initialize()
         {
+#if DATABASE
+            _context = new MoviepickerContext();
+            _context.Database.Log = data => Debug.WriteLine(data);   
+#else
             _context = new MoviepickerContext(DbConnectionFactory.CreateTransient());
-            _movieRepository = new MovieRepository(_context);
-            //_context = new MoviepickerContext();
-            //_context.Database.Log = data => Debug.WriteLine(data);
+#endif
             _movieRepository = new MovieRepository(_context);
             _api = new Mock<TMDbApi>();
             _dataScraper = new DataScraper(_api.Object, _movieRepository);
         }
 
-        //[TestCleanup]
-        //public void Cleanup()
-        //{
-        //    _context.Database.Delete();
-        //    _context.SaveChanges();
-        //}
+#if DATABASE
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _context.Database.Delete();
+            _context.SaveChanges();
+        }
+#endif
 
         [TestMethod]
         [TestCategory("Unit_DATASCRAPER")]

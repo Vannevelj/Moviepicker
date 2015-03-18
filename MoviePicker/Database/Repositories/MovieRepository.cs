@@ -49,7 +49,18 @@ namespace Database.Repositories
 
         public void InsertOrUpdate(Genre genre)
         {
-            _context.Genres.AddOrUpdate(genre);
+            var localGenre = _context.Genres.SingleOrDefault(x => x.TmdbId == genre.TmdbId);
+            if (localGenre == null)
+            {
+                Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TmdbId);
+                _context.Genres.Add(genre);
+            }
+            else
+            {
+                Console.WriteLine("Updating genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TmdbId);
+                _context.Entry(localGenre).CurrentValues.SetValues(genre);
+            }
+
             _context.SaveChanges();
         }
 
@@ -73,7 +84,7 @@ namespace Database.Repositories
             {
                 Console.WriteLine("Updating movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
                 movie.LastUpdatedOn = DateTime.UtcNow;
-                localMovie.Update(movie);
+                _context.Entry(localMovie).CurrentValues.SetValues(movie);
             }
 
             _context.SaveChanges();
@@ -98,7 +109,7 @@ namespace Database.Repositories
             {
                 Console.WriteLine("Updating show \"{0}\" with TMDb ID {1}", show.Name, show.TmdbId);
                 show.LastUpdatedOn = DateTime.UtcNow;
-                localShow.Update(show);
+                _context.Entry(localShow).CurrentValues.SetValues(show);
             }
             _context.SaveChanges();
         }

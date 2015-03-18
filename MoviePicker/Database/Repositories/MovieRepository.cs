@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using Database.DatabaseModels;
 using Database.Repositories.Declarations;
@@ -52,15 +51,14 @@ namespace Database.Repositories
             var localGenre = _context.Genres.SingleOrDefault(x => x.TmdbId == genre.TmdbId);
             if (localGenre == null)
             {
-                Console.WriteLine("Inserting genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TmdbId);
                 _context.Genres.Add(genre);
             }
             else
             {
-                Console.WriteLine("Updating genre \"{0}\" with TMDb ID {1}", genre.Name, genre.TmdbId);
                 _context.Entry(localGenre).CurrentValues.SetValues(genre);
             }
 
+            Console.WriteLine("{0} genre \"{1}\" with TMDb ID {2}", localGenre == null ? "Inserting" : "Updating", genre.Name, genre.TmdbId);
             _context.SaveChanges();
         }
 
@@ -75,18 +73,16 @@ namespace Database.Repositories
             var localMovie = _context.Movies.SingleOrDefault(x => x.TmdbId == movie.TmdbId);
             if (localMovie == null)
             {
-                Console.WriteLine("Inserting movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
                 movie.AddedOn = DateTime.UtcNow;
-                movie.LastUpdatedOn = DateTime.UtcNow;
                 _context.Movies.Add(movie);
             }
             else
             {
-                Console.WriteLine("Updating movie \"{0}\" with TMDb ID {1}", movie.Title, movie.TmdbId);
-                movie.LastUpdatedOn = DateTime.UtcNow;
                 _context.Entry(localMovie).CurrentValues.SetValues(movie);
             }
 
+            movie.LastUpdatedOn = DateTime.UtcNow;
+            Console.WriteLine("{0} movie \"{1}\" with TMDb ID {2}", localMovie == null ? "Inserting" : "Updating", movie.Title, movie.TmdbId);
             _context.SaveChanges();
         }
 
@@ -100,17 +96,16 @@ namespace Database.Repositories
             var localShow = _context.Shows.SingleOrDefault(x => x.TmdbId == show.TmdbId);
             if (localShow == null)
             {
-                Console.WriteLine("Inserting show \"{0}\" with TMDb ID {1}", show.Name, show.TmdbId);
                 show.AddedOn = DateTime.UtcNow;
-                show.LastUpdatedOn = DateTime.UtcNow;
                 _context.Shows.Add(show);
             }
             else
             {
-                Console.WriteLine("Updating show \"{0}\" with TMDb ID {1}", show.Name, show.TmdbId);
-                show.LastUpdatedOn = DateTime.UtcNow;
                 _context.Entry(localShow).CurrentValues.SetValues(show);
             }
+
+            show.LastUpdatedOn = DateTime.UtcNow;
+            Console.WriteLine("{0} show \"{1}\" with TMDb ID {2}", localShow == null ? "Inserting" : "Updating", show.Name, show.TmdbId);
             _context.SaveChanges();
         }
 

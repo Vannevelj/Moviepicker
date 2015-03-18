@@ -1,5 +1,4 @@
-﻿#define INMEMORY
-#define DATABASE
+﻿#define DATABASE
 #undef DATABASE
 
 using System;
@@ -20,6 +19,7 @@ using Tests.TestUtilities;
 using TMDbWrapper;
 using TMDbWrapper.JsonModels;
 using TMDbWrapper.Requests;
+
 #if DATABASE
 using System.Diagnostics;
 #endif

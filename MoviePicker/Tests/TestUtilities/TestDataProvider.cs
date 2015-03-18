@@ -51,8 +51,6 @@ namespace Tests.TestUtilities
                 ImdbId = "tt0094675",
                 IsAdult = false,
                 Budget = 157845,
-                AddedOn = new DateTime(2012, 07, 06),
-                LastUpdatedOn = new DateTime(2013, 07, 25),
                 Popularity = 12.3,
                 Overview = "Overview",
                 Title = "Sample Title",
@@ -67,6 +65,13 @@ namespace Tests.TestUtilities
                 PosterPath = "/w0NzAc4Lv6euPtPAmsdEf0ZCF8C.jpg",
                 BackdropPath = "/sdqsw0NzAc4Lv6euPtPAmsjhfgf0ZCF8C.jpg"
             };
+        }
+
+        public static Movie GetInsertedMovie()
+        {
+            var movie = GetMovie();
+            movie.AddedOn = new DateTime(2010, 05, 10);
+            return movie;
         }
 
         public static IEnumerable<Language> GetLanguages()
@@ -88,8 +93,6 @@ namespace Tests.TestUtilities
             return new Show
             {
                 TmdbId = 987,
-                AddedOn = new DateTime(2012, 07, 06),
-                LastUpdatedOn = new DateTime(2013, 07, 25),
                 Popularity = 12.3,
                 Overview = "Overview",
                 Status = "Released",
@@ -107,6 +110,13 @@ namespace Tests.TestUtilities
                 OriginalLanguage = "en-US",
                 OriginalName = "La vida loca"
             };
+        }
+
+        public static Show GetInsertedShow()
+        {
+            var show = GetShow();
+            show.AddedOn = new DateTime(2010, 05, 10);
+            return show;
         }
     }
 }

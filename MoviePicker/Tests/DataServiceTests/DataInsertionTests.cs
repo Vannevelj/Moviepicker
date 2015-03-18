@@ -243,7 +243,7 @@ namespace Tests.DataServiceTests
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), newKeywords);
             SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = newBackdrops, Posters = newPosters});
 
-            var existingMovie = TestDataProvider.GetMovie();
+            var existingMovie = TestDataProvider.GetInsertedMovie();
             _context.Movies.Add(existingMovie);
             _context.SaveChanges();
 
@@ -302,6 +302,10 @@ namespace Tests.DataServiceTests
             var newPosters = TestDataProvider.GetPosters().ToList();
             SetupMethod(_api, x => x.GetShowKeywordsAsync(showId), newKeywords);
             SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel {Backdrops = newBackdrops, Posters = newPosters});
+
+            var existingShow = TestDataProvider.GetInsertedShow();
+            _context.Shows.Add(existingShow);
+            _context.SaveChanges();
 
             var newShow = TestDataProvider.GetShow();
             newShow.Languages = TestDataProvider.GetLanguages().ToList();

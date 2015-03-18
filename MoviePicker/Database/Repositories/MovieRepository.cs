@@ -79,6 +79,7 @@ namespace Database.Repositories
             else
             {
                 _context.Entry(localMovie).CurrentValues.SetValues(movie);
+                _context.Entry(localMovie).Property(x => x.AddedOn).IsModified = false;
             }
 
             movie.LastUpdatedOn = DateTime.UtcNow;
@@ -102,6 +103,7 @@ namespace Database.Repositories
             else
             {
                 _context.Entry(localShow).CurrentValues.SetValues(show);
+                _context.Entry(localShow).Property(x => x.AddedOn).IsModified = false;
             }
 
             show.LastUpdatedOn = DateTime.UtcNow;

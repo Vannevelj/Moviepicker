@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using Database.DatabaseModels;
 using Database.Repositories;
 using Database.Repositories.Declarations;
 using Microsoft.Practices.Unity;
@@ -14,6 +15,7 @@ namespace WebApi
             var container = new UnityContainer();
             container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
             container.RegisterType<IMovieRepository, MovieRepository>(new TransientLifetimeManager());
+            container.RegisterInstance(new MoviepickerContext());
             config.DependencyResolver = new UnityConfig(container);
 
             // Web API routes

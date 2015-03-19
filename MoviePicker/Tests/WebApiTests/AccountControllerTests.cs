@@ -126,5 +126,20 @@ namespace Tests.WebApiTests
             // Assert
             response.As<InvalidModelStateResult>().Should().NotBeNull();
         }
+
+        [TestMethod]
+        [TestCategory("Unit_CONTROLLER")]
+        public async Task RegisterUser_WithValidModel_CreatesUser()
+        {
+            // Arrange
+            var user = TestDataProvider.GetUserModel();
+
+            // Act
+            var response = await _accountController.RegisterAsync(user);
+
+            // Assert
+            response.As<OkResult>().Should().NotBeNull();
+            _context.Users.Should().HaveCount(1);
+        }
     }
 }

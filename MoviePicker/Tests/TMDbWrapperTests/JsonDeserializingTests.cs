@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Movies;
 using Newtonsoft.Json;
 
-namespace Tests.TMDbWrapper
+namespace Tests.TMDbWrapperTests
 {
     [TestClass]
     public class JsonDeserializingTests

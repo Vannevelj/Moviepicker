@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TMDbWrapper;
 using TMDbWrapper.Requests;
 
-namespace Tests.TMDbWrapper
+namespace Tests.TMDbWrapperTests
 {
     [TestClass]
     public class ApiEndpointTests

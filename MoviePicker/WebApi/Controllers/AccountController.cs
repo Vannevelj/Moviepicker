@@ -20,6 +20,7 @@ namespace WebApi.Controllers
         // POST api/account/register
         [AllowAnonymous]
         [Route("register")]
+        [HttpPost]
         [ResponseType(typeof (void))] //TODO: return userinfo?
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {

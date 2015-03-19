@@ -10,24 +10,6 @@ General concept mockups:
 
 The project in its current state consists of a backend (ASP.NET Web Api 2) and frontend (Android). The API will be hosted on azure.
 
-## Dependencies
-
-### Backend
-
-* ASP.NET Web API 2
-* Json.NET
-* AutoMapper
-* Entity-Framework
-* MsTest
-* Effort
-* NMemory
-* Unity
-* MvcRouteTester
-
-### Android
-
-* TODO
-
 ## Solution layout
 
 This section will describe what each project in the solution aims to do.

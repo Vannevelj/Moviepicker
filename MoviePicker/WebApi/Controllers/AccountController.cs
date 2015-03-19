@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         [Route("register")]
         [HttpPost]
         [ResponseType(typeof (void))] //TODO: return userinfo?
-        public async Task<IHttpActionResult> Register(UserModel userModel)
+        public async Task<IHttpActionResult> RegisterAsync(UserModel userModel)
         {
             if (!ModelState.IsValid)
             {

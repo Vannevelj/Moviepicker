@@ -139,6 +139,7 @@
     <Compile Include="TestUtilities\TestDataProvider.cs" />
     <Compile Include="TMDbWrapperTests\ApiEndpointTests.cs" />
     <Compile Include="TMDbWrapperTests\JsonDeserializingTests.cs" />
+    <Compile Include="WebApiTests\AccountControllerTests.cs" />
     <Compile Include="WebApiTests\RoutingTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Models.Movies;
+using Models.Users;
 
 namespace Tests.TestUtilities
 {
@@ -117,6 +118,16 @@ namespace Tests.TestUtilities
             var show = GetShow();
             show.AddedOn = new DateTime(2010, 05, 10);
             return show;
+        }
+
+        public static UserModel GetUserModel()
+        {
+            return new UserModel
+            {
+                Username = "TestUsername",
+                Password = "TestPassword123456",
+                ConfirmPassword = "TestPassword123456"
+            };
         }
     }
 }

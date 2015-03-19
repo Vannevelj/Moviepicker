@@ -26,7 +26,7 @@ namespace Tests.WebApiTests
         {
             const string route = "/api/account/register";
             RouteAssert.HasApiRoute(_configuration, route, HttpMethod.Post);
-            _configuration.ShouldMap(route).To<AccountController>(HttpMethod.Post, x => x.Register(null));
+            _configuration.ShouldMap(route).To<AccountController>(HttpMethod.Post, x => x.RegisterAsync(null));
         }
     }
 }

@@ -12,8 +12,8 @@ namespace WebApi
         {
             // Web API configuration and services
             var container = new UnityContainer();
-            container.RegisterType<IUserRepository, UserRepository>(new HierarchicalLifetimeManager());
-            container.RegisterType<IMovieRepository, MovieRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
+            container.RegisterType<IMovieRepository, MovieRepository>(new TransientLifetimeManager());
             config.DependencyResolver = new UnityConfig(container);
 
             // Web API routes

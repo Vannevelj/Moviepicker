@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Models.Users
 {
@@ -18,5 +19,11 @@ namespace Models.Users
 
         [JsonProperty("password")]
         public string Password { get; set; }
+
+        [JsonProperty("last_updated_on")]
+        public DateTime LastUpdatedOn { get; set; }
+
+        [JsonProperty("registered_on")]
+        public DateTime RegisteredOn { get; set; }
     }
 }

@@ -10,17 +10,17 @@ namespace TMDbWrapper.Requests
     public abstract class AbstractRequest<TResponse> where TResponse : class
     {
         public async Task<Response<TResponse>> ExecuteRequestAsync(string url,
-            AuthenticationHeaderValue authHeader = null,
-            HttpContent httpContent = null,
-            Dictionary<string, string> urlParameters = null)
+                                                                   AuthenticationHeaderValue authHeader = null,
+                                                                   HttpContent httpContent = null,
+                                                                   Dictionary<string, string> urlParameters = null)
         {
             return await InternalExecuteRequestAsync(url, authHeader, httpContent, urlParameters);
         }
 
         protected async Task<Response<TResponse>> InternalExecuteRequestAsync(string url,
-            AuthenticationHeaderValue authenticationHeader = null,
-            HttpContent httpContent = null,
-            Dictionary<string, string> urlParameters = null)
+                                                                              AuthenticationHeaderValue authenticationHeader = null,
+                                                                              HttpContent httpContent = null,
+                                                                              Dictionary<string, string> urlParameters = null)
         {
             using (var client = CreateClient(authenticationHeader))
             {
@@ -69,6 +69,6 @@ namespace TMDbWrapper.Requests
         }
 
         protected abstract Task<HttpResponseMessage> ExecuteRequestSpecificBehaviourAsync(HttpClient client, string url,
-            HttpContent httpContent);
+                                                                                          HttpContent httpContent);
     }
 }

@@ -408,12 +408,12 @@ namespace Tests.DataServiceTests
         private void SetupMethod<TType, TResponse>(Mock<TType> api, Expression<Func<TType, Task<Response<TResponse>>>> method, TResponse data) where TType : class
         {
             api.Setup(method)
-                .ReturnsAsync(new Response<TResponse>
-                {
-                    Data = data,
-                    IsSuccess = true,
-                    StatusCode = HttpStatusCode.OK
-                });
+               .ReturnsAsync(new Response<TResponse>
+               {
+                   Data = data,
+                   IsSuccess = true,
+                   StatusCode = HttpStatusCode.OK
+               });
         }
     }
 }

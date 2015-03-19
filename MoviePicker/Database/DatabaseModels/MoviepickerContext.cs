@@ -2,12 +2,12 @@
 using System.Data.Common;
 using System.Data.Entity;
 using System.Diagnostics;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Models.Movies;
-using Models.Users;
 
 namespace Database.DatabaseModels
 {
-    public class MoviepickerContext : DbContext
+    public class MoviepickerContext : IdentityDbContext<IdentityUser>
     {
         public MoviepickerContext() : base("name=mpdevcontext")
         {
@@ -18,7 +18,6 @@ namespace Database.DatabaseModels
             Database.Log = msg => Debug.WriteLine(msg);
         }
 
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Show> Shows { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
@@ -30,10 +29,6 @@ namespace Database.DatabaseModels
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<User>().HasKey(x => x.Email);
-            modelBuilder.Entity<User>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Entity<Movie>().ToTable("Movies");
             modelBuilder.Entity<Movie>().HasKey(x => x.TmdbId);

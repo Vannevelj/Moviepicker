@@ -191,6 +191,6 @@ MoviePicker/Android/MoviepickerAndroid/.DS_Store
 MoviePicker/Android/MoviepickerAndroid/build
 
 # App configs
-**/App.config
-**/Web.config
+# **/App.config
+# **/Web.config
 

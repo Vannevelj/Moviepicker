@@ -14,11 +14,9 @@ namespace WebApi.App_Start
 {
     public class Startup
     {
-        public void Configuration(IAppBuilder app)
+        public virtual HttpConfiguration GetInjectionConfiguration()
         {
-            var config = new HttpConfiguration();
-
-            // Web API configuration and services
+            var configuration = new HttpConfiguration();
             var container = new UnityContainer();
             var context = new MoviepickerContext();
             var userRepository = new UserRepository(context);
@@ -26,7 +24,13 @@ namespace WebApi.App_Start
             container.RegisterInstance<IUserRepository>(userRepository);
             container.RegisterInstance<IMovieRepository>(movieRepository);
             container.RegisterInstance(context);
-            config.DependencyResolver = new UnityConfig(container);
+            configuration.DependencyResolver = new UnityConfig(container);
+            return configuration;
+        }
+
+        public void Configuration(IAppBuilder app)
+        {
+            var configuration = GetInjectionConfiguration();
 
             // OAuth configuration
             var oAuthServerOptions = new OAuthAuthorizationServerOptions
@@ -34,15 +38,15 @@ namespace WebApi.App_Start
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new SimpleAuthorizationServerProvider(userRepository)
+                Provider = new SimpleAuthorizationServerProvider((IUserRepository) configuration.DependencyResolver.GetService(typeof (IUserRepository)))
             };
 
             app.UseOAuthAuthorizationServer(oAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
-            WebApiConfig.Register(config);
+            WebApiConfig.Register(configuration);
             app.UseCors(CorsOptions.AllowAll);
-            app.UseWebApi(config);
+            app.UseWebApi(configuration);
         }
     }
 }

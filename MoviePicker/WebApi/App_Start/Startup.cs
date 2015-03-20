@@ -33,7 +33,7 @@ namespace WebApi.App_Start
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1), 
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new SimpleAuthorizationServerProvider(userRepository)
             };
 
@@ -41,8 +41,8 @@ namespace WebApi.App_Start
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
             WebApiConfig.Register(config);
-            app.UseCors(CorsOptions.AllowAll); 
-            app.UseWebApi(config);    
+            app.UseCors(CorsOptions.AllowAll);
+            app.UseWebApi(config);
         }
     }
 }

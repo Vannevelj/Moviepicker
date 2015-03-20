@@ -66,9 +66,9 @@ namespace Tests.DataServiceTests
             _context.Genres.AddRange(existingGenres);
             _context.SaveChanges();
 
-            var newMovieGenres = new[] {new Genre(9845, "Drama"), new Genre(87422, "War")};
+            var newMovieGenres = new[] { new Genre(9845, "Drama"), new Genre(87422, "War") };
             SetupMethod(_api, x => x.GetMovieGenresAsync(), newMovieGenres);
-            SetupMethod(_api, x => x.GetShowGenresAsync(), new Genre[] {});
+            SetupMethod(_api, x => x.GetShowGenresAsync(), new Genre[] { });
 
             // Act
             await _dataScraper.UpdateGenresAsync();
@@ -86,9 +86,9 @@ namespace Tests.DataServiceTests
             _context.Genres.AddRange(existingGenres);
             _context.SaveChanges();
 
-            var newShowGenres = new[] {new Genre(9845, "Drama"), new Genre(87422, "War")};
+            var newShowGenres = new[] { new Genre(9845, "Drama"), new Genre(87422, "War") };
             SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
-            SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] {});
+            SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] { });
 
             // Act
             await _dataScraper.UpdateGenresAsync();
@@ -108,9 +108,9 @@ namespace Tests.DataServiceTests
             _context.SaveChanges();
             var initialId = _context.Genres.Single(x => x.TmdbId == genreId).TmdbId;
 
-            var newShowGenres = new[] {new Genre(genreId, "Cartoon")};
+            var newShowGenres = new[] { new Genre(genreId, "Cartoon") };
             SetupMethod(_api, x => x.GetShowGenresAsync(), newShowGenres);
-            SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] {});
+            SetupMethod(_api, x => x.GetMovieGenresAsync(), new Genre[] { });
 
             // Act
             await _dataScraper.UpdateGenresAsync();
@@ -132,7 +132,7 @@ namespace Tests.DataServiceTests
             var newBackdrops = TestDataProvider.GetBackdrops().ToList();
             var newPosters = TestDataProvider.GetPosters().ToList();
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), newKeywords);
-            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = newBackdrops, Posters = newPosters});
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel { Backdrops = newBackdrops, Posters = newPosters });
 
             var newMovie = TestDataProvider.GetMovie();
             newMovie.Languages = TestDataProvider.GetLanguages().ToList();
@@ -163,7 +163,7 @@ namespace Tests.DataServiceTests
             const int movieId = 16;
             var newKeywords = TestDataProvider.GetKeywords().ToList();
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), newKeywords);
-            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>()});
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel { Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>() });
 
             var newMovie = TestDataProvider.GetMovie();
             SetupMethod(_api, x => x.GetMovieAsync(movieId), newMovie);
@@ -188,7 +188,7 @@ namespace Tests.DataServiceTests
 
             const int movieId = 17;
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), Enumerable.Empty<Keyword>());
-            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>()});
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel { Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>() });
 
             var newMovie = TestDataProvider.GetMovie();
             var newLanguages = TestDataProvider.GetLanguages().ToList();
@@ -215,7 +215,7 @@ namespace Tests.DataServiceTests
 
             const int movieId = 18;
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), Enumerable.Empty<Keyword>());
-            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>()});
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel { Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>() });
 
             var newMovie = TestDataProvider.GetMovie();
             var newGenres = TestDataProvider.GetGenres().ToList();
@@ -241,7 +241,7 @@ namespace Tests.DataServiceTests
             var newBackdrops = TestDataProvider.GetBackdrops().ToList();
             var newPosters = TestDataProvider.GetPosters().ToList();
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), newKeywords);
-            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = newBackdrops, Posters = newPosters});
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel { Backdrops = newBackdrops, Posters = newPosters });
 
             var existingMovie = TestDataProvider.GetInsertedMovie();
             _context.Movies.Add(existingMovie);
@@ -274,7 +274,7 @@ namespace Tests.DataServiceTests
             var newBackdrops = TestDataProvider.GetBackdrops().ToList();
             var newPosters = TestDataProvider.GetPosters().ToList();
             SetupMethod(_api, x => x.GetShowKeywordsAsync(showId), newKeywords);
-            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel {Backdrops = newBackdrops, Posters = newPosters});
+            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel { Backdrops = newBackdrops, Posters = newPosters });
 
             var newShow = TestDataProvider.GetShow();
             newShow.Languages = TestDataProvider.GetLanguages().ToList();
@@ -301,7 +301,7 @@ namespace Tests.DataServiceTests
             var newBackdrops = TestDataProvider.GetBackdrops().ToList();
             var newPosters = TestDataProvider.GetPosters().ToList();
             SetupMethod(_api, x => x.GetShowKeywordsAsync(showId), newKeywords);
-            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel {Backdrops = newBackdrops, Posters = newPosters});
+            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel { Backdrops = newBackdrops, Posters = newPosters });
 
             var existingShow = TestDataProvider.GetInsertedShow();
             _context.Shows.Add(existingShow);
@@ -333,7 +333,7 @@ namespace Tests.DataServiceTests
 
             const int showId = 22;
             SetupMethod(_api, x => x.GetShowKeywordsAsync(showId), Enumerable.Empty<Keyword>());
-            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>()});
+            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel { Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>() });
 
             var newShow = TestDataProvider.GetShow();
             var newLanguages = TestDataProvider.GetLanguages().ToList();
@@ -360,7 +360,7 @@ namespace Tests.DataServiceTests
 
             const int showId = 23;
             SetupMethod(_api, x => x.GetShowKeywordsAsync(showId), Enumerable.Empty<Keyword>());
-            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>()});
+            SetupMethod(_api, x => x.GetShowImagesAsync(showId), new GetImagesJsonModel { Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>() });
 
             var newShow = TestDataProvider.GetShow();
             var newGenres = TestDataProvider.GetGenres().ToList();
@@ -387,7 +387,7 @@ namespace Tests.DataServiceTests
 
             const int movieId = 24;
             SetupMethod(_api, x => x.GetMovieKeywordsAsync(movieId), Enumerable.Empty<Keyword>());
-            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel {Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>()});
+            SetupMethod(_api, x => x.GetMovieImagesAsync(movieId), new GetImagesJsonModel { Backdrops = Enumerable.Empty<BackdropImageInfo>(), Posters = Enumerable.Empty<PosterImageInfo>() });
 
             var newMovie = TestDataProvider.GetMovie();
             var newGenres = TestDataProvider.GetGenres().ToList();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Database.Repositories.Declarations;
 using Microsoft.Owin.Security.OAuth;
@@ -22,7 +21,7 @@ namespace WebApi.ApiModels.Authentication
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
             var user = await _userRepository.FindUserAsync(context.UserName, context.Password);
             if (user == null)

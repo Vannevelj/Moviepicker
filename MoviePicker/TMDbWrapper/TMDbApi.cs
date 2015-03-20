@@ -75,9 +75,9 @@ namespace TMDbWrapper
             const string dateFormat = "yyyy-MM-dd";
             var parameters = new Dictionary<string, string>
             {
-                {"start_date", from.ToString(dateFormat)},
-                {"end_date", to.ToString(dateFormat)},
-                {"page", page.ToString()}
+                { "start_date", from.ToString(dateFormat) },
+                { "end_date", to.ToString(dateFormat) },
+                { "page", page.ToString() }
             };
 
             return await new GetRequest<ChangeResponse>().ExecuteRequestAsync(url, urlParameters: parameters);

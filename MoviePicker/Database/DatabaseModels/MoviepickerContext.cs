@@ -9,7 +9,7 @@ namespace Database.DatabaseModels
 {
     public class MoviepickerContext : IdentityDbContext<IdentityUser>
     {
-        public MoviepickerContext() : base("name=mpdevcontext")
+        public MoviepickerContext() : base(/*"name=mpdevcontext"*/)
         {
         }
 

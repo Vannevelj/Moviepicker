@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Dynamic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -6,8 +8,11 @@ using Database.DatabaseModels;
 using Database.Repositories;
 using Effort;
 using FluentAssertions;
+using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Tests.TestUtilities;
+using WebApi.App_Start;
 using WebApi.Controllers;
 
 namespace Tests.WebApiTests
@@ -24,7 +29,7 @@ namespace Tests.WebApiTests
         {
             _context = new MoviepickerContext(DbConnectionFactory.CreateTransient());
             _userRepository = new UserRepository(_context);
-            _accountController = new AccountController(_userRepository) {Configuration = new HttpConfiguration()};
+            _accountController = new AccountController(_userRepository) { Configuration = new HttpConfiguration() };
         }
 
         [TestMethod]

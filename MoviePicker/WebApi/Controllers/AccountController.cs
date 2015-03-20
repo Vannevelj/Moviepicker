@@ -29,7 +29,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var identityResult = await _userRepository.RegisterUser(userModel);
+            var identityResult = await _userRepository.RegisterUserAsync(userModel);
             var errorResult = GetErrorResult(identityResult);
 
             if (errorResult != null)
@@ -66,15 +66,6 @@ namespace WebApi.Controllers
             }
 
             return null;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _userRepository.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

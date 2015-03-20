@@ -11,13 +11,6 @@ namespace WebApi
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            var container = new UnityContainer();
-            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
-            container.RegisterType<IMovieRepository, MovieRepository>(new TransientLifetimeManager());
-            container.RegisterInstance(new MoviepickerContext());
-            config.DependencyResolver = new UnityConfig(container);
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

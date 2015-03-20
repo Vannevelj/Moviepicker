@@ -6,9 +6,9 @@ using Models.Users;
 
 namespace Database.Repositories.Declarations
 {
-    public interface IUserRepository : IDisposable
+    public interface IUserRepository
     {
-        Task<IdentityResult> RegisterUser(UserModel userModel);
-        Task<IdentityUser> FindUser(string username, string password);
+        Task<IdentityResult> RegisterUserAsync(UserModel userModel);
+        Task<IdentityUser> FindUserAsync(string username, string password);
     }
 }

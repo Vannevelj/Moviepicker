@@ -4,22 +4,15 @@ using System.Threading.Tasks;
 using Database.Repositories.Declarations;
 using Microsoft.Owin.Security.OAuth;
 
-#pragma warning disable 1998
-
 namespace WebApi.ApiModels.Authentication
 {
-    public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider, IDisposable
+    public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
         private readonly IUserRepository _userRepository;
 
         public SimpleAuthorizationServerProvider(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-        }
-
-        public void Dispose()
-        {
-            _userRepository.Dispose();
         }
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -31,7 +24,7 @@ namespace WebApi.ApiModels.Authentication
         {
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
 
-            var user = _userRepository.FindUser(context.UserName, context.Password);
+            var user = await _userRepository.FindUserAsync(context.UserName, context.Password);
             if (user == null)
             {
                 context.SetError("invalid_grant", "The username or password is incorrect.");

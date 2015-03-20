@@ -192,4 +192,5 @@ MoviePicker/Android/MoviepickerAndroid/build
 
 # App configs
 **/App.config
+**/Web.config
 

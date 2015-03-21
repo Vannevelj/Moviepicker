@@ -18,12 +18,9 @@ namespace WebApi.App_Start
         {
             var configuration = new HttpConfiguration();
             var container = new UnityContainer();
-            var context = new MoviepickerContext();
-            var userRepository = new UserRepository(context);
-            var movieRepository = new MovieRepository(context);
-            container.RegisterInstance<IUserRepository>(userRepository);
-            container.RegisterInstance<IMovieRepository>(movieRepository);
-            container.RegisterInstance(context);
+            container.RegisterType<IUserRepository, UserRepository>(new TransientLifetimeManager());
+            container.RegisterType<IMovieRepository, MovieRepository>(new TransientLifetimeManager());
+            container.RegisterInstance(new MoviepickerContext());
             configuration.DependencyResolver = new UnityConfig(container);
             return configuration;
         }

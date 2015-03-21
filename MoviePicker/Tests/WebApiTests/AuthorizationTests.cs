@@ -75,6 +75,26 @@ namespace Tests.WebApiTests
             }
         }
 
+        [TestMethod]
+        public async Task GetToken_WithInvalidCredentials_ReturnsBadRequest()
+        {
+            var user = TestDataProvider.GetUserModel();
+            await _accountController.RegisterAsync(user);
+
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+                var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("username", user.Username),
+                    new KeyValuePair<string, string>("password", user.Password + "this can't work"),
+                    new KeyValuePair<string, string>("grant_type", "password")
+                })).PostAsync();
+
+                response.IsSuccessStatusCode.Should().BeFalse();
+                response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            }
+        }
+
         private class TestStartupConfiguration : Startup
         {
             public static MoviepickerContext Context;

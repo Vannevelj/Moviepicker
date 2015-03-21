@@ -37,11 +37,12 @@ namespace Tests.WebApiTests
         }
 
         [TestMethod]
+        [TestCategory("Unit_AUTHORIZATION")]
         public async Task GetToken_WithoutRegisteredUser_ReturnsBadRequest()
         {
             var user = TestDataProvider.GetUserModel();
 
-            using (var server = TestServer.Create<Startup>())
+            using (var server = TestServer.Create<TestStartupConfiguration>())
             {
                 var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
                 {
@@ -56,6 +57,7 @@ namespace Tests.WebApiTests
         }
 
         [TestMethod]
+        [TestCategory("Unit_AUTHORIZATION")]
         public async Task GetToken_WithRegisteredUser_ReturnsToken()
         {
             var user = TestDataProvider.GetUserModel();
@@ -76,6 +78,7 @@ namespace Tests.WebApiTests
         }
 
         [TestMethod]
+        [TestCategory("Unit_AUTHORIZATION")]
         public async Task GetToken_WithInvalidCredentials_ReturnsBadRequest()
         {
             var user = TestDataProvider.GetUserModel();

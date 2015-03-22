@@ -4,11 +4,13 @@ using System.Data.Entity;
 using System.Diagnostics;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Models.Movies;
+using Models.Users.Authorization;
 
 namespace Database.DatabaseModels
 {
     public class MoviepickerContext : IdentityDbContext<IdentityUser>
     {
+        // ReSharper disable once RedundantBaseConstructorCall
         public MoviepickerContext() : base(/*"name=mpdevcontext"*/)
         {
         }
@@ -25,6 +27,8 @@ namespace Database.DatabaseModels
         public virtual DbSet<Keyword> Keywords { get; set; }
         public virtual DbSet<BackdropImageInfo> Backdrops { get; set; }
         public virtual DbSet<PosterImageInfo> Posters { get; set; }
+        public virtual DbSet<ClientApplication> ClientApplications { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -113,6 +117,22 @@ namespace Database.DatabaseModels
             modelBuilder.Entity<PosterImageInfo>().ToTable("Posters");
             modelBuilder.Entity<PosterImageInfo>().HasKey(x => x.Id);
             modelBuilder.Entity<PosterImageInfo>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            modelBuilder.Entity<ClientApplication>().ToTable("ClientApplications");
+            modelBuilder.Entity<ClientApplication>().HasKey(x => x.Id);
+            modelBuilder.Entity<ClientApplication>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<ClientApplication>().Property(x => x.Secret).IsRequired();
+            modelBuilder.Entity<ClientApplication>().Property(x => x.Name).IsRequired();
+            modelBuilder.Entity<ClientApplication>().Property(x => x.Name).HasMaxLength(100);
+            modelBuilder.Entity<ClientApplication>().Property(x => x.AllowedOrigin).HasMaxLength(100);
+
+            modelBuilder.Entity<RefreshToken>().ToTable("Refreshtokens");
+            modelBuilder.Entity<RefreshToken>().HasKey(x => x.Id);
+            modelBuilder.Entity<RefreshToken>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<RefreshToken>().Property(x => x.Subject).IsRequired();
+            modelBuilder.Entity<RefreshToken>().Property(x => x.Subject).HasMaxLength(50);
+            modelBuilder.Entity<RefreshToken>().Property(x => x.ProtectedTicket).IsRequired();
+            modelBuilder.Entity<RefreshToken>().HasRequired(x => x.ClientApplication).WithMany().HasForeignKey(x => x.ClientApplicationId);
         }
     }
 }

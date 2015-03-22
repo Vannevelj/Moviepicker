@@ -58,6 +58,7 @@
     <Compile Include="Users\Authorization\ClientApplication.cs" />
     <Compile Include="Users\Authorization\RefreshToken.cs" />
     <Compile Include="Users\UserModel.cs" />
+    <Compile Include="Utilities\AuthorizationHelpers.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\LanguageConverter.cs" />
   </ItemGroup>

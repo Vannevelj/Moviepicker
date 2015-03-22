@@ -63,7 +63,7 @@ namespace WebApi.ApiModels.Authentication
             }
 
             context.OwinContext.Set("as:clientAllowedOrigin", clientApplication.AllowedOrigin);
-            context.OwinContext.Set("as:clientRefreshTokenLifetime", clientApplication.RefreshTokenLifeTime);
+            context.OwinContext.Set("as:clientRefreshTokenLifetime", clientApplication.RefreshTokenLifeTime.ToString());
             context.Validated();
         }
 

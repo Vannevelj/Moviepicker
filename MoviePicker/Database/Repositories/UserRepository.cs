@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Models.Users;
 using Models.Users.Authorization;
+using Models.Utilities;
 
 namespace Database.Repositories
 {
@@ -77,6 +78,19 @@ namespace Database.Repositories
         public IEnumerable<RefreshToken> GetRefreshTokens()
         {
             return _context.RefreshTokens;
+        }
+
+        public async Task<bool> TryCreateClientAsync(ClientApplication clientApplication)
+        {
+            var existingClient = await _context.ClientApplications.FindAsync(clientApplication.Id);
+            if (existingClient != null)
+            {
+                return false;
+            }
+
+            clientApplication.Secret = AuthorizationHelpers.GetHash(clientApplication.Secret ?? string.Empty);
+            _context.ClientApplications.Add(clientApplication);
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

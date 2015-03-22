@@ -17,5 +17,6 @@ namespace Database.Repositories.Declarations
         Task<bool> TryRemoveRefreshTokenAsync(RefreshToken refreshToken);
         Task<RefreshToken> FindRefreshTokenAsync(string refreshTokenId);
         IEnumerable<RefreshToken> GetRefreshTokens();
+        Task<bool> TryCreateClientAsync(ClientApplication clientApplication);
     }
 }

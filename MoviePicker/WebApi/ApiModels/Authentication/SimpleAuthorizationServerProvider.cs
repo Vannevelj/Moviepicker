@@ -1,6 +1,8 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Database.Repositories.Declarations;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Models.Users.Authorization;
 using Models.Utilities;
@@ -67,7 +69,8 @@ namespace WebApi.ApiModels.Authentication
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+            var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin") ?? "*";
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
             var user = await _userRepository.FindUserAsync(context.UserName, context.Password);
             if (user == null)
@@ -77,9 +80,25 @@ namespace WebApi.ApiModels.Authentication
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
             identity.AddClaim(new Claim("sub", context.UserName));
             identity.AddClaim(new Claim("role", "user"));
-            context.Validated(identity);
+
+            var authenticationProperties = new AuthenticationProperties(new Dictionary<string, string>
+            {
+                { "as:client_id", context.ClientId ?? string.Empty },
+                { "username", context.UserName }
+            });
+            var ticket = new AuthenticationTicket(identity, authenticationProperties);
+            context.Validated(ticket);
+        }
+
+        public override async Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (var property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
         }
     }
 }

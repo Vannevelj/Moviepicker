@@ -11,7 +11,7 @@ namespace Database.DatabaseModels
     public class MoviepickerContext : IdentityDbContext<IdentityUser>
     {
         // ReSharper disable once RedundantBaseConstructorCall
-        public MoviepickerContext() : base(/*"name=mpdevcontext"*/)
+        public MoviepickerContext() : base( /*"name=mpdevcontext"*/)
         {
         }
 
@@ -28,7 +28,7 @@ namespace Database.DatabaseModels
         public virtual DbSet<BackdropImageInfo> Backdrops { get; set; }
         public virtual DbSet<PosterImageInfo> Posters { get; set; }
         public virtual DbSet<ClientApplication> ClientApplications { get; set; }
-        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } 
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -121,7 +121,6 @@ namespace Database.DatabaseModels
             modelBuilder.Entity<ClientApplication>().ToTable("ClientApplications");
             modelBuilder.Entity<ClientApplication>().HasKey(x => x.Id);
             modelBuilder.Entity<ClientApplication>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            modelBuilder.Entity<ClientApplication>().Property(x => x.Secret).IsRequired();
             modelBuilder.Entity<ClientApplication>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<ClientApplication>().Property(x => x.Name).HasMaxLength(100);
             modelBuilder.Entity<ClientApplication>().Property(x => x.AllowedOrigin).HasMaxLength(100);

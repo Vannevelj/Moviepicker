@@ -40,6 +40,7 @@ namespace Tests.WebApiTests
         [TestCategory("Unit_AUTHORIZATION")]
         public async Task GetToken_WithoutRegisteredUser_ReturnsBadRequest()
         {
+            var testClientApplication = await InsertClientApplication();
             var user = TestDataProvider.GetUserModel();
 
             using (var server = TestServer.Create<TestStartupConfiguration>())
@@ -48,7 +49,9 @@ namespace Tests.WebApiTests
                 {
                     new KeyValuePair<string, string>("username", user.Username),
                     new KeyValuePair<string, string>("password", user.Password),
-                    new KeyValuePair<string, string>("grant_type", "password")
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("client_id", testClientApplication.ClientApplication.Id),
+                    new KeyValuePair<string, string>("client_secret", testClientApplication.ClientSecret)
                 })).PostAsync();
 
                 response.IsSuccessStatusCode.Should().BeFalse();
@@ -60,6 +63,7 @@ namespace Tests.WebApiTests
         [TestCategory("Unit_AUTHORIZATION")]
         public async Task GetToken_WithRegisteredUser_ReturnsToken()
         {
+            var testClientApplication = await InsertClientApplication();
             var user = TestDataProvider.GetUserModel();
             await _accountController.RegisterAsync(user);
 
@@ -69,7 +73,9 @@ namespace Tests.WebApiTests
                 {
                     new KeyValuePair<string, string>("username", user.Username),
                     new KeyValuePair<string, string>("password", user.Password),
-                    new KeyValuePair<string, string>("grant_type", "password")
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("client_id", testClientApplication.ClientApplication.Id),
+                    new KeyValuePair<string, string>("client_secret", testClientApplication.ClientSecret)
                 })).PostAsync();
 
                 response.IsSuccessStatusCode.Should().BeTrue();
@@ -81,6 +87,7 @@ namespace Tests.WebApiTests
         [TestCategory("Unit_AUTHORIZATION")]
         public async Task GetToken_WithInvalidCredentials_ReturnsBadRequest()
         {
+            var testClientApplication = await InsertClientApplication();
             var user = TestDataProvider.GetUserModel();
             await _accountController.RegisterAsync(user);
 
@@ -90,12 +97,94 @@ namespace Tests.WebApiTests
                 {
                     new KeyValuePair<string, string>("username", user.Username),
                     new KeyValuePair<string, string>("password", user.Password + "this can't work"),
-                    new KeyValuePair<string, string>("grant_type", "password")
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("client_id", testClientApplication.ClientApplication.Id),
+                    new KeyValuePair<string, string>("client_secret", testClientApplication.ClientSecret)
                 })).PostAsync();
 
                 response.IsSuccessStatusCode.Should().BeFalse();
                 response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             }
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_AUTHORIZATION")]
+        public async Task GetToken_WithInvalidClientId_ReturnsBadRequest()
+        {
+            var testClientApplication = await InsertClientApplication();
+            var user = TestDataProvider.GetUserModel();
+            await _accountController.RegisterAsync(user);
+
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+                var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("username", user.Username),
+                    new KeyValuePair<string, string>("password", user.Password + "this can't work"),
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("client_id", "this can't work"),
+                    new KeyValuePair<string, string>("client_secret", testClientApplication.ClientSecret)
+                })).PostAsync();
+
+                response.IsSuccessStatusCode.Should().BeFalse();
+                response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_AUTHORIZATION")]
+        public async Task GetToken_WithInvalidClientSecret_ReturnsBadRequest()
+        {
+            var testClientApplication = await InsertClientApplication();
+            var user = TestDataProvider.GetUserModel();
+            await _accountController.RegisterAsync(user);
+
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+                var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("username", user.Username),
+                    new KeyValuePair<string, string>("password", user.Password + "this can't work"),
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("client_id", testClientApplication.ClientApplication.Id),
+                    new KeyValuePair<string, string>("client_secret", "this can't work")
+                })).PostAsync();
+
+                response.IsSuccessStatusCode.Should().BeFalse();
+                response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("Unit_AUTHORIZATION")]
+        public async Task GetToken_ForJavascriptApp_WithoutClientSecret_ReturnsToken()
+        {
+            var clientApplication = TestDataProvider.GetJavascriptClientApplication();
+            await _userRepository.TryCreateClientAsync(clientApplication);
+            var user = TestDataProvider.GetUserModel();
+            await _accountController.RegisterAsync(user);
+
+            using (var server = TestServer.Create<TestStartupConfiguration>())
+            {
+                var response = await server.CreateRequest("/token").And(x => x.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("username", user.Username),
+                    new KeyValuePair<string, string>("password", user.Password),
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("client_id", clientApplication.Id)
+                })).PostAsync();
+
+                response.IsSuccessStatusCode.Should().BeTrue();
+                (await response.Content.ReadAsStringAsync()).Should().NotBeNullOrWhiteSpace();
+            }
+        }
+
+        private async Task<TestDataProvider.TestClientApplication> InsertClientApplication()
+        {
+            var clientApplication = TestDataProvider.GetNativeClientApplication();
+            clientApplication.ClientApplication.Secret = clientApplication.ClientSecret;
+            await _userRepository.TryCreateClientAsync(clientApplication.ClientApplication);
+            return clientApplication;
         }
 
         private class TestStartupConfiguration : Startup

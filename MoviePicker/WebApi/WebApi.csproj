@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiModels\Authentication\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="ApiModels\Authentication\SimpleRefreshTokenProvider.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />

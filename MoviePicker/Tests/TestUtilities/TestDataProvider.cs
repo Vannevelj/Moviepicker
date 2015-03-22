@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Models.Movies;
 using Models.Users;
+using Models.Users.Authorization;
+using Models.Utilities;
 
 namespace Tests.TestUtilities
 {
@@ -128,6 +130,42 @@ namespace Tests.TestUtilities
                 Password = "TestPassword123456",
                 ConfirmPassword = "TestPassword123456"
             };
+        }
+
+        public static TestClientApplication GetNativeClientApplication()
+        {
+            return new TestClientApplication
+            {
+                ClientApplication = new ClientApplication
+                {
+                    Id = "mp_official_android",
+                    IsActive = true,
+                    Name = "Official MP Android app",
+                    RefreshTokenLifeTime = TimeSpan.FromDays(30).Minutes,
+                    ApplicationType = ApplicationType.NativeConfidential
+                },
+                ClientSecret = "mp_secret",
+                HashedClientSecret = AuthorizationHelpers.GetHash("mp_secret")
+            };
+        }
+
+        public static ClientApplication GetJavascriptClientApplication()
+        {
+            return new ClientApplication
+            {
+                Id = "mp_official_web",
+                IsActive = true,
+                Name = "Official MP Web app",
+                RefreshTokenLifeTime = TimeSpan.FromDays(30).Minutes,
+                ApplicationType = ApplicationType.JavaScript
+            };
+        }
+
+        internal class TestClientApplication
+        {
+            public ClientApplication ClientApplication { get; set; }
+            public string ClientSecret { get; set; }
+            public string HashedClientSecret { get; set; }
         }
     }
 }

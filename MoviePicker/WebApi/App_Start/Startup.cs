@@ -28,14 +28,16 @@ namespace WebApi.App_Start
         public void Configuration(IAppBuilder app)
         {
             var configuration = GetInjectionConfiguration();
+            var injectedUserRepository = (IUserRepository) configuration.DependencyResolver.GetService(typeof (IUserRepository));
 
             // OAuth configuration
             var oAuthServerOptions = new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new SimpleAuthorizationServerProvider((IUserRepository) configuration.DependencyResolver.GetService(typeof (IUserRepository)))
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
+                Provider = new SimpleAuthorizationServerProvider(injectedUserRepository),
+                RefreshTokenProvider = new SimpleRefreshTokenProvider(injectedUserRepository)
             };
 
             app.UseOAuthAuthorizationServer(oAuthServerOptions);

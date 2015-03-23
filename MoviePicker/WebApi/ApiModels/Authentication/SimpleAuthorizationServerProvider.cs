@@ -100,5 +100,23 @@ namespace WebApi.ApiModels.Authentication
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
         }
+
+        public override async Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        {
+            var originalClientId = context.Ticket.Properties.Dictionary["as:client_id"];
+            var currentClientId = context.ClientId;
+
+            if (originalClientId != currentClientId)
+            {
+                context.SetError("invalid_client_id", "Refresh token is issued to a different client");
+                return;
+            }
+
+            var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
+            newIdentity.AddClaim(new Claim("newClaim", "newValue"));
+
+            var newTicket = new AuthenticationTicket(newIdentity, context.Ticket.Properties);
+            context.Validated(newTicket);
+        }
     }
 }

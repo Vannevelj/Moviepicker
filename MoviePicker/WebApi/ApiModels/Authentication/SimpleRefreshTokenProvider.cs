@@ -56,9 +56,18 @@ namespace WebApi.ApiModels.Authentication
             throw new NotImplementedException();
         }
 
-        public Task ReceiveAsync(AuthenticationTokenReceiveContext context)
+        public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
         {
-            throw new NotImplementedException();
+            var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            var hashedTokenId = AuthorizationHelpers.GetHash(context.Token);
+
+            var refreshToken = await _userRepository.FindRefreshTokenAsync(hashedTokenId);
+            if (refreshToken != null)
+            {
+                context.DeserializeTicket(refreshToken.ProtectedTicket);
+                await _userRepository.TryRemoveRefreshTokenAsync(hashedTokenId);
+            }
         }
     }
 }

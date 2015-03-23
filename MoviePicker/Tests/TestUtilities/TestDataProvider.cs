@@ -141,7 +141,7 @@ namespace Tests.TestUtilities
                     Id = "mp_official_android",
                     IsActive = true,
                     Name = "Official MP Android app",
-                    RefreshTokenLifeTime = TimeSpan.FromDays(30).Minutes,
+                    RefreshTokenLifeTime = 30*24*60, // 30 days in minutes
                     ApplicationType = ApplicationType.NativeConfidential
                 },
                 ClientSecret = "mp_secret",
@@ -156,7 +156,7 @@ namespace Tests.TestUtilities
                 Id = "mp_official_web",
                 IsActive = true,
                 Name = "Official MP Web app",
-                RefreshTokenLifeTime = TimeSpan.FromDays(30).Minutes,
+                RefreshTokenLifeTime = 30 * 24 * 60, // 30 days in minutes
                 ApplicationType = ApplicationType.JavaScript
             };
         }

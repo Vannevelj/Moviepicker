@@ -162,6 +162,7 @@
     <Compile Include="TMDbWrapperTests\JsonDeserializingTests.cs" />
     <Compile Include="WebApiTests\AccountControllerTests.cs" />
     <Compile Include="WebApiTests\AuthorizationTests.cs" />
+    <Compile Include="WebApiTests\RefreshTokenControllerTests.cs" />
     <Compile Include="WebApiTests\RoutingTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -92,5 +92,20 @@ namespace Database.Repositories
             _context.ClientApplications.Add(clientApplication);
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<IdentityUser> FindAsync(UserLoginInfo loginInfo)
+        {
+            return await _userManager.FindAsync(loginInfo);
+        }
+
+        public async Task<IdentityResult> CreateAsync(IdentityUser user)
+        {
+            return await _userManager.CreateAsync(user);
+        }
+
+        public async Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo loginInfo)
+        {
+            return await _userManager.AddLoginAsync(userId, loginInfo);
+        }
     }
 }

@@ -18,5 +18,8 @@ namespace Database.Repositories.Declarations
         Task<RefreshToken> FindRefreshTokenAsync(string refreshTokenId);
         IEnumerable<RefreshToken> GetRefreshTokens();
         Task<bool> TryCreateClientAsync(ClientApplication clientApplication);
+        Task<IdentityUser> FindAsync(UserLoginInfo loginInfo);
+        Task<IdentityResult> CreateAsync(IdentityUser user);
+        Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo loginInfo);
     }
 }

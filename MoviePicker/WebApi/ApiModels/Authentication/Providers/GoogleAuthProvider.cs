@@ -6,13 +6,15 @@ namespace WebApi.ApiModels.Authentication.Providers
 {
     public class GoogleAuthProvider : IGoogleOAuth2AuthenticationProvider
     {
-        public async Task Authenticated(GoogleOAuth2AuthenticatedContext context)
+        public Task Authenticated(GoogleOAuth2AuthenticatedContext context)
         {
             context.Identity.AddClaim(new Claim("ExternalAccessToken", context.AccessToken));
+            return Task.FromResult<object>(null);
         }
 
-        public async Task ReturnEndpoint(GoogleOAuth2ReturnEndpointContext context)
+        public Task ReturnEndpoint(GoogleOAuth2ReturnEndpointContext context)
         {
+            return Task.FromResult<object>(null);
         }
 
         public void ApplyRedirect(GoogleOAuth2ApplyRedirectContext context)

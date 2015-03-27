@@ -56,7 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\Authorization\ApplicationType.cs" />
     <Compile Include="Users\Authorization\ClientApplication.cs" />
+    <Compile Include="Users\Authorization\ExternalLoginData.cs" />
     <Compile Include="Users\Authorization\RefreshToken.cs" />
+    <Compile Include="Users\ExternalLoginModels.cs" />
     <Compile Include="Users\UserModel.cs" />
     <Compile Include="Utilities\AuthorizationHelpers.cs" />
     <Compile Include="Utilities\Extensions.cs" />

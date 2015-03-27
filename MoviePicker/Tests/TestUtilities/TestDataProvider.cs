@@ -156,7 +156,7 @@ namespace Tests.TestUtilities
                 Id = "mp_official_web",
                 IsActive = true,
                 Name = "Official MP Web app",
-                RefreshTokenLifeTime = 30 * 24 * 60, // 30 days in minutes
+                RefreshTokenLifeTime = 30*24*60, // 30 days in minutes
                 ApplicationType = ApplicationType.JavaScript
             };
         }

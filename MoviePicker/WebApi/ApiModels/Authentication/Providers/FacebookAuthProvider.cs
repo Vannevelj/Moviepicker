@@ -6,9 +6,10 @@ namespace WebApi.ApiModels.Authentication.Providers
 {
     public class FacebookAuthProvider : FacebookAuthenticationProvider
     {
-        public override async Task Authenticated(FacebookAuthenticatedContext context)
+        public override Task Authenticated(FacebookAuthenticatedContext context)
         {
             context.Identity.AddClaim(new Claim("ExternalAccessToken", context.AccessToken));
+            return Task.FromResult<object>(null);
         }
     }
 }

@@ -93,7 +93,7 @@ namespace Database.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IdentityUser> FindAsync(UserLoginInfo loginInfo)
+        public async Task<IdentityUser> FindUserAsync(UserLoginInfo loginInfo)
         {
             return await _userManager.FindAsync(loginInfo);
         }

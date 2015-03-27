@@ -93,15 +93,16 @@ namespace WebApi.ApiModels.Authentication
             context.Validated(ticket);
         }
 
-        public override async Task TokenEndpoint(OAuthTokenEndpointContext context)
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
             foreach (var property in context.Properties.Dictionary)
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
+            return Task.FromResult<object>(null);
         }
 
-        public override async Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
             var originalClientId = context.Ticket.Properties.Dictionary["as:client_id"];
             var currentClientId = context.ClientId;
@@ -109,7 +110,7 @@ namespace WebApi.ApiModels.Authentication
             if (originalClientId != currentClientId)
             {
                 context.SetError("invalid_client_id", "Refresh token is issued to a different client");
-                return;
+                return Task.FromResult<object>(null);
             }
 
             var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
@@ -117,6 +118,7 @@ namespace WebApi.ApiModels.Authentication
 
             var newTicket = new AuthenticationTicket(newIdentity, context.Ticket.Properties);
             context.Validated(newTicket);
+            return Task.FromResult<object>(null);
         }
     }
 }

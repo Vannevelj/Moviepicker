@@ -148,6 +148,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiModels\Authentication\Providers\FacebookAuthProvider.cs" />
+    <Compile Include="ApiModels\Authentication\Providers\GoogleAuthProvider.cs" />
+    <Compile Include="ApiModels\Authentication\Results\ChallengeResult.cs" />
     <Compile Include="ApiModels\Authentication\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="ApiModels\Authentication\SimpleRefreshTokenProvider.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />

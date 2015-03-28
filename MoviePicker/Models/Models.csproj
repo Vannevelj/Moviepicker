@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -51,8 +57,9 @@
     <Compile Include="Movies\Language.cs" />
     <Compile Include="Movies\Movie.cs" />
     <Compile Include="Movies\Show.cs" />
-    <Compile Include="TMDbModels\Change.cs" />
-    <Compile Include="TMDbModels\ChangeResponse.cs" />
+    <Compile Include="ApiResponses\Change.cs" />
+    <Compile Include="ApiResponses\ChangeResponse.cs" />
+    <Compile Include="Preferences\Preferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\Authorization\ApplicationType.cs" />
     <Compile Include="Users\Authorization\ClientApplication.cs" />

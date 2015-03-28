@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Models.TMDbModels
+namespace Models.ApiResponses
 {
     public struct Change
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Models.ApiResponses;
 using Models.Movies;
-using Models.TMDbModels;
 using TMDbWrapper.JsonModels;
 using TMDbWrapper.Requests;
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Models.Users
 {
@@ -11,5 +12,8 @@ namespace Models.Users
         public ApplicationUser(string username) : base(username)
         {
         }
+
+        public DateTime DateOfBirth { get; set; }
+        public bool SubscribedToNewsletter { get; set; }
     }
 }

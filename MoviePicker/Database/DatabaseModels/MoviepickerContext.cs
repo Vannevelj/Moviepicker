@@ -4,11 +4,12 @@ using System.Data.Entity;
 using System.Diagnostics;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Models.Movies;
+using Models.Users;
 using Models.Users.Authorization;
 
 namespace Database.DatabaseModels
 {
-    public class MoviepickerContext : IdentityDbContext<IdentityUser>
+    public class MoviepickerContext : IdentityDbContext<ApplicationUser>
     {
         // ReSharper disable once RedundantBaseConstructorCall
         public MoviepickerContext() : base( /*"name=mpdevcontext"*/)

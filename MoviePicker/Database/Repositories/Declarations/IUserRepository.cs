@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Models.Users;
 using Models.Users.Authorization;
 
@@ -10,7 +9,7 @@ namespace Database.Repositories.Declarations
     public interface IUserRepository
     {
         Task<IdentityResult> RegisterUserAsync(UserModel userModel);
-        Task<IdentityUser> FindUserAsync(string username, string password);
+        Task<ApplicationUser> FindUserAsync(string username, string password);
         Task<ClientApplication> FindClientAsync(string clientId);
         Task<bool> TryAddRefreshTokenAsync(RefreshToken refreshToken);
         Task<bool> TryRemoveRefreshTokenAsync(string refreshTokenId);
@@ -18,8 +17,8 @@ namespace Database.Repositories.Declarations
         Task<RefreshToken> FindRefreshTokenAsync(string refreshTokenId);
         IEnumerable<RefreshToken> GetRefreshTokens();
         Task<bool> TryCreateClientAsync(ClientApplication clientApplication);
-        Task<IdentityUser> FindUserAsync(UserLoginInfo loginInfo);
-        Task<IdentityResult> CreateAsync(IdentityUser user);
+        Task<ApplicationUser> FindUserAsync(UserLoginInfo loginInfo);
+        Task<IdentityResult> CreateAsync(ApplicationUser user);
         Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo loginInfo);
     }
 }

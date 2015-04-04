@@ -8,7 +8,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Database.Repositories.Declarations;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
@@ -130,7 +129,7 @@ namespace WebApi.Controllers
                 return BadRequest("External user is already registered");
             }
 
-            user = new IdentityUser(model.Username);
+            user = new ApplicationUser(model.Username);
             var result = await _userRepository.CreateAsync(user);
             if (!result.Succeeded)
             {

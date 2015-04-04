@@ -14,21 +14,21 @@ namespace Database.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly MoviepickerContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public UserRepository(MoviepickerContext context)
         {
             _context = context;
-            _userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_context));
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
         }
 
         public async Task<IdentityResult> RegisterUserAsync(UserModel userModel)
         {
-            var user = new IdentityUser(userModel.Username);
+            var user = new ApplicationUser(userModel.Username);
             return await _userManager.CreateAsync(user, userModel.Password);
         }
 
-        public async Task<IdentityUser> FindUserAsync(string username, string password)
+        public async Task<ApplicationUser> FindUserAsync(string username, string password)
         {
             return await _userManager.FindAsync(username, password);
         }
@@ -93,12 +93,12 @@ namespace Database.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IdentityUser> FindUserAsync(UserLoginInfo loginInfo)
+        public async Task<ApplicationUser> FindUserAsync(UserLoginInfo loginInfo)
         {
             return await _userManager.FindAsync(loginInfo);
         }
 
-        public async Task<IdentityResult> CreateAsync(IdentityUser user)
+        public async Task<IdentityResult> CreateAsync(ApplicationUser user)
         {
             return await _userManager.CreateAsync(user);
         }

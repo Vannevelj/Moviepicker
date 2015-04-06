@@ -17,7 +17,11 @@ I am not actively looking for help but I will review every code you send in. Do 
 
 ### How does it work?
 
-The database holds user-specific values for each year, major actor and genre. This value will be increased or decreased based on whether you like or dislike a certain show or movie. Based on these values it will select a movie that you might like. It is evident that at first you will receive seemingly random movies and that the more you "train" the program, the more accurate its predictions will become.
+The database holds user-specific values for each year, language and genre. This value will be increased or decreased based on whether you like or dislike a certain show or movie. Based on these values it will select a movie that you might like. It is evident that at first you will receive seemingly random movies and that the more you "train" the program, the more accurate its predictions will become.
+
+!!However!!
+
+In an initial phase this selection algorithm will not be implemented. Instead, I will simply use the TMDb provided API call to retrieve similar movies. The reason for this is that I want to get started with actually implementing the Android app since I'm using that to learn Android programming for an exam I have in the summer. Once all that is done I can replace it with my custom algorithm.
 
 ### Is this scalable?
 

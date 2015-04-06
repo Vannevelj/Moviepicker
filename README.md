@@ -7,42 +7,14 @@ General concept mockups:
 
 ![UI Mockup](http://i.imgur.com/QWsAFsX.png)
 
+### How far along is the project?
 
-The project in its current state consists of a backend (ASP.NET Web Api 2) and frontend (Android). The API will be hosted on azure.
+At the time of writing, I'm deciding on the exact approach of how I determine the metrics. Once that is done I will implement the rest of the REST Api interface after which a proof of concept of the Android app will be started. You can follow the exact progress through the YouTRACK issue tracker. If you would like access, send me an email at `jer_vannevel<at>outlook.com`.
 
-## Solution layout
+### How do I contribute?
 
-This section will describe what each project in the solution aims to do.
-
-### Database
-
-Provides interaction with the database and exposes repositories to other projects.
-
-### DataService
-
-Provides scripts that will fill the database with relevant data and keep it updated.
-
-### Models
-
-Storage for the centrally used models which are used by all relevant projects.
-
-### Tests
-
-Unit- and functional tests that test API calls from start to finish, url routing, database interaction, etc.
-
-### TMDbWrapper
-
-Wrapper around the most important aspects of the TMDb API which will seed the database with data.
-
-### WebApi
-
-REST API to expose an interface to the frontend application(s).
-
-## TODO
-
-Right now the small existing codebase will be rewritten. However before that happens, I'll first create a system that downloads all relevant data into a database and create my own slimmed down wrapper around the API.
+I am not actively looking for help but I will review every code you send in. Do note that I would like to do the initial work on the Android app and as such I will be hesitant with pull requests towards this aspect. If you want to improve another aspect of the code, shoot me an email or open a pull request so we can discuss some specifics.
 
 ## Links
 
-Trello board: https://trello.com/b/y3iXYUk2/moviepicker
-
+YouTRACK: https://moviepicker.myjetbrains.com/youtrack/

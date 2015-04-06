@@ -15,6 +15,14 @@ At the time of writing, I'm deciding on the exact approach of how I determine th
 
 I am not actively looking for help but I will review every code you send in. Do note that I would like to do the initial work on the Android app and as such I will be hesitant with pull requests towards this aspect. If you want to improve another aspect of the code, shoot me an email or open a pull request so we can discuss some specifics.
 
+### How does it work?
+
+The database holds user-specific values for each year, major actor and genre. This value will be increased or decreased based on whether you like or dislike a certain show or movie. Based on these values it will select a movie that you might like. It is evident that at first you will receive seemingly random movies and that the more you "train" the program, the more accurate its predictions will become.
+
+### Is this scalable?
+
+No clue. We'll see this when we get there!
+
 ## Links
 
 YouTRACK: https://moviepicker.myjetbrains.com/youtrack/

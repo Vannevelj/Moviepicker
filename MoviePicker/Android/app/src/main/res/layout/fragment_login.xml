@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_centerInParent="true"
+    tools:context="net.vannevel.moviepicker.IntroActivity$PlaceholderFragment">
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_top_bg"
+        android:padding="10dp"
+        android:hint="Username"
+        android:textColorHint="#ccc"
+        android:drawableLeft="@drawable/user" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_bottom_bg"
+        android:layout_marginTop="-2dp"
+        android:padding="10dp"
+        android:hint="Password"
+        android:textColorHint="#ccc"
+        android:password="true"
+        android:drawableLeft="@drawable/password" />
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="4dp"
+        android:text="Sign in"
+        style="@style/DefaultButtonText"
+        android:background="@drawable/button_default_bg"
+        android:onClick="onLoginButtonClicked" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="4dp"
+            android:text="Register"
+            style="@style/DefaultButtonText"
+            android:background="@drawable/button_default_bg"
+            android:onClick="onRegisterButtonClicked"
+            android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+</LinearLayout>
